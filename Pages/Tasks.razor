@@ -1,0 +1,34 @@
+﻿@using Pdf_Acc_Toolset.Services;
+@page "/tasks";
+
+<h2 class="text-4xl font-bold">Tasks</h2>
+
+<p>
+	Below lists all of the tasks you have generated. Tasks will run in the order shown.
+	You can also run a task individually. Tasks may be re-ordered if desired.
+	If a task is no longer required, you can remove it from the queue.
+	A completed task will not take effect until the file is saved!
+</p>
+
+<hr class="w-11/12 text-center m-4" />
+
+<h3>Task Queue</h3>
+
+@foreach (AccessibilityTask task in tasks)
+{
+	<div>
+		<h4>
+			@task.TaskComplete
+		</h4>
+	</div>
+}
+
+@code {
+	public List<AccessibilityTask> tasks = new();
+
+	protected override void OnInitialized()
+	{
+		this.tasks = TaskManager.GetAccessibilityTasks();
+		base.OnInitialized();
+	}
+}

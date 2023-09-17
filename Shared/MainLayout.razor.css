@@ -13,7 +13,7 @@ main {
 }
 
 .top-row {
-    background-color: #f7f7f7;
+    background-color: #3B2C35;
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
     height: 3.5rem;
@@ -66,12 +66,6 @@ main {
         position: sticky;
         top: 0;
         z-index: 1;
-    }
-
-    .top-row.auth ::deep a:first-child {
-        flex: 1;
-        text-align: right;
-        width: 0;
     }
 
     .top-row, article {

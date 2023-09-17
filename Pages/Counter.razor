@@ -1,6 +1,5 @@
-﻿@page "/counter"
-
-<PageTitle>Counter</PageTitle>
+﻿@using Pdf_Acc_Toolset.Services;
+@page "/counter"
 
 <h1>Counter</h1>
 
@@ -8,11 +7,22 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<InputFile OnChange="@Load" />
+
 @code {
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    public async void Load(InputFileChangeEventArgs e) {
+        // To-do: update file size limit.
+        // Move from maui?
+        MemoryStream ms = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(ms);
+        ms.Position = 0;
+        PdfManager.Temp2(ms);
     }
 }

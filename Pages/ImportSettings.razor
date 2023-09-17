@@ -1,0 +1,104 @@
+﻿<h3 class="text-2xl font-bold">Import Settings</h3>
+
+<form class="flex flex-row flex-wrap justify-between px-4 text-lg space-x-4"
+	@onsubmit="() => Submit(true)">
+	<div class="flex flex-col grow">
+		<div class="m-2 flex flex-row justify-between">
+			<label>File Name</label>
+			<input @bind="Filename" type="text" id="importFilename"
+				   class="bg-gray-800 rounded-md p-2 text-green-400 justify-self-end grow ml-2" />
+		</div>
+
+		<div class="m-2 flex flex-row justify-between">
+			<label>Title</label>
+			<input @bind="Title" type="text" id="importTitle"
+				class="bg-gray-800 rounded-md p-2 text-green-400 justify-self-end grow ml-2" />
+		</div>
+
+		<div class="m-2 flex flex-row justify-between">
+			<label>Language</label>
+			<select @bind="Lang" id="importLang"
+				class="bg-gray-800 rounded-md p-2 text-green-400 justify-self-end grow ml-2">
+				<option value="En-US" selected>En-US</option>
+			</select>
+		</div>
+
+		<div class="m-2 flex flex-row justify-between">
+			<label>Standard</label>
+			<select @bind="Standard" id="importStandard"
+				class="bg-gray-800 rounded-md p-2 text-green-400 justify-self-end grow ml-2">
+				<option value="None" selected>None (Default)</option>
+				<option value="UA">UA (Universal Accessibility)</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="grow basis-1/2 md:basis-3/4">
+		<p>
+			Saving the changes will choose the current settings and overwrite the previous settings.
+			Leave Unchanged will not make any changes, including the ones shown here.
+		</p>
+
+		<div class="flex flex-wrap mt-4 space-x-2">
+			<button type="button" @onclick="() => Submit(false)"
+				class="grow bg-red-500 rounded-lg py-4">Leave Unchanged</button>
+			<button type="button" @onclick="() => Submit(true)"
+				class="grow bg-red-500 rounded-lg py-4">Save Changes</button>
+		</div>
+	</div>
+</form>
+
+@code {
+	[Parameter]
+	public EventCallback<ImportSelection> OnImportConfirmed { get; set; }
+
+	[Parameter]
+	public ImportSelection initialConfig { get; set; }
+
+	// These values are what is in our form
+	public string Title { get; set; }
+	public string Lang { get; set; }
+	public string Standard { get; set; }
+	public string Filename { get; set; }
+
+	public void Submit(bool useChanges = false)
+	{
+		if (useChanges)
+		{
+			// Use the changed values
+			this.OnImportConfirmed.InvokeAsync(new ImportSelection(Title, Lang, Standard, Filename));
+		} else
+		{
+			// Use the initial values
+			this.OnImportConfirmed.InvokeAsync(this.initialConfig);
+		}
+	}
+
+	protected override void OnInitialized()
+	{
+		// Set the values in the form from the imported PDF
+		this.Filename = initialConfig.Filename;
+		this.Title = initialConfig.Title ?? "";
+		this.Lang = initialConfig.Lang ?? "En-US";
+		this.Standard = initialConfig.Standard ?? "None";
+
+		// Continue with blazor stuff
+		base.OnInitialized();
+	}
+
+	public struct ImportSelection
+	{
+		public string Title;
+		public string Lang;
+		public string Standard;
+		public string Filename;
+
+		public ImportSelection(string Title, string Lang, string Standard, string Filename)
+		{
+			this.Title = Title;
+			this.Lang = Lang;
+			this.Standard = Standard;
+			this.Filename = Filename;
+		}
+	}
+}
