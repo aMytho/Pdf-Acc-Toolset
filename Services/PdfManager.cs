@@ -13,6 +13,11 @@ namespace Pdf_Acc_Toolset.Services
 
 		public static MemoryStream outFile;
 
+        /// <summary>
+        /// Name of the exported PDF as set by the user.
+        /// </summary>
+        public static string filename;
+
 		public static ImportOperation<PdfReader> SetInputFile(Stream file)
 		{
 			try
@@ -71,6 +76,8 @@ namespace Pdf_Acc_Toolset.Services
 
 			// Store the document in the manager
 			document = new Document(pdf);
+            // Store the filename
+            filename = conf.Filename;
 
 			// Enable tagging (or load existing tags)
 			pdf.SetTagged();

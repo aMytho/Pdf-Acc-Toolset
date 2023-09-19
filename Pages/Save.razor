@@ -2,38 +2,60 @@
 @page "/save"
 @inject IJSRuntime JSRuntime
 
-<h2 text-4xl font-bold>Save and Export</h2>
+<h2 class="text-4xl font-bold">Save and Export</h2>
 
-<p>Its done!</p>
+<p>
+    Saving your PDF will start a download for the output file.
+    This will run all of the queued tasks.
+    The "download" is how the Toolset exports the PDF.
+    The PDF never leaves your device.
+</p>
 
-<button @onclick="SavePdf">Save the PDF</button>
-<hr />
-<button @onclick="DownloadBinary">Download binary file</button>
-<hr />
-<button @onclick="DownloadText">Download text file</button>
+<button @onclick="SavePdf" class="p-2 bg-emerald-600 font-bold rounded-lg">Save the PDF</button>
+<hr class="mt-2"/>
 
 @code {
 	public void SavePdf()
 	{
+        // Run the queed tasks and save the PDF
 		TaskManager.RunQueuedTasks();
 		PdfManager.Save();
+        _ = JSRuntime.InvokeVoidAsync("console.log", "Try to download me!");
+
+        // Download the PDF
+        DownloadPdf();
 	}
 
-	async Task DownloadBinary()
+	async Task DownloadPdf()
     {
         // Generate a file
         byte[] file = Enumerable.Range(0, 100).Select(value => (byte)value).ToArray();
         byte[] data = PdfManager.outFile.ToArray();
-
+        _ = JSRuntime.InvokeVoidAsync("console.log", "Try to download me!");
         // Send the data to JS to actually download the file
-        await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", "1abc.pdf", "application/octet-stream", data);
+        await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", CorrectFilename(PdfManager.filename), "application/octet-stream", data);
     }
 
-    async Task DownloadText()
+    // Handle bad filenames
+    private string CorrectFilename(string filename) {
+        // No file name
+        if (filename == null) {
+            return "Default_Name.pdf";
+        }
+        // No file extension
+        if (!filename.EndsWith(".pdf")) {
+            return filename + ".pdf";
+        }
+
+        // Good user, good boy!
+        return filename;
+    }
+
+    @* async Task DownloadText()
     {
         // Generate a text file
         byte[] file = System.Text.Encoding.UTF8.GetBytes("Hello world!");
         await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", "file.txt", "text/plain", file);
-    }
+    } *@
 }
 
