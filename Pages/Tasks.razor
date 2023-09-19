@@ -4,24 +4,51 @@
 <h2 class="text-4xl font-bold">Tasks</h2>
 
 <p>
-	Below lists all of the tasks you have generated. Tasks will run in the order shown.
-	You can also run a task individually. Tasks may be re-ordered if desired.
-	If a task is no longer required, you can remove it from the queue.
-	A completed task will not take effect until the file is saved!
+    Below lists all of the tasks you have generated. Tasks will run in the order shown.
+    You can also run a task individually. Tasks may be re-ordered if desired.
+    If a task is no longer required, you can remove it from the queue.
+    A completed task will not take effect until the file is saved!
 </p>
 
 <hr class="w-11/12 text-center m-4" />
 
-<h3>Task Queue</h3>
+<h3 class="text-xl">Task Queue</h3>
 
-@foreach (AccessibilityTask task in tasks)
-{
-	<div>
-		<h4>
-			@task.TaskComplete
-		</h4>
-	</div>
+<p>Tasks will run from the top to the bottom.</p>
+<div class="flex flex-col h-full">
+    @foreach (AccessibilityTask task in tasks)
+    {
+        <div class="relative text-lg p-4 m-2 bg-slate-700 rounded-lg w-full flex justify-between border-r-2 border-r-green-400">
+            <div>
+                <h4 class="">
+                    @task.Name
+                </h4>
+
+                <p>Completed: @task.TaskComplete</p>
+            </div>
+
+            <div class="">
+                Custom Item INFO
+            </div>
+
+            <div class="self-center bg-slate-600 p-2 rounded-md">
+                Up
+                Down
+                <span class="text-red-500">DELETE</span>
+            </div>
+        </div>
+    }
+</div>
+
+@if (tasks.Count == 0) {
+    <p class="italic">No tasks have been assigned. Create some from the Tools page!</p>
 }
+
+<h3 class="text-xl">Task Controls</h3>
+
+<button>Run All</button>
+<button>Reset</button>
+<button>P l a c e h o l d e r</button>
 
 @code {
 	public List<AccessibilityTask> tasks = new();

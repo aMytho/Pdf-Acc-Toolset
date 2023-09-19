@@ -3,10 +3,15 @@
 namespace Pdf_Acc_Toolset.Services
 {
 	/// <summary>
-	/// An accessibity task. This will modify the PDF in some way.
+	/// An accessibility task. This will modify the PDF in some way.
 	/// </summary>
 	public abstract class AccessibilityTask
 	{
+        /// <summary>
+        /// The friendly name of the task. Displayed in UI
+        /// </summary>
+        public string Name;
+
 		/// <summary>
 		/// The PDF document. Primarily used for modifications to the PDF
 		/// </summary>

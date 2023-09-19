@@ -4,21 +4,22 @@ using iText.Layout;
 
 namespace Pdf_Acc_Toolset.Services.Tools
 {
-	public class ListGeneration : AccessibilityTask
-	{
-		private string Title;
-		private int ListItemAmount;
-		private bool AddLabels;
+    public class ListGeneration : AccessibilityTask
+    {
+        private string Title;
+        private int ListItemAmount;
+        private bool AddLabels;
 
-		public ListGeneration(Document document, string title, int listItemAount, bool addLabels) : base(document)
-		{
-			this.Title = title;
-			this.ListItemAmount = listItemAount;
-			this.AddLabels = addLabels;
-		}
+        public ListGeneration(Document document, string title, int listItemAount, bool addLabels) : base(document)
+        {
+            this.Title = title;
+            this.ListItemAmount = listItemAount;
+            this.AddLabels = addLabels;
+            this.Name = "List Generator";
+        }
 
-		public override void Run()
-		{
+        public override void Run()
+        {
             // Get the tag pointer. It starts at the root of the tag tree.
             TagTreePointer tags = this.Document.GetPdfDocument().GetTagStructureContext().GetAutoTaggingPointer();
             // Add the parent list element to the beginning of the tag tree
@@ -54,5 +55,5 @@ namespace Pdf_Acc_Toolset.Services.Tools
             // Mark as complete
             this.TaskComplete = true;
         }
-	}
+    }
 }
