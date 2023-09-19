@@ -14,19 +14,26 @@
 
 <hr class="w-11/12 text-center m-4" />
 
-<div class="flex flex-wrap mr-8 px-2 space-x-8">
-    <div class="">
+<div class="flex flex-wrap px-2 space-x-8">
+    <div>
         <h2 class="text-4xl font-bold">File Selection</h2>
         <p>Drag a PDF in or select the Upload button to get started!</p>
     </div>
-    <div class="grow">
-        <button class="bg-gradient-to-t from-emerald-800 to-emerald-400
-            hover:from-emerald-950 hover:to-emerald-500 p-4 w-full
-            h-full m-2 rounded-lg text-lg">
-            <InputFile OnChange="@UploadFile" accept=".pdf">Upload</InputFile>
-        </button>
-    </div>
+    <form onsubmit="event.preventDefault()" class="grow">
+        <InputFile id="inputFile" OnChange="@UploadFile" accept=".pdf" class="hidden">Upload</InputFile>
+        <label for="inputFile" class="block bg-gradient-to-t from-emerald-800 to-emerald-400
+                hover:from-emerald-950 hover:to-emerald-500 p-4 w-full
+                h-full rounded-lg text-lg cursor-pointer text-center">
+            Upload PDF
+        </label>
+    </form>
 </div>
+@if (@showReimportWarning)
+{
+    <p class="text-red-500 m-2 font-bold">
+        Uploading a new PDF will keep all tasks intact, but your existing PDF will not be saved!
+    </p>
+}
 
 
 <!-- Show the import screen when a PDF is selected -->
@@ -55,6 +62,8 @@
             <ListGenerator />
             break;
         case Tools.TableGen:
+            <TableGenerator />
+            break;
         case Tools.Validation:
         case Tools.None:
             break;
@@ -70,6 +79,8 @@
 
     public bool showImport = false;
     public bool showToolbox = false;
+
+    public bool showReimportWarning = false;
 
     public PdfImportConfig import;
     public PdfReader reader;
@@ -160,5 +171,17 @@
     {
         return new ImportSettings.ImportSelection(this.import.Title, this.import.Lang, this.import.Standard,
         this.import.Filename);
+    }
+
+    protected override void OnInitialized()
+    {
+        // If the user navigated back to the toolbox, show the right page.
+        if (PdfManager.outFile != null)
+        {
+            this.showImport = false;
+            this.showToolbox = true;
+            this.showReimportWarning = true;
+        }
+        base.OnInitialized();
     }
 }
