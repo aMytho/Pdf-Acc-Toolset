@@ -133,7 +133,7 @@ namespace Pdf_Acc_Toolset.Services.Util
         }
     }
 
-    internal enum TagType
+    public enum TagType
     {
         // Root tag
         Document,
