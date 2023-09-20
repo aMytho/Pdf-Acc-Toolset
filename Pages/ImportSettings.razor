@@ -27,15 +27,15 @@
 
     <div class="basis-1/2 self-center mb-2">
         <p>
-            Saving the changes will choose the current settings and overwrite the previous settings.
+            Saving the changes will choose the current settings and overwrite the existing settings.
             Leave Unchanged will not make any changes, including the ones shown here.
         </p>
 
-        <div class="flex flex-wrap mt-4 space-x-2">
-            <button type="button" @onclick="() => Submit(false)" class="bg-red-500 rounded-lg p-2">Leave
+        <div class="flex flex-wrap mt-4 space-2">
+            <button type="button" @onclick="() => Submit(false)" class="bg-red-800 hover:bg-red-700 rounded-lg p-2 grow m-1">Leave
                 Unchanged</button>
             <button type="button" disabled="@(!CurrentEditContext.Validate())" @onclick="() => Submit(true)"
-                class="bg-green-500 rounded-lg p-2">Save
+                class="bg-emerald-800 hover:bg-emerald-700 rounded-lg p-2 grow m-1">Save
                 Changes</button>
         </div>
     </div>

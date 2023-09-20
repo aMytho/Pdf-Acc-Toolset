@@ -12,7 +12,6 @@
 </p>
 
 <button @onclick="SavePdf" class="p-2 bg-emerald-600 font-bold rounded-lg">Save the PDF</button>
-<hr class="mt-2"/>
 
 @code {
 	public void SavePdf()
@@ -51,11 +50,5 @@
         return filename;
     }
 
-    @* async Task DownloadText()
-    {
-        // Generate a text file
-        byte[] file = System.Text.Encoding.UTF8.GetBytes("Hello world!");
-        await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", "file.txt", "text/plain", file);
-    } *@
 }
 

@@ -14,15 +14,14 @@
 
 <hr class="w-11/12 text-center m-4" />
 
-<div class="flex flex-wrap px-2 space-x-8">
+<div class="flex flex-wrap px-2 gap-2 space-x-0 lg:space-x-4">
     <div>
         <h2 class="text-4xl font-bold">File Selection</h2>
-        <p>Drag a PDF in or select the Upload button to get started!</p>
+        <p>Select the Upload button to get started! The PDF never leaves your device.</p>
     </div>
     <form onsubmit="event.preventDefault()" class="grow">
         <InputFile id="inputFile" OnChange="@UploadFile" accept=".pdf" class="hidden">Upload</InputFile>
-        <label for="inputFile" class="block bg-gradient-to-t from-emerald-800 to-emerald-400
-                hover:from-emerald-950 hover:to-emerald-500 p-4 w-full
+        <label for="inputFile" class="block border-solid bg-emerald-500 hover:bg-emerald-400 hover:bg-opacity-60 bg-opacity-60 border-2 border-emerald-500 p-4 w-full
                 h-full rounded-lg text-lg cursor-pointer text-center">
             Upload PDF
         </label>
