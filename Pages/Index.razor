@@ -10,7 +10,7 @@
 
 <p class="mt-4">Welcome to the Toolset! This app will help you with the remediation process of PDFs. Feel free to read
     our Documentation or experiment yourself.</p>
-<p class="mt-2">We suggest you make a copy of the PDF before you save any changes.</p>
+<p class="mt-2">We suggest you keep your original document in case you decide to revert changes.</p>
 
 <hr class="w-11/12 text-center m-4" />
 
@@ -63,7 +63,9 @@
         case Tools.TableGen:
             <TableGenerator />
             break;
-        case Tools.Validation:
+        case Tools.TagGen:
+            <TagGenerator />
+            break;
         case Tools.None:
             break;
         default:
@@ -73,7 +75,7 @@
 
 
 @code {
-    public enum Tools { ListGen, TableGen, Validation, None };
+    public enum Tools { ListGen, TableGen, TagGen, Validation, None };
     public Tools activeTool = Tools.None;
 
     public bool showImport = false;

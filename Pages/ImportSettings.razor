@@ -7,17 +7,17 @@
     <DataAnnotationsValidator />
 
     <div class="grid grid-cols-2 gap-y-2 basis-1/2">
-        <label>File Name</label>
+        <label for="importFilename">File Name</label>
         <InputText @bind-Value="Model.Filename" type="text" id="importFilename"
             class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full" />
-        <label>Title</label>
+        <label for="importTitle">Title</label>
         <input @bind-value="Model.Title" type="text" id="importTitle"
             class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full" />
-        <label>Language</label>
+        <label for="importLang">Language</label>
         <select @bind="Model.Lang" id="importLang" class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full">
             <option value="En-US" selected>En-US</option>
         </select>
-        <label>Standard</label>
+        <label for="importStandard">Standard</label>
         <select @bind="Model.Standard" id="importStandard"
             class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full">
             <option value="None" selected>None (Default)</option>

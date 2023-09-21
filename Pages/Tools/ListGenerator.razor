@@ -15,7 +15,7 @@
 
 <EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
     <DataAnnotationsValidator />
-    <div class="flex flex-wrap justify-between px-8 space-x-4">
+    <div class="flex flex-wrap flex-col md:flex-row justify-between px-8 md:space-x-4 space-y-4 md:space-y-0">
         <div>
             <label for="title">List Title: </label>
             <InputText id="title" class="bg-gray-800 rounded-md p-2 text-green-400" @bind-Value="Model.title" />
@@ -25,7 +25,7 @@
             <InputNumber id="amnt" class="bg-gray-800 rounded-md p-2 text-green-400" @bind-Value="Model.amountOfItems"
                 min="1" max="999" />
         </div>
-        <div class="self-center">
+        <div class="md:self-center">
             <label for="lbl">Add Labels?</label>
             <InputCheckbox id="lbl" class="bg-gray-800 rounded-md p-2 text-green-400" @bind-Value="Model.addLabels"
                 checked />
@@ -33,8 +33,8 @@
     </div>
 
     <div class="flex flex-wrap w-full mt-4 space-x-2">
-        <button class="grow bg-red-500 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
-        <input class="grow bg-blue-500 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
+        <button class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
     </div>
 </EditForm>
 
