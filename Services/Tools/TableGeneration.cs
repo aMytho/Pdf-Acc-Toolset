@@ -71,6 +71,9 @@ namespace Pdf_Acc_Toolset.Services.Tools
 
             // Complete. Move back to root in case of other operations
             tags.MoveToRoot();
+
+            // Mark as complete
+            TaskComplete = true;
         }
     }
 }

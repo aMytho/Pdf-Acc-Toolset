@@ -56,6 +56,9 @@ namespace Pdf_Acc_Toolset.Services.Tools
 
             // Return to root
             tags.MoveToRoot();
+
+            // Mark as complete
+            TaskComplete = true;
         }
 
         private void AddTag(TagTreePointer tree, string role) {
