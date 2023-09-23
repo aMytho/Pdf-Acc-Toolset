@@ -1,8 +1,7 @@
 ﻿@using Pdf_Acc_Toolset.Pages.Tools;
 @using Pdf_Acc_Toolset.Services;
-@using iText.Kernel.Pdf;
 @inject IJSRuntime JSRuntime;
-@inject ConfigService ConfigService;
+@inject IToastService toastService;
 
 @page "/"
 
@@ -84,11 +83,8 @@
     public bool showReimportWarning = false;
 
     public PdfImportConfig import;
-    public PdfReader reader;
     public MemoryStream ms;
 
-    [Inject]
-    private ConfigService configService { get; set; }
 
     public void OnToolSelected(int tool)
     {
@@ -105,14 +101,26 @@
         // Validate the PDF, accept only 1, must be a pdf
         if (e.FileCount != 1 || !e.File.Name.EndsWith("pdf"))
         {
+            toastService.ShowError("Upload Failed. Ensure that a single PDF was uploaded.");
             return;
         }
 
         _ = JSRuntime.InvokeVoidAsync("console.log", "Validated successfully");
         // Open a stream for the file
-        ms = new MemoryStream();
-        await e.File.OpenReadStream().CopyToAsync(ms);
-        ms.Position = 0;
+        try {
+            Console.WriteLine("The file is " + e.File.Size + " bytes.");
+            ms = new MemoryStream(((int)e.File.Size));
+            await e.File.OpenReadStream(e.File.Size).CopyToAsync(ms);
+            ms.Position = 0;
+        } catch (IOException)
+        {
+            toastService.ShowError("Upload Failed. Ensure that a valid PDF was uploaded");
+            return;
+        } catch (Exception)
+        {
+            toastService.ShowError("Unknown PDF upload error.");
+            return;
+        }
 
 
         // Send it to the PDF manager for processing
@@ -126,11 +134,8 @@
 
         _ = JSRuntime.InvokeVoidAsync("console.log", "Import Reader Created");
 
-        // Save the reader for later
-        this.reader = reader.Data;
-
         // Request metadata for the PDF. We pass this to the import component later
-        this.import = PdfManager.GetMetadata(this.reader);
+        this.import = PdfManager.GetMetadata(reader.Data);
         // Add the filename
         this.import.Filename = e.File.Name;
 
@@ -141,7 +146,7 @@
 
     public void OnImportSet(ImportSettings.ImportSelection import)
     {
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Import Complete!");
+        toastService.ShowSuccess("Import Complete! You may begin the edit process.");
 
         // Move to the next section
         this.showImport = false;
@@ -157,11 +162,13 @@
         this.ms.Position = 0;
         // Set output
         PdfManager.SetOutputFile(this.ms, this.import);
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Export file is ready");
+        // Remove our local version from memory
+        this.ms.Dispose();
+
+        _ = JSRuntime.InvokeVoidAsync("console.log", "Writable file is ready");
+
         // Show toolox
         this.showToolbox = true;
-
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Export Complete!");
     }
 
     /// <summary>

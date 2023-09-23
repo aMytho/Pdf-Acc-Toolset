@@ -1,4 +1,17 @@
 ﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
+
+<!-- Toast messages (notifications)-->
+<BlazoredToasts
+    ShowProgressBar="true"
+    Position="ToastPosition.BottomRight"
+    Timeout="7"
+    PauseProgressOnHover="true"
+    ErrorClass="pdf-toast"
+    InfoClass="pdf-toast"
+    SuccessClass="pdf-toast"
+    WarningClass="pdf-toast"
+    />
 
 <div class="page">
     <div class="sidebar">

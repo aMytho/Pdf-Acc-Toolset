@@ -88,3 +88,12 @@ a, .btn-link {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+/* 
+Base toast class. All toasts have this
+*/
+.pdf-toast {
+    word-wrap: normal !important;
+    word-break: keep-all !important;
+    -moz-hyphens: none !important;
+}
