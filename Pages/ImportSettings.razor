@@ -15,7 +15,7 @@
             class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full" />
         <label for="importLang">Language</label>
         <select @bind="Model.Lang" id="importLang" class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full">
-            <option value="En-US" selected>En-US</option>
+            <option value="en-US" selected>En-US</option>
         </select>
         <label for="importStandard">Standard</label>
         <select @bind="Model.Standard" id="importStandard"
@@ -94,7 +94,7 @@
         // Set the values in the form from the imported PDF
         this.Model.Filename = initialConfig.Filename;
         this.Model.Title = initialConfig.Title ?? "";
-        this.Model.Lang = initialConfig.Lang ?? "En-US";
+        this.Model.Lang = initialConfig.Lang ?? "en-US";
         this.Model.Standard = initialConfig.Standard ?? "None";
 
         // Continue with blazor stuff
