@@ -16,8 +16,10 @@
 
 <p>Tasks will run from the top to the bottom.</p>
 <div class="flex flex-col h-full">
+    @{index = 0;}
     @foreach (AccessibilityTask task in tasks)
     {
+        int loopIndex = index;
         <div class="relative text-lg p-4 m-2 bg-slate-700 rounded-lg w-full flex justify-between border-r-2 border-r-green-400">
             <div>
                 <h4 class="">
@@ -28,18 +30,28 @@
             </div>
 
             <div class="">
-                Custom Item INFO
+                Custom Item INFO @loopIndex
             </div>
 
             <div class="bg-slate-600 rounded-md">
                 <div class="flex h-full justify-items-center">
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-green-950 text-green-600">Run</span>
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500">Up</span>
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500">Down</span>
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-red-950 text-red-500">DELETE</span>
+                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-green-950 text-green-600"
+                    @onclick="() => RunTask(loopIndex)">Run</span>
+                    
+                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500"
+                    @onclick="() => MoveTask(loopIndex, Services.MoveTask.Up)">Up</span>
+                    
+                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500"
+                    @onclick="() => MoveTask(loopIndex, Services.MoveTask.Down)">Down</span>
+                    
+                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-red-950 text-red-500"
+                    @onclick="() => RemoveTask(loopIndex)">DELETE</span>
                 </div>
             </div>
         </div>
+        
+        // Increase index for the next item
+        index++;
     }
 </div>
 
@@ -47,19 +59,60 @@
     <p class="italic">No tasks have been assigned. Create some from the Tools page!</p>
 }
 
+
+@* Task Control section *@
 <h3 class="text-xl">Task Controls</h3>
 
-<button class="bg-orange-800 hover:bg-orange-700 p-4 m-2 rounded-lg cursor-pointer">Reset</button>
-<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer">Run All</button>
-<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer">Mark All Complete</button>
-<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer">Mark All Uncomplete</button>
+<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer"
+@onclick="RunAll">Run All</button>
+
+<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer"
+@onclick="MarkAllComplete">Mark All Complete</button>
+
+<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer"
+@onclick="MarkAllUncomplete">Mark All Uncomplete</button>
 
 @code {
-	public List<AccessibilityTask> tasks = new();
+    // Stores a local reference to the tasks. Used to display them.
+    // We don't modify the tasks with the local reference.
+    public List<AccessibilityTask> tasks = new();
 
-	protected override void OnInitialized()
-	{
-		this.tasks = TaskManager.GetAccessibilityTasks();
-		base.OnInitialized();
-	}
+    private int index;
+    protected override void OnInitialized()
+    {
+        this.tasks = TaskManager.GetAccessibilityTasks();
+        base.OnInitialized();
+    }
+
+    private void RemoveTask(int index)
+    {
+        TaskManager.RemoveTask(index);
+    }
+
+    private void MoveTask(int toBeMoved, MoveTask direction)
+    {
+        Console.WriteLine("Unimplemented move action. Sorry!");
+    }
+
+    private void RunTask(int index) {
+        TaskManager.RunTask(index);
+    }
+
+    private void RunAll() {
+        TaskManager.RunQueuedTasks();
+    }
+
+    private void MarkAllComplete() {
+        // Marks every task as completed
+        for (int i = 0; i < this.tasks.Count; i++) {
+            TaskManager.ModifyTaskStatus(i, true);
+        }
+    }
+
+    private void MarkAllUncomplete() {
+        // Marks every task as uncompleted. Tasks will probably be ran again by the user!
+        for (int i = 0; i < this.tasks.Count; i++) {
+            TaskManager.ModifyTaskStatus(i, false);
+        }
+    }
 }

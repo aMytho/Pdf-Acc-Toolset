@@ -1,34 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Pdf_Acc_Toolset.Services
 {
-	public class TaskManager
-	{
-		/// <summary>
-		/// List of tasks
-		/// </summary>
-		private static readonly List<AccessibilityTask> Tasks = new();
+    public class TaskManager
+    {
+        /// <summary>
+        /// List of tasks
+        /// </summary>
+        private static readonly List<AccessibilityTask> Tasks = new();
 
-		public static void RunQueuedTasks()
-		{
-			foreach (AccessibilityTask task in Tasks)
-			{
-				task.Run();
-			}
-		}
+        public static void RunQueuedTasks()
+        {
+            Console.WriteLine("Running all tasks");
+            foreach (AccessibilityTask task in Tasks)
+            {
+                task.Run();
+            }
+            Console.WriteLine("Task Queue Complete");
+        }
 
-		public static void AddTask(AccessibilityTask task)
-		{
-			Tasks.Add(task);
-		}
+        public static void RunTask(int index) {
+            try
+            {
+                Tasks[index].Run();
+                Console.WriteLine("Task at index: " + index + " ran successfully!");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Attempted to run task at index: " + index + ". FAILED");
+            }
+        }
 
-		public static List<AccessibilityTask> GetAccessibilityTasks()
-		{
-			return Tasks;
-		}
-	}
+        public static void AddTask(AccessibilityTask task)
+        {
+            Tasks.Add(task);
+            Console.WriteLine("Task Created!");
+        }
+
+        public static List<AccessibilityTask> GetAccessibilityTasks()
+        {
+            return Tasks;
+        }
+
+        /// <summary>
+        /// Removes a task with the specified index
+        /// </summary>
+        /// <param name="index"></param>
+        public static void RemoveTask(int index) {
+            try {
+                Tasks.RemoveAt(index);
+                Console.WriteLine("Removing task at index: " + index);
+            } catch (ArgumentOutOfRangeException) {
+                Console.WriteLine("Error: Tried to remove a task with an invalid index.");
+            }
+        }
+
+        public static void ReOrderTask(int toBeMoved, MoveTask direction) {
+
+        }
+
+        public static void ModifyTaskStatus(int index, bool markComplete) {
+            try
+            {
+                Tasks[index].TaskComplete = markComplete;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Failed to modify the status of a task at index: " + index);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Moving a task up or down the list...
+    /// </summary>
+    public enum MoveTask {
+        Up,
+        Down
+    }
 }
