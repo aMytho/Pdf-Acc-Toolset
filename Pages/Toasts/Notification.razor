@@ -1,0 +1,32 @@
+@using Pdf_Acc_Toolset.Services.Util;
+@inject IToastService toastService;
+
+@* This file listens for events throughout the application and activates a toast *@
+
+@code {
+    protected override void OnInitialized()
+    {
+        // On init, listen for notifications
+        NotificationUtil.NotificationEvent += HandleNotification;
+    }
+
+    private void HandleNotification(object sender, Services.Util.Notification notif)
+    {
+        // When a notification occurs, show the right toast!
+        switch (notif.type)
+        {
+            case NotificationType.Error:
+                toastService.ShowError(notif.message);
+                break;
+            case NotificationType.Info:
+                toastService.ShowInfo(notif.message);
+                break;
+            case NotificationType.Success:
+                toastService.ShowSuccess(notif.message);
+                break;
+            case NotificationType.Warning:
+                toastService.ShowWarning(notif.message);
+                break;
+        }
+    }
+}

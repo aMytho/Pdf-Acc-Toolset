@@ -1,4 +1,5 @@
-﻿
+﻿using Pdf_Acc_Toolset.Services.Util;
+
 namespace Pdf_Acc_Toolset.Services
 {
     public class TaskManager
@@ -16,6 +17,7 @@ namespace Pdf_Acc_Toolset.Services
                 task.Run();
             }
             Console.WriteLine("Task Queue Complete");
+            NotificationUtil.Inform(NotificationType.Success, "Task Queue Complete");
         }
 
         public static void RunTask(int index) {
@@ -23,6 +25,7 @@ namespace Pdf_Acc_Toolset.Services
             {
                 Tasks[index].Run();
                 Console.WriteLine("Task at index: " + index + " ran successfully!");
+                NotificationUtil.Inform(NotificationType.Success, "Task ran successfully");
             }
             catch (Exception)
             {
@@ -34,6 +37,7 @@ namespace Pdf_Acc_Toolset.Services
         {
             Tasks.Add(task);
             Console.WriteLine("Task Created!");
+            NotificationUtil.Inform(NotificationType.Success, "Task Created!");
         }
 
         public static List<AccessibilityTask> GetAccessibilityTasks()
@@ -49,8 +53,10 @@ namespace Pdf_Acc_Toolset.Services
             try {
                 Tasks.RemoveAt(index);
                 Console.WriteLine("Removing task at index: " + index);
+                NotificationUtil.Inform(NotificationType.Success, "Task Removed");
             } catch (ArgumentOutOfRangeException) {
                 Console.WriteLine("Error: Tried to remove a task with an invalid index.");
+                NotificationUtil.Inform(NotificationType.Error, "Task not removed.");
             }
         }
 
