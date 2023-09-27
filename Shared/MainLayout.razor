@@ -2,16 +2,14 @@
 @using Blazored.Toast.Configuration
 
 <!-- Toast messages (notifications)-->
-<BlazoredToasts
-    ShowProgressBar="true"
-    Position="ToastPosition.BottomRight"
-    Timeout="7"
-    PauseProgressOnHover="true"
-    ErrorClass="pdf-toast"
-    InfoClass="pdf-toast"
-    SuccessClass="pdf-toast"
-    WarningClass="pdf-toast"
-    />
+<div class="pdf-toast">
+    <BlazoredToasts
+        ShowProgressBar="true"
+        Position="ToastPosition.TopRight"
+        Timeout="7"
+        PauseProgressOnHover="true"
+        />
+</div>
 
 <!-- Custom component for toast messages -->
 <Pdf_Acc_Toolset.Pages.Toasts.Notification />
