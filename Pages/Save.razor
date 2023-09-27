@@ -1,4 +1,5 @@
 ﻿@using Pdf_Acc_Toolset.Services;
+@using Pdf_Acc_Toolset.Services.Util;
 @page "/save"
 @inject IJSRuntime JSRuntime
 
@@ -13,26 +14,124 @@
 
 <button @onclick="SavePdf" class="p-2 bg-emerald-600 font-bold rounded-lg">Save the PDF</button>
 
+<hr class="w-11/12 text-center m-4">
+
+<h3 class="text-xl">PDF Summary</h3>
+
+<div id="summary" class="flex gap-4 flex-wrap">
+    <div>
+        <h4 class="text-lg">PDF Info</h4>
+        <table class="border-collapse border border-slate-500 table-auto">
+            <thead>
+                <tr>
+                    <th class="border border-slate-700 p-2">Metadata</th>
+                    <th class="border border-slate-700 p-2">Value</th>
+                </tr>
+            </thead>
+            <tr>
+                <td class="border border-slate-700 p-2">Filename</td>
+                <td class="border border-slate-700 p-2">@info.filename</td>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">Title</td>
+                <td class="border border-slate-700 p-2">@info.title</td>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">Language</td>
+                <td class="border border-slate-700 p-2">@info.lang</td>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">Standard</td>
+                <td class="border border-slate-700 p-2">@info.standard</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h4 class="text-lg">Task Info</h4>
+        <table class="border-collapse border border-slate-500 table-auto">
+            <tr>
+                <th class="border border-slate-700 p-2">Task State</th>
+                <th class="border border-slate-700 p-2">Value</th>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">Uncompleted Tasks</td>
+                <td class="border border-slate-700 p-2">@info.tasksInQueue</td>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">Completed Tasks</td>
+                <td class="border border-slate-700 p-2">@info.tasksRan</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h4 class="text-lg">Miscellaneous</h4>
+        <table class="border-collapse border border-slate-500 table-auto">
+            <tr>
+                <th class="border border-slate-700 p-2">Key</th>
+                <th class="border border-slate-700 p-2">Value</th>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">PDF Version</td>
+                <td class="border border-slate-700 p-2">@info.version</td>
+            </tr>
+            <tr>
+                <td class="border border-slate-700 p-2">Page Count</td>
+                <td class="border border-slate-700 p-2">@info.pageCount</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
 @code {
-	public void SavePdf()
+
+    private PdfInfo info = new();
+
+    protected override void OnInitialized()
+    {
+        // Get the PDF info
+        info.lang = PdfInfoUtil.GetLang();
+        info.title = PdfInfoUtil.GetTitle();
+        info.standard = PdfInfoUtil.GetPdfStandard();
+        info.version = PdfInfoUtil.GetPdfVersion();
+        info.pageCount = PdfInfoUtil.GetPageCount();
+        info.tasksRan = TaskManager.GetTasksRanCounter();
+        info.tasksInQueue = TaskManager.GetTasksInQueue().Count();
+        info.filename = PdfManager.filename;
+    }
+
+    private struct PdfInfo {
+        public string filename;
+        public string version;
+        public string title;
+        public string standard;
+        public string lang;
+        public int tasksRan;
+        public int tasksInQueue;
+        public int pageCount;
+    }
+
+
+	public async void SavePdf()
 	{
         // Run the queed tasks and save the PDF
 		TaskManager.RunQueuedTasks();
 		PdfManager.Save();
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Try to download me!");
+        _ = JSRuntime.InvokeVoidAsync("console.log", "Saving the PDF");
 
         // Download the PDF
-        DownloadPdf();
+        await DownloadPdf();
 	}
 
 	async Task DownloadPdf()
     {
         // Generate a file
-        byte[] file = Enumerable.Range(0, 100).Select(value => (byte)value).ToArray();
         byte[] data = PdfManager.outFile.ToArray();
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Try to download me!");
+        _ = JSRuntime.InvokeVoidAsync("console.log", "Downloading PDF");
         // Send the data to JS to actually download the file
         await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", CorrectFilename(PdfManager.filename), "application/octet-stream", data);
+        NotificationUtil.Inform(NotificationType.Success, "Starting Download...");
     }
 
     // Handle bad filenames
@@ -49,5 +148,4 @@
         // Good user, good boy!
         return filename;
     }
-
 }
