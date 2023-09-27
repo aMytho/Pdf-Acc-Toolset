@@ -108,35 +108,6 @@ namespace Pdf_Acc_Toolset.Services
 		{
 			document.Close();
 		}
-
-		public static void Temp(Stream stream)
-		{
-			// Load the file from disk, apply config
-			PdfWriter writer = new("C:\\Users\\JMyth\\Documents\\Acc Toolset\\Exports\\123.pdf", new WriterProperties());
-			PdfDocument pdf = new(new PdfReader(stream), writer);
-
-			// Store the document in the manager
-			document = new Document(pdf);
-			// to do -- try writing to a stream or in memory, then return a route for the file
-		}
-
-		public static void Temp2(Stream stream)
-		{
-			outFile = new();
-
-			// Load the file from disk, apply config
-			PdfWriter writer = new(outFile, new WriterProperties());
-			PdfDocument pdf = new(new PdfReader(stream), writer);
-
-			// Store the document in the manager
-			document = new Document(pdf);
-
-			document.SetOpacity((float?)0.5);
-			document.SetBold();
-			document.SetUnderline();
-			document.Close();
-			// to do -- try writing to a stream or in memory, then return a route for the file
-		}
 	}
 
 	public struct ImportOperation<T>
