@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Pdf-Acc-Toolset</title>
+    <meta name="description" content="Tool to assist with making PDFs accessible. Free and open source. Runs in the browser.">
+    <meta name="keywords" content="pdf, pdfs, accessibility, remediation, tag generation">
+    <meta name="author" content="Jonathan Shull (aMytho)">
+    <title>Pdf Accessibility Toolset</title>
     <base href="/" />
     <!-- Built styles (all app, includes tailwind)-->
     <link href="css/output.css?version=0.1" rel="stylesheet" />
@@ -48,6 +51,17 @@
             // We don't need to keep the object URL, let's release the memory
             // On older versions of Safari, it seems you need to comment this line...
             URL.revokeObjectURL(exportUrl);
+        }
+
+        function BlazorScrollToId(id) {
+            const element = document.getElementById(id);
+            if (element instanceof HTMLElement) {
+                element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                    inline: "nearest"
+                });
+            }
         }
     </script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>

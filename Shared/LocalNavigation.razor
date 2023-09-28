@@ -1,0 +1,16 @@
+@inject IJSRuntime JSRuntime
+
+<button class="text-slate-300 hover:text-slate-100" @onclick="OnClick">@label</button>
+
+@code {
+    [Parameter]
+    public string elemId { get; set; }
+
+    [Parameter]
+    public string label { get; set; }
+
+    private async void OnClick()
+    {
+        await JSRuntime.InvokeVoidAsync("BlazorScrollToId", elemId);
+    }
+}
