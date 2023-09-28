@@ -9,45 +9,76 @@
 
 <div class="@NavMenuCssClass">
     <nav class="flex flex-col">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Tools
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="tasks">
-                <span class="oi oi-plus" aria-hidden="true"></span> Queued Tasks
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link cursor-not-allowed opacity-50" href="counter" title="Coming Soon">
-                <span class="oi oi-plus" aria-hidden="true"></span> Validation
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link cursor-not-allowed opacity-50" href="download" title="Coming Soon">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Matterhorn Protocol
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link cursor-not-allowed opacity-50" href="fetchdata" title="Coming Soon">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Documentation
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link cursor-not-allowed opacity-50" href="fetchdata" title="Coming Soon">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> History
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="save">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Save
-            </NavLink>
-        </div>
+        @if (menu == NavMenus.Main) {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Tools
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="tasks">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Queued Tasks
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link cursor-not-allowed opacity-50" href="counter" title="Coming Soon">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Validation
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link cursor-not-allowed opacity-50" href="download" title="Coming Soon">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Matterhorn Protocol
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="docs">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Documentation
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link cursor-not-allowed opacity-50" href="fetchdata" title="Coming Soon">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> History
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="save">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Save
+                </NavLink>
+            </div>
+        } else if (menu == NavMenus.Docs) {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Return To Edit
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/docs/tools" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Tools
+                </NavLink>
+            </div>
+            <div class="nav-item px-3 nav-child">
+                <NavLink class="nav-link" href="/docs/tools/list" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> List Generator
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link nav-child" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Table Generator
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link nav-child" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Tag Generator
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
 @code {
+    [Parameter]
+    public NavMenus menu { get; set;}
+
     private bool collapseNavMenu = false;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -55,5 +86,11 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    // Set the nav menu based on its environment
+    public enum NavMenus {
+        Main,
+        Docs
     }
 }
