@@ -1,0 +1,48 @@
+@inherits LayoutComponentBase
+@using Pdf_Acc_Toolset.Services.UI
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu menu="NavMenu.NavMenus.Docs" />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="/tips">Tip of the Day</a>
+            <a href="/about">About</a>
+        </div>
+
+        <div class="p-4 flex flex-row flex-wrap justify-around md:w-full">
+            <article class="prose-invert prose-sky prose lg:prose-xl">
+                @Body
+            </article>
+
+            <div class="flex flex-col items-end gap-y-4 text-lg font-semibold">
+                <h2 class="text-slate-200">Table of Contents</h2>
+                @foreach (TocItem item in tocItems)
+                {
+                    <LocalNavigation elemId="@item.id" label="@item.label" />
+                }
+            </div>
+        </div>
+
+    @* Override the blazor link handling for these pages *@
+    <LocalNavigation />
+    </main>
+</div>
+
+@code {
+    private List<TocItem> tocItems = new List<TocItem>();
+    protected override void OnInitialized()
+    {
+        TocService.tocChanged += GenerateToc;
+        base.OnInitialized();
+    }
+
+    private void GenerateToc(object sender, List<TocItem> list)
+    {
+        Console.WriteLine("Items Changed");
+        tocItems = list;
+        StateHasChanged();
+    }
+}
