@@ -1,0 +1,29 @@
+@layout DocumentationLayout
+@using Pdf_Acc_Toolset.Services.UI;
+@page "/docs/tools"
+
+<h1 id="header">Tools</h1>
+
+<p>Tools are the primary way to modify a PDF using the toolset. Each tool has a specific purpose.</p>
+
+<h2 id="toolList">Tool Documentation</h2>
+
+<ul>
+    <li><a class="hover:text-sky-400" href="/docs/tools/list">List Generator</a></li>
+    <li><a class="hover:text-sky-400" href="/docs/tools/table">Table Generator</a></li>
+    <li><a class="hover:text-sky-400" href="/docs/tools/tag">Tag Generator</a></li>
+</ul>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Make a new list of toc items
+        List<TocItem> list = new List<TocItem>();
+        // Set the items
+        list.Add(new TocItem("header", 1, "Tools"));
+        list.Add(new TocItem("toolList", 2, "Tool List"));
+        // Send to TOC service
+        TocService.SetToc(list);
+        base.OnInitialized();
+    }
+}
