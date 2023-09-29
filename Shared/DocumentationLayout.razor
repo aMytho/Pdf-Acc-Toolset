@@ -7,23 +7,22 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="/tips">Tip of the Day</a>
-            <a href="/about">About</a>
-        </div>
+        <Topbar />
 
-        <div class="p-4 flex flex-row flex-wrap justify-around md:w-full">
+        <div class="p-4 flex flex-row flex-wrap justify-between md:w-full">
             <article class="prose-invert prose-sky prose lg:prose-xl">
                 @Body
             </article>
 
-            <div class="flex flex-col items-end gap-y-4 text-lg font-semibold">
+            <div class="flex flex-col items-baseline gap-y-4 text-lg font-semibold">
                 @if (tocItems.Count > 0) {
                     <h2 class="text-slate-100">Table of Contents</h2>
                 }
                 @foreach (TocItem item in tocItems)
                 {
-                    <LocalNavigation elemId="@item.id" label="@item.label" />
+                    <div class="ml-2">
+                        <LocalNavigation elemId="@item.id" label="@item.label" />
+                    </div>
                 }
             </div>
         </div>
