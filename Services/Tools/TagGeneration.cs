@@ -21,7 +21,7 @@ namespace Pdf_Acc_Toolset.Services.Tools
         /// </summary>
         private TagType Tag;
 
-        public TagGeneration(Document document, string title, TagType tag, int count) : base(document)
+        public TagGeneration(Document document, Selection.Selection selection, string title, TagType tag, int count) : base(document, selection)
         {
             this.Title = title;
             this.Tag = tag;

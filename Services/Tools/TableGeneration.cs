@@ -10,7 +10,7 @@ namespace Pdf_Acc_Toolset.Services.Tools
         private int Rows;
         private int Cols;
 
-        public TableGeneration(Document document, string title, int rows, int cols) : base(document)
+        public TableGeneration(Document document, Selection.Selection selection, string title, int rows, int cols) : base(document, selection)
         {
             this.Title = title;
             this.Rows = rows;
