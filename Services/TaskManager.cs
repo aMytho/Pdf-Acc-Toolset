@@ -16,8 +16,11 @@ namespace Pdf_Acc_Toolset.Services
             Console.WriteLine("Running all tasks");
             foreach (AccessibilityTask task in Tasks)
             {
-                task.Run();
-                TasksRan++;
+                // Only run tasks that are not complete
+                if (!task.TaskComplete) {
+                    task.Run();
+                    TasksRan++;
+                }
             }
             Console.WriteLine("Task Queue Complete");
             NotificationUtil.Inform(NotificationType.Success, "Task Queue Complete");
