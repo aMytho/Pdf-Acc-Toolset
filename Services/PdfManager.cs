@@ -83,8 +83,10 @@ namespace Pdf_Acc_Toolset.Services
 			pdf.SetTagged();
 			// Set lang
 			pdf.GetCatalog().SetLang(new PdfString(conf.Lang));
-			// Set the title
-			pdf.GetDocumentInfo().SetTitle(conf.Title);
+			// Set the title if one exists
+            if (conf.Title != null && conf.Title.Length > 0) {
+                pdf.GetDocumentInfo().SetTitle(conf.Title);
+            }
 			// Display the document title instead of file name (acc)
 			pdf.GetCatalog().SetViewerPreferences(new PdfViewerPreferences().SetDisplayDocTitle(true));
 
