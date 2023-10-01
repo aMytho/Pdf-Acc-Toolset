@@ -1,0 +1,20 @@
+@using Pdf_Acc_Toolset.Services.Tools.Selection
+@using Pdf_Acc_Toolset.Services
+@page "/testing"
+
+<h1>Testing env </h1>
+
+@code {
+    protected override void OnInitialized()
+    {
+        @* AttributeSelection atr = new(
+            PdfManager.GetDocument().GetPdfDocument().GetTagStructureContext().GetAutoTaggingPointer(),
+            Services.Tools.Selection.Attribute.Title, "idk");
+
+        Console.WriteLine("Class Created");
+        atr.FindElements();
+        foreach (var item in atr.GetSelection()) {
+            Console.WriteLine(item.GetProperties().GetActualText());
+        } *@
+    }
+}
