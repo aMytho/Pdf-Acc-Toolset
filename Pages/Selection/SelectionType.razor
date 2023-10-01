@@ -1,0 +1,55 @@
+@using Pdf_Acc_Toolset.Pages.Selection.SelectionTypes
+
+<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="">
+    <option selected value="0">By Attribute</option>
+    <option value="1">By Tag Type</option>
+</select>
+
+@switch (model.type) {
+    case SSelectionType.Attribute:
+        <Attribute OnAttributeChanged="OnAttributeUpdated" />
+        break;
+    case SSelectionType.Tag:
+        <Tag OnTagChanged="OnTagUpdated" />
+        break;
+}
+
+@code {
+    [Parameter]
+    public EventCallback<SelectionTypeModel> OnSelectionChanged { get; set; }
+
+    private SelectionTypeModel model = new();
+
+    private void OnChange(ChangeEventArgs e)
+    {
+        Enum.TryParse(e.Value.ToString(), out SSelectionType parsed);
+        model.type = parsed;
+        OnSelectionChanged.InvokeAsync(model);
+    }
+
+    private void OnAttributeUpdated(SelectionTypes.Attribute.AttributeWithVal attrWithVal)
+    {
+        model.attrWithVal = attrWithVal;
+        OnSelectionChanged.InvokeAsync(model);
+    }
+
+    private void OnTagUpdated(Services.Util.TagType tag)
+    {
+        model.tag = tag;
+        OnSelectionChanged.InvokeAsync(model);
+    }
+
+    public enum SSelectionType {
+        Attribute,
+        Tag
+    }
+
+    public struct SelectionTypeModel
+    {
+        public SSelectionType type { get; set; }
+
+        public SelectionTypes.Attribute.AttributeWithVal attrWithVal { get; set; }
+
+        public Services.Util.TagType tag { get; set; }
+    }
+}

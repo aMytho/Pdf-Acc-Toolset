@@ -1,0 +1,46 @@
+@using Pdf_Acc_Toolset.Services.Tools.Selection
+
+<p>Choose an attribute to select.</p>
+
+<label for="attribute">Attribute:</label>
+<select @onchange="OnAttrChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="attribute">
+    <option value="@Services.Tools.Selection.Attribute.Title">Title</option>
+    <option value="@Services.Tools.Selection.Attribute.Id">Id</option>
+</select>
+
+<p>Enter the value for the selected attribute. Depending on the attribute, this operation <b>may contain duplicates</b>.</p>
+
+<label for="attrValue">Value:</label>
+<input @onchange="OnValChange" id="attrValue" class="bg-gray-800 rounded-md p-2 text-green-400"
+placeholder="my value" type="text" minlength="1" />
+
+@code {
+    [Parameter]
+    public EventCallback<AttributeWithVal> OnAttributeChanged { get; set; }
+
+    private AttributeWithVal data = new();
+
+    private void OnAttrChange(ChangeEventArgs e)
+    {
+        Enum.TryParse(e.Value.ToString(), out Services.Tools.Selection.Attribute attr);
+        data.attr = attr;
+        OnAttributeChanged.InvokeAsync(data);
+    }
+
+    private void OnValChange(ChangeEventArgs e)
+    {
+        data.val = e.Value.ToString();
+        OnAttributeChanged.InvokeAsync(data);
+    }
+
+    public struct AttributeWithVal
+    {
+        public Services.Tools.Selection.Attribute attr { get; set; }
+        public string val { get; set; }
+
+        public AttributeWithVal() {
+            attr = Services.Tools.Selection.Attribute.Title;
+            val = "";
+        }
+    }
+}

@@ -1,0 +1,41 @@
+@using Pdf_Acc_Toolset.Services.Tools.Selection
+
+<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="">
+    <option selected value="0">Before Selection (Default)</option>
+    <option value="1">After Selection</option>
+    <option value="2">First Child of Selection</option>
+    <option value="3">Last Child of Selection</option>
+</select>
+
+@switch (selectedPoint) {
+    case Services.Tools.Selection.InsertionPoint.BeforeSelection:
+        <p>This insertion will target the element before the selection.</p>
+        break;
+    case Services.Tools.Selection.InsertionPoint.AfterSelection:
+        <p>This insertion will target the element after the selection.</p>
+        break;
+    case Services.Tools.Selection.InsertionPoint.FirstChild:
+        <p>This insertion will target the first child element of the selection.</p>
+        break;
+    case Services.Tools.Selection.InsertionPoint.LastChild:
+        <p>This insertion will target the last child element of the selection.</p>
+        break;
+    default:
+        <p>Error: Unknown selection </p>
+        break;
+}
+
+@code {
+    
+    [Parameter]
+    public EventCallback<Services.Tools.Selection.InsertionPoint> OnInsertionChanged {get; set;}
+
+    public Services.Tools.Selection.InsertionPoint selectedPoint { get; set; }
+
+    private void OnChange(ChangeEventArgs e)
+    {
+        Enum.TryParse(e.Value.ToString(), out Services.Tools.Selection.InsertionPoint parsed);
+        selectedPoint = parsed;
+        OnInsertionChanged.InvokeAsync(selectedPoint);
+    }
+}
