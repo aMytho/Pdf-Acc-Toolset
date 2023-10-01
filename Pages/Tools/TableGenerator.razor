@@ -55,13 +55,14 @@
 
 	public void Submit()
 	{
+@*         
 		// Create the task
 		TableGeneration generation = new(PdfManager.GetDocument(), Model.title, Model.amountOfRows, Model.amountOfColumns);
 		// Add the task to the queue
 		TaskManager.AddTask(generation);
 
 		// Reset the modal (to do - show a notification that it worked or something)
-		Reset();
+		Reset(); *@
 	}
 
 	public class TableGenModel

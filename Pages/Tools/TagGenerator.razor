@@ -64,14 +64,14 @@
 
     public void Submit()
     {
-        Console.WriteLine(Model.groupTitle);
+        @* Console.WriteLine(Model.groupTitle);
         // Create the task
         TagGeneration generation = new(PdfManager.GetDocument(), Model.groupTitle, Model.tagType, Model.amountOfItems);
         // Add the task to the queue
         TaskManager.AddTask(generation);
 
         // Reset the modal (to do - show a notification that it worked or something)
-        Reset();
+        Reset(); *@
     }
 
     public class TagGenModel
