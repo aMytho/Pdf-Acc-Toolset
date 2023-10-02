@@ -20,6 +20,9 @@ namespace Pdf_Acc_Toolset.Services
         /// </summary>
         public static string filename;
 
+        public static bool pdfDownloadable = false;
+        public static bool hasDownloaded = false;
+
 		public static ImportOperation<PdfReader> SetInputFile(Stream file)
 		{
 			try
@@ -94,6 +97,9 @@ namespace Pdf_Acc_Toolset.Services
 
 			// Set role map for custom tags
 			TagUtil.SetRoleMap(document.GetPdfDocument().GetStructTreeRoot().GetRoleMap());
+
+            // Allow it to be downloaded
+            pdfDownloadable = true;
 		}
 
 		/// <summary>
@@ -120,6 +126,10 @@ namespace Pdf_Acc_Toolset.Services
         public static void Save()
 		{
 			document.Close();
+            // Prevent duplicate downloads
+            pdfDownloadable = false;
+            // Update error message if they try to download after close
+            hasDownloaded = true;
 		}
 	}
 
