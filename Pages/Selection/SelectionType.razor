@@ -1,11 +1,17 @@
 @using Pdf_Acc_Toolset.Pages.Selection.SelectionTypes
 
-<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="">
-    <option selected value="0">By Attribute</option>
-    <option value="1">By Tag Type</option>
+<label for="selection">Choose a selection type:</label>
+<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" id="selection">
+    <option selected value="@SSelectionType.Default">Document Root (Default)</option>
+    <option value="@SSelectionType.Attribute">By Attribute</option>
+    <option value="@SSelectionType.Tag">By Tag Type</option>
 </select>
 
+<div class="mt-4">
 @switch (model.type) {
+    case SSelectionType.Default:
+        <DocumentRoot />
+        break;
     case SSelectionType.Attribute:
         <Attribute OnAttributeChanged="OnAttributeUpdated" />
         break;
@@ -13,6 +19,8 @@
         <Tag OnTagChanged="OnTagUpdated" />
         break;
 }
+
+</div>
 
 @code {
     [Parameter]
@@ -41,15 +49,18 @@
 
     public enum SSelectionType {
         Attribute,
-        Tag
+        Tag,
+        Default
     }
 
     public struct SelectionTypeModel
     {
-        public SSelectionType type { get; set; }
+        public SSelectionType type { get; set; } = SSelectionType.Default;
 
         public SelectionTypes.Attribute.AttributeWithVal attrWithVal { get; set; }
 
         public Services.Util.TagType tag { get; set; }
+
+        public SelectionTypeModel() {}
     }
 }
