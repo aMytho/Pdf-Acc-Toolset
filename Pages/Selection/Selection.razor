@@ -1,23 +1,21 @@
 @using System.ComponentModel.DataAnnotations;
-<div class="m-4 mt-0 p-4 text-lg">
-    <h4 class="text-xl">Selection</h4>
+<div class="mt-0 text-lg">
+    <hr class="w-11/12 text-center m-4" />
+    <h4 class="text-xl font-semibold">Selection</h4>
 
-    <p>
+    <p class="mt-2">
         Choose a selection point for your Task.
         If multiple selections are found based on your input, the task will run multiple times!
         To prevent this behavior, adjust your selection or add a limit. The default limit is 1.
     </p>
 
-    <hr class="w-11/12 text-center m-4" />
 
-    <div class="flex flex-row flex-wrap">
-        <div class="basis-1/2 space-y-2">
-            <p>Choose the insertion point:</p>
+    <div class="flex flex-row space-x-8">
+        <div class="basis-1/2 space-y-4">
             <InsertionPoint OnInsertionChanged="OnInsertionUpdated" />
             <Limit OnLimitChanged="OnLimitUpdated" />
         </div>
-        <div class="basis-1/2">
-            <p>Choose a selection type</p>
+        <div class="basis-1/2 space-y-4">
             <SelectionType OnSelectionChanged="OnSelectionUpdated"/>
         </div>
     </div>
@@ -63,11 +61,12 @@
 
     public class SelectionModel
     {
-        public Services.Tools.Selection.InsertionPoint InsertionPoint { get; set; }
+        public Services.Tools.Selection.InsertionPoint InsertionPoint
+        { get; set; } = Services.Tools.Selection.InsertionPoint.FirstChild;
 
         [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
         public int Limit {get; set;} = 1;
 
-        public SelectionType.SelectionTypeModel selection { get; set; }
+        public SelectionType.SelectionTypeModel selection { get; set; } = new();
     }
 }

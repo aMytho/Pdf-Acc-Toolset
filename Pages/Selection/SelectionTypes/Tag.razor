@@ -4,7 +4,6 @@
 
 <label for="tagSelection">Tag Type:</label>
 <select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="tagSelection">
-    <option value="-1" selected>None (Default)</option>
     @foreach (var tag in Enum.GetValues(typeof(Services.Util.TagType)))
     {
         <option value="@tag">@tag</option>

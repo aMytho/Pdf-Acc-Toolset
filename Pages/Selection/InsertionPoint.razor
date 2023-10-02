@@ -1,10 +1,15 @@
 @using Pdf_Acc_Toolset.Services.Tools.Selection
 
-<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="">
-    <option selected value="0">Before Selection (Default)</option>
-    <option value="1">After Selection</option>
-    <option value="2">First Child of Selection</option>
-    <option value="3">Last Child of Selection</option>
+<label for="insertion">Choose the insertion point:</label>
+<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" id="insertion">
+    <option selected value="@Services.Tools.Selection.InsertionPoint.FirstChild"
+        >First Child of Selection (Default)</option>
+    <option value="@Services.Tools.Selection.InsertionPoint.LastChild"
+        >Last Child of Selection</option>
+    <option value="@Services.Tools.Selection.InsertionPoint.BeforeSelection"
+        >Before Selection</option>
+    <option value="@Services.Tools.Selection.InsertionPoint.AfterSelection"
+        >After Selection</option>
 </select>
 
 @switch (selectedPoint) {
@@ -26,11 +31,11 @@
 }
 
 @code {
-    
     [Parameter]
     public EventCallback<Services.Tools.Selection.InsertionPoint> OnInsertionChanged {get; set;}
 
-    public Services.Tools.Selection.InsertionPoint selectedPoint { get; set; }
+    public Services.Tools.Selection.InsertionPoint selectedPoint
+        { get; set; } = Services.Tools.Selection.InsertionPoint.FirstChild;
 
     private void OnChange(ChangeEventArgs e)
     {
