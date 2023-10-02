@@ -1,4 +1,6 @@
 ﻿using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Tagging;
+using iText.Kernel.Pdf.Tagutils;
 using iText.Layout;
 using Pdf_Acc_Toolset.Services.Util;
 
@@ -103,10 +105,19 @@ namespace Pdf_Acc_Toolset.Services
 			return document;
 		}
 
-		/// <summary>
-		/// Save the PDF, close all, move on in life...
-		/// </summary>
-		public static void Save()
+        public static TagTreePointer GetTagRoot()
+        {
+            TagTreePointer original = document.GetPdfDocument().GetTagStructureContext().GetAutoTaggingPointer().MoveToRoot();
+            // Get the element for the pointer
+            PdfStructElem elem = original.GetContext().GetPointerStructElem(original);
+            // Return a new pointer
+            return original.GetContext().CreatePointerForStructElem(elem);
+        }
+
+        /// <summary>
+        /// Save the PDF, close all, move on in life...
+        /// </summary>
+        public static void Save()
 		{
 			document.Close();
 		}

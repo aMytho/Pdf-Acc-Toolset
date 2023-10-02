@@ -1,10 +1,11 @@
 ﻿@using Pdf_Acc_Toolset.Services;
 @using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Services.Util;
 @using Pdf_Acc_Toolset.Pages.Selection;
 @using System.ComponentModel.DataAnnotations;
 @using iText.Kernel.Pdf.Tagutils;
 
-<h3 class="text-xl">List Generator</h3>
+<h3 class="text-xl font-semibold">List Generator</h3>
 
 <p class="text-lg">
     Generate a list using the options below. You must generate at least 1 list item.
@@ -13,9 +14,8 @@
     See List Documentation for more information.
 </p>
 
-<hr class="w-11/12 text-center m-4" />
 
-<EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
+<EditForm Model="@Model" OnSubmit="@Submit" class="text-lg mt-4">
     <DataAnnotationsValidator />
     <div class="flex flex-wrap flex-col md:flex-row justify-between px-8 md:space-x-4 space-y-4 md:space-y-0">
         <div>
@@ -40,8 +40,8 @@
     </div>
 
     <div class="flex flex-wrap w-full mt-4 space-x-2">
-        <button class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
-        <button class="grow bg-sky-800 hover:bg-sky-700 rounded-lg py-4 cursor-pointer" @onclick="CheckForMatch">Check Matches</button>
+        <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-sky-800 hover:bg-sky-700 rounded-lg py-4 cursor-pointer" @onclick="CheckForMatch">Check Matches</button>
         <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
     </div>
 </EditForm>
@@ -49,8 +49,7 @@
 @code {
     private ListGenModel Model { get; set; }
 
-    private Selection.SelectionModel SelectionModel { get; set; }
-
+    private Selection.SelectionModel SelectionModel { get; set; } = new();
 
     protected override void OnInitialized()
     {
@@ -69,7 +68,7 @@
 
     private void CheckForMatch()
     {
-
+        SelectionValidator.CheckSelectionMatches(SelectionModel);
     }
 
 
@@ -87,7 +86,7 @@
         }
 
         // Create selection class from model
-        TagTreePointer pointer = PdfManager.GetDocument().GetPdfDocument().GetTagStructureContext().GetAutoTaggingPointer();
+        TagTreePointer pointer = PdfManager.GetTagRoot();
         Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
         if (selection == null) {
             return;
@@ -110,7 +109,7 @@
         public string title { get; set; }
 
         [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
-        public int amountOfItems { get; set; }
+        public int amountOfItems { get; set; } = 1;
 
         public bool addLabels { get; set; }
     }
