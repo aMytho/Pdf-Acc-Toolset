@@ -32,33 +32,10 @@ namespace Pdf_Acc_Toolset.Services.Tools
             // Get the selection
             List<TagTreePointer> selectionTargets = Selection.GetSelection();
 
-            Console.WriteLine("YOU MADE IT");
-
+            // For each selection target, run the list generation
             foreach (TagTreePointer pointer in selectionTargets) {
-                
-                // Add the parent list element to the beginning of the tag tree
-                InsertionPoint insert = Selection.GetInsertion();
-                switch (insert)
-                {
-                    case InsertionPoint.BeforeSelection:
-                        int index = pointer.GetIndexInParentKidsList();
-                        pointer.MoveToParent();
-                        pointer.AddTag(index, "L");
-                    break;
-                    case InsertionPoint.AfterSelection:
-                        int indexAfter = pointer.GetIndexInParentKidsList();
-                        pointer.MoveToParent();
-                        pointer.AddTag(indexAfter + 1, "L");
-                        break;
-                    case InsertionPoint.FirstChild:
-                        pointer.AddTag(0, "L");
-                        break;
-                    case InsertionPoint.LastChild:
-                        pointer.AddTag(pointer.GetKidsRoles().Count, "L");
-                        break;
-                    default:
-                    break;
-                }
+                // Add the tag in the specified insertion (handled elsewhere)
+                pointer.AddTag("L");
 
                 // Set the title if it exists
                 if (this.Title != null && this.Title.Length > 0)
@@ -90,7 +67,6 @@ namespace Pdf_Acc_Toolset.Services.Tools
                 pointer.MoveToRoot();
                 // Mark as complete
                 this.TaskComplete = true;
-
             }
 
         }

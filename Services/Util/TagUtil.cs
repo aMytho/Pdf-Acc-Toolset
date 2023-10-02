@@ -9,48 +9,51 @@ namespace Pdf_Acc_Toolset.Services.Util
         private static PdfDictionary roleMap;
         public static void SetRoleMap(PdfDictionary dict) { roleMap = dict; }
 
-        public static List<IStructureNode> GetTagsByType(TagType tagType, TagTreePointer pointer)
+        public static List<TagTreePointer> GetTagsByType(TagType tagType, TagTreePointer pointer)
         {
             string tagToFind = GetTagByEnum(tagType);
 
-            // Create a copy of the current tag
-            PdfStructElem currentTag = pointer.GetContext().GetPointerStructElem(pointer);
-
             // List which will be returned with the tags
-            List<IStructureNode> matchingTags = new();
+            List<TagTreePointer> matchingTags = new();
 
-            // Check if the current tag is the one we are looking for.
-            // We return the elem itself and any kids that match the description.
-            if (ConvertRole(currentTag.GetRole()) == CombineTagName(tagToFind))
-            {
-                matchingTags.Add(currentTag);
-            }
-
-            // Get each child
-            IList<IStructureNode> children = currentTag.GetKids();
-
-            // Check each child
-            if (children != null && children.Count > 0)
-            {
-                CheckChildElement(children);
-            }
+            // Start looking
+            CheckChildElement(pointer);
 
             // Recursive function to check all tags in the tag tree
-            void CheckChildElement(IList<IStructureNode> children)
+            void CheckChildElement(TagTreePointer children)
             {
-                foreach (IStructureNode child in children)
+                // Create a copy of the current tag
+                PdfStructElem currentTag = children.GetContext().GetPointerStructElem(children);
+                // Check if the current tag is the one we are looking for.
+                // We return the elem itself and any kids that match the description.
+                if (ConvertRole(currentTag.GetRole()) == CombineTagName(tagToFind))
                 {
-                    // Check the element itself
-                    if (ConvertRole(child.GetRole()) == CombineTagName(tagToFind))
-                    {
-                        matchingTags.Add(child);
-                    }
+                    // Make a new pointer for the elem.
+                    TagTreePointer childPointer = children.GetContext().CreatePointerForStructElem(currentTag);
+                    // Add the pointer to the list
+                    matchingTags.Add(childPointer);
+                }
 
-                    // Check kids
-                    if (child.GetKids() != null && child.GetKids().Count > 0)
+                // Get each child
+                IList<IStructureNode> kids = currentTag.GetKids();
+
+                // Check each child
+                if (kids != null && kids.Count > 0)
+                {
+                    // Make a new pointer for the current tag
+                    for (int i = 0; i < kids.Count; i++)
                     {
-                        // Element has kids. Check them
-                        CheckChildElement(child.GetKids());
+                        // If the kid is null or content, skip it
+                        if (kids[i] == null || kids[i].GetType() != typeof(PdfStructElem))
+                        {
+                            continue;
+                        }
+
+                        // Get the element for the pointer
+                        PdfStructElem elem = children.GetContext().GetPointerStructElem(children);
+                        // Make a new pointer for the elem.
+                        TagTreePointer childPointer = children.GetContext().CreatePointerForStructElem(elem);
+                        CheckChildElement(childPointer.MoveToKid(i));
                     }
                 }
             }

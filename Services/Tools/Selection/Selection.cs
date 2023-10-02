@@ -35,6 +35,35 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
         {
             return point;
         }
+
+        protected void MoveSelectionToInsertion()
+        {
+            foreach (TagTreePointer pointer in selection) {
+                switch (point)
+                {
+                    case InsertionPoint.FirstChild:
+                        // Set the next insertion to the last child
+                        pointer.SetNextNewKidIndex(0);
+                    break;
+                    case InsertionPoint.LastChild:
+                        // Default behavior, do nothing
+                    break;
+                    case InsertionPoint.BeforeSelection:
+                        // TO DO
+                    break;
+                    case InsertionPoint.AfterSelection:
+                        int indexAfter = pointer.GetIndexInParentKidsList();
+                        Console.WriteLine(indexAfter);
+                        Console.WriteLine(pointer.GetRole());
+                        pointer.MoveToParent();
+                        Console.WriteLine(pointer.GetRole());
+                        pointer.SetNextNewKidIndex(indexAfter + 1);
+                    break;
+                    default:
+                    break;
+                }
+            }
+        }
     }
 
     public enum InsertionPoint {

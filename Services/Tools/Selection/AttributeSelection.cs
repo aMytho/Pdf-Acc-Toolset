@@ -29,8 +29,14 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
             // Recursive function to check all tags in the tag tree
             void CheckChildElement(TagTreePointer children)
             {
-                Console.WriteLine("The tag: " + children.GetRole());
-                Console.WriteLine("The tag: " + children.GetProperties().GetActualText());
+                // Make sure that we are not violating the limit
+                if (matchingTags.Count + 1 > this.limit) {
+                    return;
+                }
+
+                Console.WriteLine("Checking into tag: " + children.GetRole());
+                Console.WriteLine("The tag has actual text of: " + children.GetProperties().GetActualText());
+                
                 // Check the current child
                 if (CheckTag(children))
                 {
@@ -46,11 +52,10 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
 
                 // More kids to check
                 if (childKids != null && childKids.Count > 0) {
-                    Console.WriteLine("am child " + childKids.Count);
+                    Console.WriteLine("The tag has kids: " + childKids.Count);
                     // Make a new pointer for the current tag
                     for (int i = 0; i < childKids.Count; i++)
                     {
-                        Console.WriteLine(childKids[i].GetType() == typeof(PdfStructElem));
                         // If the kid is null or content, skip it
                         if (childKids[i] == null || childKids[i].GetType() != typeof(PdfStructElem)) {
                             continue;
@@ -67,14 +72,16 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
 
             // Set result
             this.selection = matchingTags;
+            Console.WriteLine("Selection items: " + this.selection.Count);
             if (this.selection.Count > 0) {
                 this.foundSelection = true;
             }
+
+            this.MoveSelectionToInsertion();
         }
 
         private bool CheckTag(TagTreePointer tag)
         {
-            Console.WriteLine(atr + " is insertion");
             if (atr == Attribute.Id) {
                 // Get the ID
                 byte[] buffer = tag.GetProperties().GetStructureElementId();
