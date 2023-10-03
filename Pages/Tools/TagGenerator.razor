@@ -1,8 +1,9 @@
 @using Pdf_Acc_Toolset.Services;
 @using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Pages.Selection;
 @using System.ComponentModel.DataAnnotations;
 
-<h3 class="text-xl">List Generator</h3>
+<h3 class="text-xl font-semibold">Tag Generator</h3>
 
 <p class="text-lg">
     Generate a tag using the options below. You must generate at least 1 tag.
@@ -11,8 +12,6 @@
     If group title is enabled, tags will be inserted at the beginning of the document within a div tag with the title you selected.
     See Tag Documentation for more information.
 </p>
-
-<hr class="w-11/12 text-center m-4" />
 
 <EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
     <DataAnnotationsValidator />
@@ -27,7 +26,7 @@
                 min="1" max="999" />
         </div>
         <div>
-            <label for="tagType">Standard:</label>
+            <label for="tagType">Tag Type:</label>
             <select @bind="Model.tagType" id="tagType"
                 class="bg-gray-800 rounded-md p-2 text-green-400 h-full">
                 <option value="-1" selected>None (Default)</option>
@@ -39,14 +38,21 @@
         </div>
     </div>
 
+    @* Request the selection to insert into *@
+    <div>
+        <Selection OnSelectionChanged="OnSelectionUpdated" />
+    </div>
+
     <div class="flex flex-wrap w-full mt-4 space-x-2">
-        <button class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-sky-800 hover:bg-sky-700 rounded-lg py-4 cursor-pointer" @onclick="CheckForMatch">Check Matches</button>
         <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
     </div>
 </EditForm>
 
 @code {
     public TagGenModel Model { get; set; }
+    private Selection.SelectionModel SelectionModel { get; set; } = new();
     protected override void OnInitialized()
     {
         this.Model = new();
@@ -62,16 +68,40 @@
         Model.amountOfItems = 5;
     }
 
+    private void CheckForMatch()
+    {
+        SelectionValidator.CheckSelectionMatches(SelectionModel);
+    }
+
+
+    private void OnSelectionUpdated(Selection.SelectionModel selectionModel)
+    {
+        SelectionModel = selectionModel;
+    }
+
     public void Submit()
     {
-        @* Console.WriteLine(Model.groupTitle);
+        // Validate selection
+        if (!SelectionValidator.Validate(SelectionModel)) {
+            return;
+        }
+
+        // Create selection class from model
+        iText.Kernel.Pdf.Tagutils.TagTreePointer pointer = PdfManager.GetTagRoot();
+        Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
+        if (selection == null) {
+            return;
+        }
+
         // Create the task
-        TagGeneration generation = new(PdfManager.GetDocument(), Model.groupTitle, Model.tagType, Model.amountOfItems);
+        TagGeneration generation = new(
+            PdfManager.GetDocument(), selection, Model.groupTitle, Model.tagType, Model.amountOfItems
+        );
         // Add the task to the queue
         TaskManager.AddTask(generation);
 
         // Reset the modal (to do - show a notification that it worked or something)
-        Reset(); *@
+        Reset();
     }
 
     public class TagGenModel
