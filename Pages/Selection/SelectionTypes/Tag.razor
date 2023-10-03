@@ -1,0 +1,24 @@
+<p>
+    Choose the tag type. This selection will likely <b>select multiple items</b>. Use the limit feature accordingly.
+</p>
+
+<label for="tagSelection">Tag Type:</label>
+<select @onchange="OnChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="tagSelection">
+    @foreach (var tag in Enum.GetValues(typeof(Services.Util.TagType)))
+    {
+        <option value="@tag">@tag</option>
+    }
+</select>
+
+@code {
+    [Parameter]
+    public EventCallback<Services.Util.TagType> OnTagChanged { get; set; }
+
+    private void OnChange(ChangeEventArgs e)
+    {
+        if (Enum.TryParse(e.Value.ToString(), out Services.Util.TagType tagNumber)) {
+            Console.WriteLine(true + " ");
+            OnTagChanged.InvokeAsync(tagNumber);
+        }
+    }
+}

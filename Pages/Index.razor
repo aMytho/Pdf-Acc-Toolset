@@ -1,6 +1,5 @@
 ﻿@using Pdf_Acc_Toolset.Pages.Tools;
 @using Pdf_Acc_Toolset.Services;
-@inject IJSRuntime JSRuntime;
 @inject IToastService toastService;
 
 @page "/"
@@ -46,7 +45,7 @@
 @if (showToolbox == true)
 {
     <!-- Put the toolbox in the center-->
-    <h3 class="text-2xl font-semibold">Toolbox</h3>
+    <h3 class="mt-2 text-2xl font-semibold">Toolbox</h3>
     <div class="mr-8 border border-solid border-green-400">
         <Toolbox OnToolSelected="OnToolSelected"></Toolbox>
     </div>
@@ -97,7 +96,7 @@
     /// </summary>
     public async void UploadFile(InputFileChangeEventArgs e)
     {
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Starting Upload...");
+        Console.WriteLine("Starting Upload...");
         // Validate the PDF, accept only 1, must be a pdf
         if (e.FileCount != 1 || !e.File.Name.EndsWith("pdf"))
         {
@@ -105,7 +104,7 @@
             return;
         }
 
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Validated successfully");
+        Console.WriteLine("Validated successfully");
         // Open a stream for the file
         try {
             Console.WriteLine("The file is " + e.File.Size + " bytes.");
@@ -132,7 +131,7 @@
             return;
         }
 
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Import Reader Created");
+        Console.WriteLine("Import Reader Created");
 
         // Request metadata for the PDF. We pass this to the import component later
         this.import = PdfManager.GetMetadata(reader.Data);
@@ -157,7 +156,7 @@
         this.import.Standard = import.Standard;
         this.import.Filename = import.Filename;
 
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Saved import settings.");
+        Console.WriteLine("Saved import settings.");
 
         this.ms.Position = 0;
         // Set output
@@ -165,7 +164,7 @@
         // Remove our local version from memory
         this.ms.Dispose();
 
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Writable file is ready");
+        Console.WriteLine("Writable file is ready");
 
         // Show toolox
         this.showToolbox = true;

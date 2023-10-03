@@ -1,4 +1,6 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@using Blazored.Toast.Configuration
+
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -8,7 +10,21 @@
         <LayoutView Layout="@typeof(MainLayout)">
             <p role="alert">Sorry, that page doesn't exist!</p>
             <p>This is most likely due to a typo.
-                However, if you found an invalid link report it on our <a target="_blank" href="https://github.com/amytho/pdf-acc-toolset/issues">Issues Page</a>.</p>
+                However, if you found an invalid link report it on our <a target="_blank" href="https://github.com/amytho/pdf-acc-toolset/issues">Issues Page</a>.
+            </p>
         </LayoutView>
     </NotFound>
 </Router>
+
+<!-- Toast messages (notifications)-->
+<div class="pdf-toast">
+    <BlazoredToasts
+        ShowProgressBar="true"
+        Position="ToastPosition.TopRight"
+        Timeout="7"
+        PauseProgressOnHover="true"
+        />
+</div>
+
+<!-- Custom component for toast messages -->
+<Pdf_Acc_Toolset.Pages.Toasts.Notification />

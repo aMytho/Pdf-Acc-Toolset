@@ -1103,8 +1103,8 @@ video {
   margin-right: 2rem;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
+.mt-0 {
+  margin-top: 0px;
 }
 
 .mt-2 {
@@ -1147,6 +1147,27 @@ video {
   width: 100%;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+.max-w-none {
+  max-width: none;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
 .grow {
   flex-grow: 1;
 }
@@ -1187,8 +1208,8 @@ video {
   flex-wrap: wrap;
 }
 
-.items-end {
-  align-items: flex-end;
+.items-baseline {
+  align-items: baseline;
 }
 
 .justify-between {
@@ -1234,6 +1255,12 @@ video {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2rem * var(--tw-space-x-reverse));
+  margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
@@ -1340,6 +1367,11 @@ video {
   background-color: rgb(159 18 57 / var(--tw-bg-opacity));
 }
 
+.bg-sky-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(7 89 133 / var(--tw-bg-opacity));
+}
+
 .bg-slate-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(71 85 105 / var(--tw-bg-opacity));
@@ -1385,6 +1417,14 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
+}
+
+.pb-8 {
+  padding-bottom: 2rem;
 }
 
 .text-center {
@@ -1447,9 +1487,9 @@ video {
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
-.text-slate-200 {
+.text-slate-100 {
   --tw-text-opacity: 1;
-  color: rgb(226 232 240 / var(--tw-text-opacity));
+  color: rgb(241 245 249 / var(--tw-text-opacity));
 }
 
 .text-slate-300 {
@@ -1460,26 +1500,6 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-slate-500 {
-  --tw-text-opacity: 1;
-  color: rgb(100 116 139 / var(--tw-text-opacity));
-}
-
-.text-slate-400 {
-  --tw-text-opacity: 1;
-  color: rgb(148 163 184 / var(--tw-text-opacity));
-}
-
-.text-slate-50 {
-  --tw-text-opacity: 1;
-  color: rgb(248 250 252 / var(--tw-text-opacity));
-}
-
-.text-slate-100 {
-  --tw-text-opacity: 1;
-  color: rgb(241 245 249 / var(--tw-text-opacity));
 }
 
 .opacity-50 {
@@ -1875,6 +1895,11 @@ Base toast class. All toasts have this
   background-color: rgb(190 18 60 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-sky-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(3 105 161 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-slate-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
@@ -1884,28 +1909,34 @@ Base toast class. All toasts have this
   --tw-bg-opacity: 0.6;
 }
 
-.hover\:text-slate-100:hover {
-  --tw-text-opacity: 1;
-  color: rgb(241 245 249 / var(--tw-text-opacity));
-}
-
-.hover\:text-blue-600:hover {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
-}
-
 .hover\:text-sky-400:hover {
   --tw-text-opacity: 1;
   color: rgb(56 189 248 / var(--tw-text-opacity));
+}
+
+.hover\:text-slate-100:hover {
+  --tw-text-opacity: 1;
+  color: rgb(241 245 249 / var(--tw-text-opacity));
 }
 
 @media (min-width: 640px) {
   .sm\:justify-center {
     justify-content: center;
   }
+
+  .sm\:space-x-8 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(2rem * var(--tw-space-x-reverse));
+    margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+  }
 }
 
 @media (min-width: 768px) {
+  .md\:mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
   .md\:w-full {
     width: 100%;
   }
@@ -1924,6 +1955,12 @@ Base toast class. All toasts have this
     --tw-space-y-reverse: 0;
     margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
+  }
+
+  .md\:space-x-8 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(2rem * var(--tw-space-x-reverse));
+    margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
   }
 
   .md\:self-center {

@@ -1,0 +1,25 @@
+<p>
+    Limit the amount of items that can be selected.
+    This is mostly used to prevent duplicate entries when they are not desired.
+</p>
+
+<label for="limit">Limit:</label>
+<InputNumber id="limit" @bind-Value="SelectionLimit" class="bg-gray-800 rounded-md p-2 text-green-400" placeholder="1"
+step="1" min="1" max="999" ParsingErrorMessage="Must be an integer value greater than 0" />
+
+@code {
+    [Parameter]
+    public EventCallback<int> OnLimitChanged { get; set; }
+
+    private int _limit = 1;
+
+    private int SelectionLimit
+    {
+        get => _limit;
+        set {
+            _limit = value;
+            // Emit the change to the parent form
+            OnLimitChanged.InvokeAsync(_limit);
+        }
+    }
+}

@@ -85,7 +85,6 @@
 
 
 @code {
-
     private PdfInfo info = new();
 
     protected override void OnInitialized()
@@ -113,22 +112,35 @@
     }
 
 
-	public async void SavePdf()
-	{
-        // Run the queed tasks and save the PDF
-		TaskManager.RunQueuedTasks();
-		PdfManager.Save();
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Saving the PDF");
+    public async void SavePdf()
+    {
+        if (PdfManager.pdfDownloadable)
+        {
+            // Run the queed tasks and save the PDF
+            TaskManager.RunQueuedTasks();
+            PdfManager.Save();
+            Console.WriteLine("Saving the PDF");
 
-        // Download the PDF
-        await DownloadPdf();
-	}
+            // Download the PDF
+            await DownloadPdf();
+        } else {
+            if (PdfManager.hasDownloaded) {
+                NotificationUtil.Inform(
+                    NotificationType.Error, "You cannot download a PDF once it has been saved."
+                );
+            } else {
+                NotificationUtil.Inform(
+                    NotificationType.Error, "You must upload a PDF to have a download available."
+                );
+            }
+        }
+    }
 
-	async Task DownloadPdf()
+    async Task DownloadPdf()
     {
         // Generate a file
         byte[] data = PdfManager.outFile.ToArray();
-        _ = JSRuntime.InvokeVoidAsync("console.log", "Downloading PDF");
+        Console.WriteLine("Downloading PDF");
         // Send the data to JS to actually download the file
         await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", CorrectFilename(PdfManager.filename), "application/octet-stream", data);
         NotificationUtil.Inform(NotificationType.Success, "Starting Download...");

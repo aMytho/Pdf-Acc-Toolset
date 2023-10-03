@@ -1,4 +1,6 @@
 ﻿using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Tagging;
+using iText.Kernel.Pdf.Tagutils;
 using iText.Layout;
 using Pdf_Acc_Toolset.Services.Util;
 
@@ -17,6 +19,9 @@ namespace Pdf_Acc_Toolset.Services
         /// Name of the exported PDF as set by the user.
         /// </summary>
         public static string filename;
+
+        public static bool pdfDownloadable = false;
+        public static bool hasDownloaded = false;
 
 		public static ImportOperation<PdfReader> SetInputFile(Stream file)
 		{
@@ -83,13 +88,18 @@ namespace Pdf_Acc_Toolset.Services
 			pdf.SetTagged();
 			// Set lang
 			pdf.GetCatalog().SetLang(new PdfString(conf.Lang));
-			// Set the title
-			pdf.GetDocumentInfo().SetTitle(conf.Title);
+			// Set the title if one exists
+            if (conf.Title != null && conf.Title.Length > 0) {
+                pdf.GetDocumentInfo().SetTitle(conf.Title);
+            }
 			// Display the document title instead of file name (acc)
 			pdf.GetCatalog().SetViewerPreferences(new PdfViewerPreferences().SetDisplayDocTitle(true));
 
 			// Set role map for custom tags
 			TagUtil.SetRoleMap(document.GetPdfDocument().GetStructTreeRoot().GetRoleMap());
+
+            // Allow it to be downloaded
+            pdfDownloadable = true;
 		}
 
 		/// <summary>
@@ -101,12 +111,25 @@ namespace Pdf_Acc_Toolset.Services
 			return document;
 		}
 
-		/// <summary>
-		/// Save the PDF, close all, move on in life...
-		/// </summary>
-		public static void Save()
+        public static TagTreePointer GetTagRoot()
+        {
+            TagTreePointer original = document.GetPdfDocument().GetTagStructureContext().GetAutoTaggingPointer().MoveToRoot();
+            // Get the element for the pointer
+            PdfStructElem elem = original.GetContext().GetPointerStructElem(original);
+            // Return a new pointer
+            return original.GetContext().CreatePointerForStructElem(elem);
+        }
+
+        /// <summary>
+        /// Save the PDF, close all, move on in life...
+        /// </summary>
+        public static void Save()
 		{
 			document.Close();
+            // Prevent duplicate downloads
+            pdfDownloadable = false;
+            // Update error message if they try to download after close
+            hasDownloaded = true;
 		}
 	}
 

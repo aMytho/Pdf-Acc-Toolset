@@ -16,8 +16,11 @@ namespace Pdf_Acc_Toolset.Services
             Console.WriteLine("Running all tasks");
             foreach (AccessibilityTask task in Tasks)
             {
-                task.Run();
-                TasksRan++;
+                // Only run tasks that are not complete
+                if (!task.TaskComplete) {
+                    task.Run();
+                    TasksRan++;
+                }
             }
             Console.WriteLine("Task Queue Complete");
             NotificationUtil.Inform(NotificationType.Success, "Task Queue Complete");
@@ -63,6 +66,38 @@ namespace Pdf_Acc_Toolset.Services
             } catch (ArgumentOutOfRangeException) {
                 Console.WriteLine("Error: Tried to remove a task with an invalid index.");
                 NotificationUtil.Inform(NotificationType.Error, "Task not removed.");
+            }
+        }
+
+        public static bool MoveTask(int toBeMoved, MoveTask direction)
+        {
+            try {
+                // Check the direction to move
+                if (direction == Services.MoveTask.Up) {
+                    // Move up the queue
+                    if (toBeMoved - 1 < 0) {
+                        // Can't move before 0
+                        throw new Exception("Cannot move task any higher in the queue.");
+                    }
+                    // Swap places
+                    AccessibilityTask temp = Tasks[toBeMoved - 1];
+                    Tasks[toBeMoved - 1] = Tasks[toBeMoved];
+                    Tasks[toBeMoved] = temp;
+                } else {
+                    // Move down the queue
+                    if (toBeMoved + 1 > Tasks.Count - 1) {
+                        throw new Exception("Cannot move task any lower in the queue");
+                    }
+                    // Swap
+                    AccessibilityTask temp = Tasks[toBeMoved + 1];
+                    Tasks[toBeMoved + 1] = Tasks[toBeMoved];
+                    Tasks[toBeMoved] = temp;
+                }
+                return true;
+            } catch(Exception e) {
+                Console.WriteLine(e.Message);
+                NotificationUtil.Inform(NotificationType.Error, e.Message ?? "Task Move Error.");
+                return false;
             }
         }
 

@@ -1,8 +1,9 @@
 @using Pdf_Acc_Toolset.Services;
 @using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Pages.Selection;
 @using System.ComponentModel.DataAnnotations;
 
-<h3 class="text-xl">Table Generator</h3>
+<h3 class="text-xl font-semibold">Table Generator</h3>
 
 <p class="text-lg">
     Generate a table using the options below. You must generate at least 1 row.
@@ -10,8 +11,6 @@
     The title is for making the table easier to identify if you are inserting multiple tables.
     See List Documentation for more information.
 </p>
-
-<hr class="w-11/12 text-center m-4" />
 
 <EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
     <DataAnnotationsValidator />
@@ -32,46 +31,80 @@
         </div>
     </div>
 
+    @* Request the selection to insert into *@
+    <div>
+        <Selection OnSelectionChanged="OnSelectionUpdated" />
+    </div>
+
     <div class="flex flex-wrap w-full mt-4 space-x-2">
-        <button class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-sky-800 hover:bg-sky-700 rounded-lg py-4 cursor-pointer" @onclick="CheckForMatch">Check Matches</button>
         <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
     </div>
 </EditForm>
 
 @code {
-	public TableGenModel Model { get; set; }
-	protected override void OnInitialized()
-	{
-		this.Model = new();
-		base.OnInitialized();
-	}
+    public TableGenModel Model { get; set; }
 
-	public void Reset()
-	{
-		Model.title = "";
-		Model.amountOfColumns = 3;
-		Model.amountOfRows = 1;
-	}
+    private Selection.SelectionModel SelectionModel { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        this.Model = new();
+        base.OnInitialized();
+    }
 
-	public void Submit()
-	{
-		// Create the task
-		TableGeneration generation = new(PdfManager.GetDocument(), Model.title, Model.amountOfRows, Model.amountOfColumns);
-		// Add the task to the queue
-		TaskManager.AddTask(generation);
+    public void Reset()
+    {
+        Model.title = "";
+        Model.amountOfColumns = 3;
+        Model.amountOfRows = 1;
+    }
 
-		// Reset the modal (to do - show a notification that it worked or something)
-		Reset();
-	}
+    private void CheckForMatch()
+    {
+        SelectionValidator.CheckSelectionMatches(SelectionModel);
+    }
 
-	public class TableGenModel
-	{
-		public string title { get; set; }
 
-		[Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
-		public int amountOfRows { get; set; }
+    private void OnSelectionUpdated(Selection.SelectionModel selectionModel)
+    {
+        SelectionModel = selectionModel;
+    }
+
+    public void Submit()
+    {
+
+        // Validate selection
+        if (!SelectionValidator.Validate(SelectionModel)) {
+            return;
+        }
+
+        // Create selection class from model
+        iText.Kernel.Pdf.Tagutils.TagTreePointer pointer = PdfManager.GetTagRoot();
+        Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
+        if (selection == null) {
+            return;
+        }
+
+        // Create the task
+        TableGeneration generation = new(
+            PdfManager.GetDocument(), selection, Model.title, Model.amountOfRows, Model.amountOfColumns
+        );
+        // Add the task to the queue
+        TaskManager.AddTask(generation);
+
+        // Reset the modal (to do - show a notification that it worked or something)
+        Reset();
+    }
+
+    public class TableGenModel
+    {
+        public string title { get; set; }
 
         [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
-		public int amountOfColumns { get; set; }
-	}
+        public int amountOfRows { get; set; }
+
+        [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
+        public int amountOfColumns { get; set; }
+    }
 }

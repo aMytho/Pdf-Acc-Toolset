@@ -1,0 +1,72 @@
+@using System.ComponentModel.DataAnnotations;
+<div class="mt-0 text-lg">
+    <hr class="w-11/12 text-center m-4" />
+    <h4 class="text-xl font-semibold">Selection</h4>
+
+    <p class="mt-2">
+        Choose a selection point for your Task.
+        If multiple selections are found based on your input, the task will run multiple times!
+        To prevent this behavior, adjust your selection or add a limit. The default limit is 1.
+    </p>
+
+
+    <div class="flex flex-row flex-wrap">
+        <div class="space-y-4 w-1/2 mx-2 md:mx-8" style="flex: 1;">
+            <InsertionPoint OnInsertionChanged="OnInsertionUpdated" />
+            <Limit OnLimitChanged="OnLimitUpdated" />
+        </div>
+        <div class="space-y-4 w-1/2 mx-2 md:mx-8" style="flex: 1;">
+            <SelectionType OnSelectionChanged="OnSelectionUpdated"/>
+        </div>
+    </div>
+</div>
+@* <button type="button" @onclick="log">Click</button> *@
+
+@code {
+    [Parameter]
+    public EventCallback<SelectionModel> OnSelectionChanged { get; set; }
+
+    public SelectionModel selection = new SelectionModel();
+
+    private void OnInsertionUpdated(Services.Tools.Selection.InsertionPoint insertion)
+    {
+        selection.InsertionPoint = insertion;
+        OnSelectionChanged.InvokeAsync(selection);
+    }
+
+    private void OnLimitUpdated(int limit)
+    {
+        selection.Limit = limit;
+        OnSelectionChanged.InvokeAsync(selection);
+    }
+
+    private void OnSelectionUpdated(SelectionType.SelectionTypeModel newSelection)
+    {
+        // Code so clean...
+        // w o w
+        // To-do: figure out naming guidelines for c#
+        selection.selection = newSelection;
+        OnSelectionChanged.InvokeAsync(selection);
+    }
+
+    private void log()
+    {
+        Console.WriteLine(selection.InsertionPoint);
+        Console.WriteLine(selection.Limit);
+        Console.WriteLine(selection.selection.attrWithVal.attr);
+        Console.WriteLine(selection.selection.attrWithVal.val);
+        Console.WriteLine(selection.selection.tag);
+        Console.WriteLine(selection.selection.type);
+    }
+
+    public class SelectionModel
+    {
+        public Services.Tools.Selection.InsertionPoint InsertionPoint
+        { get; set; } = Services.Tools.Selection.InsertionPoint.FirstChild;
+
+        [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
+        public int Limit {get; set;} = 1;
+
+        public SelectionType.SelectionTypeModel selection { get; set; } = new();
+    }
+}

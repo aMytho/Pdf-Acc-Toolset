@@ -1,4 +1,5 @@
 ﻿using iText.Layout;
+using Pdf_Acc_Toolset.Services.Tools.Selection;
 
 namespace Pdf_Acc_Toolset.Services
 {
@@ -22,11 +23,20 @@ namespace Pdf_Acc_Toolset.Services
 		/// </summary>
 		public bool TaskComplete = false;
 
-		public AccessibilityTask(Document document)
+        /// <summary>
+        /// The selection for the task. May contain multiple items
+        /// </summary>
+        public Selection Selection;
+
+		public AccessibilityTask(Document document, Selection selction)
 		{
 			this.Document = document;
+            this.Selection = selction;
 		}
 
+        /// <summary>
+        /// Run the Accessibility Task
+        /// </summary>
 		public abstract void Run();
 	}
 }

@@ -1,25 +1,11 @@
 ﻿@inherits LayoutComponentBase
-@using Blazored.Toast.Configuration
-
-<!-- Toast messages (notifications)-->
-<div class="pdf-toast">
-    <BlazoredToasts
-        ShowProgressBar="true"
-        Position="ToastPosition.TopRight"
-        Timeout="7"
-        PauseProgressOnHover="true"
-        />
-</div>
-
-<!-- Custom component for toast messages -->
-<Pdf_Acc_Toolset.Pages.Toasts.Notification />
 
 <div class="page">
     <div class="sidebar">
         <NavMenu menu="NavMenu.NavMenus.Main" />
     </div>
 
-    <main>
+    <main class="pb-8">
         <Topbar />
 
         <article class="content px-4 text-white">
