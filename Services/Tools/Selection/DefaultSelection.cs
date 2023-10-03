@@ -25,8 +25,6 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
             this.selection = matchingTags;
             this.foundSelection = true;
             Console.WriteLine("Selection items: " + this.selection.Count);
-
-            this.MoveSelectionToInsertion();
         }
     }
 }

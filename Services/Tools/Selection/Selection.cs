@@ -1,5 +1,6 @@
 
 using iText.Kernel.Pdf.Tagutils;
+using Pdf_Acc_Toolset.Services.Util;
 
 namespace Pdf_Acc_Toolset.Services.Tools.Selection
 {
@@ -36,32 +37,52 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
             return point;
         }
 
-        protected void MoveSelectionToInsertion()
+        /// <summary>
+        /// Moves a TagPointer to its new position based on the insertion value.
+        /// Run this while the Accessibility Task is running to prevent unwanted changes to the tree.
+        /// The pointer is modified so this method has no return val
+        /// </summary>
+        /// <param name="pointer"></param>
+        public void MoveSelectionToInsertion(TagTreePointer pointer)
         {
-            foreach (TagTreePointer pointer in selection) {
-                switch (point)
-                {
-                    case InsertionPoint.FirstChild:
-                        // Set the next insertion to the last child
-                        pointer.SetNextNewKidIndex(0);
+            switch (point)
+            {
+                case InsertionPoint.FirstChild:
+                    // Set the next insertion to the last child
+                    pointer.SetNextNewKidIndex(0);
                     break;
-                    case InsertionPoint.LastChild:
-                        // Default behavior, do nothing
+                case InsertionPoint.LastChild:
+                    // Default behavior, do nothing
                     break;
-                    case InsertionPoint.BeforeSelection:
-                        // TO DO
-                    break;
-                    case InsertionPoint.AfterSelection:
-                        int indexAfter = pointer.GetIndexInParentKidsList();
-                        Console.WriteLine(indexAfter);
-                        Console.WriteLine(pointer.GetRole());
+                case InsertionPoint.BeforeSelection:
+                    // Get current index in parent list
+                    int indexBefore = pointer.GetIndexInParentKidsList();
+                    // If the tag is the root or something is really wrong
+                    if (indexBefore == -1) {
+                        // If this happens we don't move up the tree!
+                        Console.Error.WriteLine(
+                            "Warning: Attempted to move tag above root or move to flushed tag"
+                        );
+                        Console.Error.WriteLine("The problem tag is: " + pointer.GetRole());
+                        NotificationUtil.Inform(
+                            NotificationType.Warning,
+                            "Attempted to move to an invalid tag location. Selection will not be moved."
+                        );
+                    } else {
+                        // Move up and set new index
                         pointer.MoveToParent();
-                        Console.WriteLine(pointer.GetRole());
-                        pointer.SetNextNewKidIndex(indexAfter + 1);
+                        pointer.SetNextNewKidIndex(indexBefore);
+                    }
                     break;
-                    default:
+                case InsertionPoint.AfterSelection:
+                    // Get the current position
+                    int indexAfter = pointer.GetIndexInParentKidsList();
+                    pointer.MoveToParent();
+                    // Set the position + 1 for after
+                    pointer.SetNextNewKidIndex(indexAfter + 1);
                     break;
-                }
+                default:
+                    break;
             }
         }
     }

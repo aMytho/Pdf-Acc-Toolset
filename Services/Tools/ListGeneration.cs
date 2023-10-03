@@ -2,7 +2,6 @@
 using iText.Kernel.Pdf;
 using iText.Layout;
 using Pdf_Acc_Toolset.Services.Util;
-using Pdf_Acc_Toolset.Services.Tools.Selection;
 
 namespace Pdf_Acc_Toolset.Services.Tools
 {
@@ -34,6 +33,8 @@ namespace Pdf_Acc_Toolset.Services.Tools
 
             // For each selection target, run the list generation
             foreach (TagTreePointer pointer in selectionTargets) {
+                // Update the selection insertion point if necessary
+                Selection.MoveSelectionToInsertion(pointer);
                 // Add the tag in the specified insertion (handled elsewhere)
                 pointer.AddTag("L");
 
@@ -62,9 +63,6 @@ namespace Pdf_Acc_Toolset.Services.Tools
                     pointer.MoveToParent().MoveToParent();
                 }
 
-                // Complete, move back to root
-                // TO DO - Move this back to where it started
-                pointer.MoveToRoot();
                 // Mark as complete
                 this.TaskComplete = true;
             }

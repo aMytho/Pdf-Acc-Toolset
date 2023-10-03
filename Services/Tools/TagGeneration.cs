@@ -31,39 +31,49 @@ namespace Pdf_Acc_Toolset.Services.Tools
 
         public override void Run()
         {
-            // Get the tag pointer
-            TagTreePointer tags = Document.GetPdfDocument().GetTagStructureContext().GetAutoTaggingPointer();
-            
-            // Get the role for our enum (string representation of the enum)
-            string tagRole = TagUtil.GetTagByEnum(Tag);
-
-            // Add a title/grouping div if a title was requested
-            if (Title != null && Title.Length > 0)
-            {
-                // Add the div
-                tags.AddTag(0, "Div");
-                // Set its title
-                tags.GetContext().GetPointerStructElem(tags).Put(PdfName.T, new PdfString(Title));
+            // Based on the selection, find where to start
+            Selection.FindElements();
+            // Check the selection
+            if (!Selection.FoundSelection()) {
+                NotificationUtil.Inform(NotificationType.Warning, "The task " + this.Name + " did not find a selection. Cancelling Task");
+                return;
             }
+            // Get the selection
+            List<TagTreePointer> selectionTargets = Selection.GetSelection();
 
-            // For each count, add the tag to the tree
-            int i = 0;
-            while (i < Count)
-            {
-                AddTag(tags, tagRole);
-                i++;
+            // For each selection target, run the list generation
+            foreach (TagTreePointer pointer in selectionTargets) {
+                // Update the selection insertion point if necessary
+                Selection.MoveSelectionToInsertion(pointer);
+                
+                // Get the role for our enum (string representation of the enum)
+                string tagRole = TagUtil.GetTagByEnum(Tag);
+
+                // Add a title/grouping div if a title was requested
+                if (Title != null && Title.Length > 0)
+                {
+                    // Add the div
+                    pointer.AddTag("Div");
+                    // Set its title
+                    pointer.GetContext().GetPointerStructElem(pointer).Put(PdfName.T, new PdfString(Title));
+                }
+
+                // For each count, add the tag to the tree
+                int i = 0;
+                while (i < Count)
+                {
+                    AddTag(pointer, tagRole);
+                    i++;
+                }
+
+                // Mark as complete
+                TaskComplete = true;
             }
-
-            // Return to root
-            tags.MoveToRoot();
-
-            // Mark as complete
-            TaskComplete = true;
         }
 
         private void AddTag(TagTreePointer tree, string role) {
             // Add the tag, return to root
-            tree.AddTag(0, role);
+            tree.AddTag(role);
             tree.MoveToParent();
         }
     }

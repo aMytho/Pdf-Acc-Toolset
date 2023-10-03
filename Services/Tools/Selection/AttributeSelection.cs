@@ -76,8 +76,6 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
             if (this.selection.Count > 0) {
                 this.foundSelection = true;
             }
-
-            this.MoveSelectionToInsertion();
         }
 
         private bool CheckTag(TagTreePointer tag)
