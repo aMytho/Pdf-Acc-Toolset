@@ -1,0 +1,58 @@
+@layout DocumentationLayout
+@using Pdf_Acc_Toolset.Services.UI;
+@page "/docs/tools/tag"
+@page "/docs/tools/taggenerator"
+@page "/docs/tools/tag-generator"
+@page "/docs/tools/tag_generator"
+
+<h1 id="tagGen">Tag Generator</h1>
+
+<p>This tool lets you create any tag dynamically. Simply enter the type of tag that you want and the amount. The tag(s) will be generated when the task is ran. Unlike the List/Table generators, this Task only generates the specified tag. Generating a List will not generate the required LI, Lbls, and LBody tags. If you need the full structure consider using those other tools instead.</p>
+
+<p>Since this is just a tagging operation, you will still need to assign content to the list in a PDF editor.</p>
+
+<h2 id="parameters">Parameters</h2>
+
+<div>
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>Group Title <b>(Optional)</b></td>
+            <td>If a title is chosen, a parent Div tag will be generated. All the tags will be contained within that parent. Used by the remediator for identification.</td>
+        </tr>
+        <tr>
+            <td>Tag Amount</td>
+            <td>The amount of tags to generate.</td>
+        </tr>
+        <tr>
+            <td>Tag Type</td>
+            <td>The type of tag to generate. You can generate <em>any</em> tag, but you are responsible for making sure that the structure conforms to accessibility requirements.</td>
+        </tr>
+    </table>
+</div>
+
+<h2 id="output">Output</h2>
+
+<p>
+    Output with a group title of "Example" and 5 H6 tags.
+</p>
+
+<img src="/img/docs/tagExample.png" alt="Generated structure. There is a parent Div with 5 header 6 elements as the children. The title is 'example title'" title="Output of the tag tool">
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Make a new list of toc items
+        List<TocItem> list = new List<TocItem>();
+        // Set the items
+        list.Add(new TocItem("tagGen", 1, "Tag Generator"));
+        list.Add(new TocItem("parameters", 2, "Parameters"));
+        list.Add(new TocItem("output", 2, "Output"));
+        // Send to TOC service
+        TocService.SetToc(list);
+        base.OnInitialized();
+    }
+}
