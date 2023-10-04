@@ -3,13 +3,13 @@ A web application to help make PDFs accessible. Built with [Blazor](https://dotn
 
 ## Purpose
 
-The main app to make PDFs accessible is Adobe Acrobat Pro DC. However, this app is full of bugs, inefficient workflows, and costs far too much for what is is. Additionally, there are little to no alternatives. While other PDF editors exist, none support accessibility options aside from a [CommonLook Plugin for Acrobat](https://commonlook.com/accessibility-software/pdf/) and a [cloud based](https://equidox.co/pdf-solutions/pdf-accessibility-software/) platform (Equidox). Both of these are valid options, but they don't list a price on their website. Not good!
+This application exists to improve the PDF accessibility process. Many operations involving the tag tree are *very* repetitive. This application removes a lot of the manual work that was previously done with a tool like Adobe Acrobat.
 
-You shouldn't need to pay a fee to make a document accessible. This project will help to fix that issue.
+This is a free and open source app. It can run in your browser without any installation. All PDF modification is done locally on the client machine. You shouldn't need to pay a fee to make a document accessible. This project will help to fix that issue.
 
 ## Features
 
-While the end goal is to remove Acrobat from the accessibility workflow entirely, we have a *long* ways to go. At the moment, the project focuses on removing the operations that take the most time. The current features are as follows:
+While the end goal is to remove Acrobat (and any paid tool) from the accessibility workflow entirely, we have a *long* ways to go. At the moment, the project focuses on removing the operations that take the most time. The current features are as follows:
 
 - List Generation: Generates a proper list with all the required tags. Useful for when you have lists that were detected as individual paragraphs.
 - Table Generation: Generates a proper table with a specified amount of rows and columns. The first row are automatically TH elements.
@@ -17,9 +17,39 @@ While the end goal is to remove Acrobat from the accessibility workflow entirely
 
 ## Installation
 
-At the moment, you must build the project yourself. You will need the .NET 7 (SDK and Runtime) as well as the corresponding ASP release. I will switch to using Github Pages once I can confirm the project is stable.
+I will switch to using Github Pages once the project is stable. This will allow anyone access without the need to install development tools.
 
-A proper dev guide will also be included when the project is stable.
+At the moment, you must build the project yourself. You will need the [.NET 7 SDK and Runtime Environment](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) as well as the corresponding ASP release. To generate the CSS you will an need an LTS build of [NodeJS/NPM](https://nodejs.org/en).
+
+> Getting the correct version of .NET can be difficult. If you are not sure what to install, download the SDK for 7.0.x. Run it. Once completed, restart your PC. Continue with the below instructions. When you get to running the application, .NET will provide the links to the exact versions you need.
+> The same process applies if you already have a .NET SDK or Runtime installed. Open a terminal and run `dotnet --list-sdks` or `dotnet list-runtimes` to see the installed versions.
+
+### Download the Project
+
+First, download the source code. You can download the zip using the green "Code" button at the top of this page or use a git command `git clone https://github.com/amytho/pdf-acc-toolset`
+
+### Install Dependencies
+
+Next, install iText and the other dependencies. `dotnet restore`
+
+### Build the CSS
+
+This project uses TailwindCSS. As a result, you need to generate the corresponding CSS files.
+Run the following command: `npm run build`. This will generate an `output.css` file in the `wwwroot/css` directory.
+
+If you intent to make changes to the CSS, run `npm run dev`. This will automatically recompile when a file is updated.
+
+> The first time you run this command it will ask you to install the Tailwind NPX executable.
+
+### Run the Project
+
+Run the command to start the project.
+
+`dotnet watch`
+
+This will start the project in development mode. Your browser will be opened to `localhost:5005`. You can now use the project!
+
+> You may be asked to trust the ASP certificate. This is only required if you want to use the HTTPS version. There is no functional difference between the two since all PDF modification is done client-side.
 
 ## Usage
 

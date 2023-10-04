@@ -102,14 +102,23 @@ namespace Pdf_Acc_Toolset.Services
             pdfDownloadable = true;
 		}
 
-		/// <summary>
-		/// Returns the active document
-		/// </summary>
-		/// <returns></returns>
-		public static Document GetDocument()
-		{
-			return document;
-		}
+        /// <summary>
+        /// Returns the active document
+        /// </summary>
+        /// <returns></returns>
+        public static Document GetDocument()
+        {
+            if (document.GetPdfDocument().IsClosed())
+            {
+                Console.WriteLine("Attempted to access a closed document");
+                NotificationUtil.Inform(
+                    NotificationType.Error,
+                    "The PDF is closed. Upload a new PDF to make changes"
+                );
+                return null;
+            }
+            return document;
+        }
 
         public static TagTreePointer GetTagRoot()
         {

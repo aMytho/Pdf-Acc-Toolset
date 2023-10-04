@@ -19,5 +19,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddSingleton<PdfManager>();
 builder.Services.AddSingleton<TaskManager>();
 
+// Set the Env
+Config.Env = builder.HostEnvironment.Environment;
+Console.WriteLine("Env is " + Config.Env);
 
 await builder.Build().RunAsync();
