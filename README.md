@@ -30,7 +30,9 @@ First, download the source code. You can download the zip using the green "Code"
 
 ### Install Dependencies
 
-Next, install iText and the other dependencies. `dotnet restore`
+Next, install iText and the other dependencies: `dotnet restore`
+
+To generate the styles you will need to install the NodeJS dependencies: `npm install`
 
 ### Build the CSS
 
