@@ -10,7 +10,8 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
         private Attribute atr;
         private string val;
 
-        public AttributeSelection(TagTreePointer input, InsertionPoint ins, Attribute atr, string val, int limit = -1) : base() {
+        public AttributeSelection(TagTreePointer input, InsertionPoint ins, Attribute atr, string val, int limit = -1) : base()
+        {
             this.inputTags = input;
             this.atr = atr;
             this.val = val;
@@ -30,13 +31,14 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
             void CheckChildElement(TagTreePointer children)
             {
                 // Make sure that we are not violating the limit
-                if (matchingTags.Count + 1 > this.limit) {
+                if (matchingTags.Count + 1 > this.limit)
+                {
                     return;
                 }
 
                 Console.WriteLine("Checking into tag: " + children.GetRole());
                 Console.WriteLine("The tag has actual text of: " + children.GetProperties().GetActualText());
-                
+
                 // Check the current child
                 if (CheckTag(children))
                 {
@@ -51,13 +53,15 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
                 IList<IStructureNode> childKids = children.GetContext().GetPointerStructElem(children).GetKids();
 
                 // More kids to check
-                if (childKids != null && childKids.Count > 0) {
+                if (childKids != null && childKids.Count > 0)
+                {
                     Console.WriteLine("The tag has kids: " + childKids.Count);
                     // Make a new pointer for the current tag
                     for (int i = 0; i < childKids.Count; i++)
                     {
                         // If the kid is null or content, skip it
-                        if (childKids[i] == null || childKids[i].GetType() != typeof(PdfStructElem)) {
+                        if (childKids[i] == null || childKids[i].GetType() != typeof(PdfStructElem))
+                        {
                             continue;
                         }
 
@@ -73,37 +77,64 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
             // Set result
             this.selection = matchingTags;
             Console.WriteLine("Selection items: " + this.selection.Count);
-            if (this.selection.Count > 0) {
+            if (this.selection.Count > 0)
+            {
                 this.foundSelection = true;
             }
         }
 
         private bool CheckTag(TagTreePointer tag)
         {
-            if (atr == Attribute.Id) {
-                // Get the ID
-                byte[] buffer = tag.GetProperties().GetStructureElementId();
-                // Handle it being null (no id)
-                if (buffer == null) {
-                    return false;
-                }
-
-                // convert it to a string
-                try {
-                    string id = System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+            switch (atr)
+            {
+                case Attribute.Title:
+                    // Get the title of the tag
+                    // PDFName.T is the title attribute
+                    PdfString title = tag.GetContext().GetPointerStructElem(tag).GetPdfObject().GetAsString(PdfName.T);
                     // Check if its a match
-                    return id.Equals(val);
-                } catch(Exception e) {
-                    Console.WriteLine("Error converting tag ID to string");
-                    Console.WriteLine(e);
-                    return false;
-                }
-            } else if (atr == Attribute.Title) {
-                // Get the title of the tag
-                // PDFName.T is the title attribute
-                PdfString title = tag.GetContext().GetPointerStructElem(tag).GetPdfObject().GetAsString(PdfName.T);
-                // Check if its a match
-                return title != null && title.ToString().Equals(val);
+                    return title != null && title.ToString().Equals(val);
+                case Attribute.Id:
+                    // Get the ID
+                    byte[] buffer = tag.GetProperties().GetStructureElementId();
+                    // Handle it being null (no id)
+                    if (buffer == null)
+                    {
+                        return false;
+                    }
+
+                    // convert it to a string
+                    try
+                    {
+                        string id = System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                        // Check if its a match
+                        return id.Equals(val);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error converting tag ID to string");
+                        Console.WriteLine(e);
+                        return false;
+                    }
+                case Attribute.ActualText:
+                    string actualText = tag.GetProperties().GetActualText();
+                    // No actual text
+                    if (actualText == null || actualText.Length == 0)
+                    {
+                        // If we wanted no length, return true, else false
+                        return val.Length == 0;
+                    }
+                    // Return if the actual text is the value we want
+                    return actualText.Equals(val);
+                case Attribute.AltText:
+                    string altText = tag.GetProperties().GetAlternateDescription();
+                    // No alternate text
+                    if (altText == null || altText.Length == 0)
+                    {
+                        // If we wanted no length, return true, else false
+                        return val.Length == 0;
+                    }
+                    // Return if the alt text is the val we want
+                    return altText.Equals(val);
             }
 
             // False by default, handles any other case
@@ -114,6 +145,8 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
     public enum Attribute
     {
         Title,
-        Id
+        Id,
+        ActualText,
+        AltText
     }
 }
