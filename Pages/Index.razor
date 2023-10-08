@@ -64,6 +64,9 @@
         case Tools.TagGen:
             <TagGenerator />
             break;
+        case Tools.AttributeModifier:
+            <AttributeModifier />
+            break;
         case Tools.None:
             break;
         default:
@@ -73,7 +76,7 @@
 
 
 @code {
-    public enum Tools { ListGen, TableGen, TagGen, Validation, None };
+    public enum Tools { ListGen, TableGen, TagGen, AttributeModifier, None };
     public Tools activeTool = Tools.None;
 
     public bool showImport = false;
