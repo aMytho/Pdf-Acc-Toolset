@@ -4,8 +4,10 @@
 
 <label for="attribute">Attribute:</label>
 <select @onchange="OnAttrChange" class="bg-gray-800 rounded-md p-2 text-green-400" name="" id="attribute">
-    <option value="@Services.Tools.Selection.Attribute.Title">Title</option>
-    <option value="@Services.Tools.Selection.Attribute.Id">Id</option>
+    @foreach (var attr in Enum.GetValues(typeof(Services.Tools.Selection.Attribute)))
+    {
+        <option value="@attr">@attr</option>
+    }
 </select>
 
 <p>Enter the value for the selected attribute. Depending on the attribute, this operation <b>may contain duplicates</b>.</p>
