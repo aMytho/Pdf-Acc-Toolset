@@ -1,0 +1,26 @@
+@using Pdf_Acc_Toolset.Services;
+
+<p>
+    @switch(targetTask.Name) {
+        case "Attribute Modifier":
+            <p>Attr</p>
+        break;
+        case "List Generator":
+            <p>List Gen</p>
+        break;
+        case "Table Generator":
+            <p>Table Gen</p>
+        break;
+        case "Tag Generator":
+            <p>Tag Gen</p>
+        break;
+
+        default:
+        break;
+    }
+</p>
+
+@code {
+    [Parameter]
+    public AccessibilityTask targetTask { get; set; }
+}
