@@ -19,9 +19,9 @@ While the end goal is to remove Acrobat (and any paid tool) from the accessibili
 
 I will switch to using Github Pages once the project is stable. This will allow anyone access without the need to install development tools.
 
-At the moment, you must build the project yourself. You will need the [.NET 7 SDK and Runtime Environment](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) as well as the corresponding ASP release. To generate the CSS you will an need an LTS build of [NodeJS/NPM](https://nodejs.org/en).
+At the moment, you must build the project yourself. You will need the [.NET 8 SDK and Runtime Environment](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) as well as the corresponding ASP release. To generate the CSS you will an need an LTS build of [NodeJS/NPM](https://nodejs.org/en).
 
-> Getting the correct version of .NET can be difficult. If you are not sure what to install, download the SDK for 7.0.x. Run it. Once completed, restart your PC. Continue with the below instructions. When you get to running the application, .NET will provide the links to the exact versions you need.
+> Getting the correct version of .NET can be difficult. If you are not sure what to install, download the SDK for 8.0.x. Run it. Once completed, restart your PC. Continue with the below instructions. When you get to running the application, .NET will provide the links to the exact versions you need.
 > The same process applies if you already have a .NET SDK or Runtime installed. Open a terminal and run `dotnet --list-sdks` or `dotnet list-runtimes` to see the installed versions.
 
 ### Download the Project
