@@ -46,6 +46,9 @@ namespace Pdf_Acc_Toolset.Services.Tools
                     Remove(attribute, pointer);
                 }
             }
+
+            // Mark as complete
+            this.TaskComplete = true;
         }
 
         private void Add(Selection.Attribute attr, TagTreePointer tag)
@@ -105,13 +108,13 @@ namespace Pdf_Acc_Toolset.Services.Tools
                     tag.GetContext().GetPointerStructElem(tag).Put(PdfName.T, new PdfString(""));
                 break;
                 case Tools.Selection.Attribute.Id:
-                    tag.GetProperties().SetStructureElementIdString(null);
+                    tag.GetProperties().SetStructureElementIdString("");
                 break;
                 case Tools.Selection.Attribute.ActualText:
-                    tag.GetProperties().SetActualText(null);
+                    tag.GetProperties().SetActualText("");
                 break;
                 case Tools.Selection.Attribute.AltText:
-                    tag.GetProperties().SetAlternateDescription(null);
+                    tag.GetProperties().SetAlternateDescription("");
                 break;
             }
         }
