@@ -140,6 +140,16 @@ namespace Pdf_Acc_Toolset.Services
             // Update error message if they try to download after close
             hasDownloaded = true;
 		}
+
+        /// <summary>
+        /// Removes the memory stream and the PDF data.
+        /// Run after calling Save()
+        /// </summary>
+        public static void Close()
+        {
+            document = null;
+            outFile = null;
+        }
 	}
 
 	public struct ImportOperation<T>

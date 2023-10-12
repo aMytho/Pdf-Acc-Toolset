@@ -144,6 +144,11 @@
         // Send the data to JS to actually download the file
         await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", CorrectFilename(PdfManager.filename), "application/octet-stream", data);
         NotificationUtil.Inform(NotificationType.Success, "Starting Download...");
+
+        // Reset all PDF data
+        PdfManager.Close();
+        // Remove any tasks
+        TaskManager.RemoveTasks();
     }
 
     // Handle bad filenames

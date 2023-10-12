@@ -121,6 +121,14 @@ namespace Pdf_Acc_Toolset.Services
         {
             return Tasks.Where(task => task.TaskComplete == false);
         }
+
+        public static void RemoveTasks()
+        {
+            Tasks.Clear();
+            TasksRan = 0;
+
+            NotificationUtil.Inform(NotificationType.Info, "Task Queue Cleared");
+        }
     }
 
     /// <summary>
