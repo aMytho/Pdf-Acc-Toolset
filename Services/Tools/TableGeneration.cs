@@ -7,15 +7,15 @@ namespace Pdf_Acc_Toolset.Services.Tools
 {
     public class TableGeneration : AccessibilityTask
     {
-        private string Title;
-        private int Rows;
-        private int Cols;
+        private string title;
+        private int rows;
+        private int cols;
 
         public TableGeneration(Document document, Selection.Selection selection, string title, int rows, int cols) : base(document, selection)
         {
-            this.Title = title;
-            this.Rows = rows;
-            this.Cols = cols;
+            this.title = title;
+            this.rows = rows;
+            this.cols = cols;
             this.Name = "Table Generator";
         }
 
@@ -40,19 +40,19 @@ namespace Pdf_Acc_Toolset.Services.Tools
                 pointer.AddTag("Table");
 
                 // Set the ID if it exists
-                if (this.Title != null && this.Title.Length > 0)
+                if (this.title != null && this.title.Length > 0)
                 {
                     // Get the PDF dictionary for the table, add it to tree. PdfName.T represents the title
-                    pointer.GetContext().GetPointerStructElem(pointer).Put(PdfName.T, new PdfString(this.Title));
+                    pointer.GetContext().GetPointerStructElem(pointer).Put(PdfName.T, new PdfString(this.title));
                 }
 
                 // For each row to be generated, add the required columns
-                for (int i = 0; i < this.Rows; i++)
+                for (int i = 0; i < this.rows; i++)
                 {
                     // Add the table row
                     pointer.AddTag("TR");
                     // Adds the table column cells
-                    for (int j = 0; j < this.Cols; j++)
+                    for (int j = 0; j < this.cols; j++)
                     {
                         // If this is the first row, add header cells
                         if (i == 0)
@@ -85,6 +85,24 @@ namespace Pdf_Acc_Toolset.Services.Tools
                 // Mark as complete
                 TaskComplete = true;
             }
+        }
+
+        /// <summary>
+        /// Returns the amount of rows to be generated
+        /// </summary>
+        /// <returns></returns>
+        public int GetRowCount()
+        {
+            return rows;
+        }
+
+        /// <summary>
+        /// Returns the amount of columns to be generated
+        /// </summary>
+        /// <returns></returns>
+        public int GetColumnCount()
+        {
+            return cols;
         }
     }
 }

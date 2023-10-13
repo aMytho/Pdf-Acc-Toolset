@@ -10,22 +10,22 @@ namespace Pdf_Acc_Toolset.Services.Tools
         /// <summary>
         /// The group title for the elements to be generated. May be empty
         /// </summary>
-        private string Title;
+        private string title;
         /// <summary>
         /// The amount of tags to generate
         /// </summary>
-        private int Count;
+        private int count;
 
         /// <summary>
         /// The type of tag to generate
         /// </summary>
-        private TagType Tag;
+        private TagType tag;
 
         public TagGeneration(Document document, Selection.Selection selection, string title, TagType tag, int count) : base(document, selection)
         {
-            this.Title = title;
-            this.Tag = tag;
-            this.Count = count;
+            this.title = title;
+            this.tag = tag;
+            this.count = count;
             this.Name = "Tag Generator";
         }
 
@@ -47,20 +47,20 @@ namespace Pdf_Acc_Toolset.Services.Tools
                 Selection.MoveSelectionToInsertion(pointer);
                 
                 // Get the role for our enum (string representation of the enum)
-                string tagRole = TagUtil.GetTagByEnum(Tag);
+                string tagRole = TagUtil.GetTagByEnum(tag);
 
                 // Add a title/grouping div if a title was requested
-                if (Title != null && Title.Length > 0)
+                if (title != null && title.Length > 0)
                 {
                     // Add the div
                     pointer.AddTag("Div");
                     // Set its title
-                    pointer.GetContext().GetPointerStructElem(pointer).Put(PdfName.T, new PdfString(Title));
+                    pointer.GetContext().GetPointerStructElem(pointer).Put(PdfName.T, new PdfString(title));
                 }
 
                 // For each count, add the tag to the tree
                 int i = 0;
-                while (i < Count)
+                while (i < count)
                 {
                     AddTag(pointer, tagRole);
                     i++;
@@ -75,6 +75,24 @@ namespace Pdf_Acc_Toolset.Services.Tools
             // Add the tag, return to root
             tree.AddTag(role);
             tree.MoveToParent();
+        }
+
+        /// <summary>
+        /// Returns the amount of tags to be generated
+        /// </summary>
+        /// <returns></returns>
+        public int GetTagCount()
+        {
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the type of tag to be generated
+        /// </summary>
+        /// <returns></returns>
+        public TagType GetTagType()
+        {
+            return tag;
         }
     }
 }

@@ -1,4 +1,5 @@
 @using Pdf_Acc_Toolset.Services;
+@using Pdf_Acc_Toolset.Services.Tools;
 
 <p>
     @switch(targetTask.Name) {
@@ -6,15 +7,20 @@
             <p>Attr</p>
         break;
         case "List Generator":
-            <p>List Gen</p>
+            ListGeneration list = (ListGeneration)targetTask;
+            <p>List Items: @list.GetListItemCount()</p>
+            <p>Labels: @list.GetLabels()</p>
         break;
         case "Table Generator":
-            <p>Table Gen</p>
+            TableGeneration table = (TableGeneration)targetTask;
+            <p>Rows: @table.GetRowCount()</p>
+            <p>Columns: @table.GetColumnCount()</p>
         break;
         case "Tag Generator":
-            <p>Tag Gen</p>
+            TagGeneration tag = (TagGeneration)targetTask;
+            <p>Tag Amount: @tag.GetTagCount()</p>
+            <p>Tag Type: @Enum.GetName(typeof(Services.Util.TagType), tag.GetTagType())</p>
         break;
-
         default:
         break;
     }
