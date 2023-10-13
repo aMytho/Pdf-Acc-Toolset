@@ -47,6 +47,8 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public EventCallback OnTaskAdded { get; set; }
     private ListGenModel Model { get; set; }
 
     private Selection.SelectionModel SelectionModel { get; set; } = new();
@@ -99,8 +101,8 @@
         // Add the task to the queue
         TaskManager.AddTask(generation);
 
-        // Reset the modal (to do - show a notification that it worked or something)
-        Reset();
+        // Close the tool window
+        OnTaskAdded.InvokeAsync();
     }
 
 

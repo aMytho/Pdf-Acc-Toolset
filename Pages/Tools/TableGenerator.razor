@@ -9,7 +9,7 @@
     Generate a table using the options below. You must generate at least 1 row.
     Enter the amount of rows and columns to be created. The first row will automatically be header cells.
     The title is for making the table easier to identify if you are inserting multiple tables.
-    See List Documentation for more information.
+    See Table Documentation for more information.
 </p>
 
 <EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
@@ -44,7 +44,9 @@
 </EditForm>
 
 @code {
-    public TableGenModel Model { get; set; }
+    [Parameter]
+    public EventCallback OnTaskAdded { get; set; }
+    private TableGenModel Model { get; set; }
 
     private Selection.SelectionModel SelectionModel { get; set; } = new();
     protected override void OnInitialized()
@@ -93,8 +95,8 @@
         // Add the task to the queue
         TaskManager.AddTask(generation);
 
-        // Reset the modal (to do - show a notification that it worked or something)
-        Reset();
+        // Close the tool window
+        OnTaskAdded.InvokeAsync();
     }
 
     public class TableGenModel

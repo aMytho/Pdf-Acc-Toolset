@@ -51,7 +51,9 @@
 </EditForm>
 
 @code {
-    public TagGenModel Model { get; set; }
+    [Parameter]
+    public EventCallback OnTaskAdded { get; set; }
+    private TagGenModel Model { get; set; }
     private Selection.SelectionModel SelectionModel { get; set; } = new();
     protected override void OnInitialized()
     {
@@ -100,8 +102,8 @@
         // Add the task to the queue
         TaskManager.AddTask(generation);
 
-        // Reset the modal (to do - show a notification that it worked or something)
-        Reset();
+        // Close tool window
+        OnTaskAdded.InvokeAsync();
     }
 
     public class TagGenModel

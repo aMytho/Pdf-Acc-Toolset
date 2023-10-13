@@ -56,16 +56,16 @@
     @switch (activeTool)
     {
         case Tools.ListGen:
-            <ListGenerator />
+            <ListGenerator OnTaskAdded="OnTaskAdded" />
             break;
         case Tools.TableGen:
-            <TableGenerator />
+            <TableGenerator OnTaskAdded="OnTaskAdded" />
             break;
         case Tools.TagGen:
-            <TagGenerator />
+            <TagGenerator OnTaskAdded="OnTaskAdded" />
             break;
         case Tools.AttributeModifier:
-            <AttributeModifier />
+            <AttributeModifier OnTaskAdded="OnTaskAdded" />
             break;
         case Tools.None:
             break;
@@ -87,11 +87,18 @@
     public PdfImportConfig import;
     public MemoryStream ms;
 
-
     public void OnToolSelected(int tool)
     {
         // Set the active tool
         this.activeTool = (Tools)tool;
+    }
+
+    /// <summary>
+    /// When a task is added, close the tool window
+    /// </summary>
+    private void OnTaskAdded()
+    {
+        activeTool = Tools.None;
     }
 
     /// <summary>
