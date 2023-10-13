@@ -6,8 +6,6 @@ namespace Pdf_Acc_Toolset.Services.Tools.Selection
 {
     public abstract class Selection
     {
-        private string name;
-
         protected int limit;
 
         protected TagTreePointer inputTags;
