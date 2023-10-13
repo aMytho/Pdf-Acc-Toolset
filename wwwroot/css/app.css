@@ -95,4 +95,9 @@ Base toast class. All toasts have this
     word-wrap: normal !important;
     word-break: keep-all !important;
     -moz-hyphens: none !important;
+    hyphens: none;
+}
+
+a:hover {
+    filter: brightness(1.3);
 }
