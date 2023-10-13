@@ -1,0 +1,84 @@
+@using Pdf_Acc_Toolset.Pages.Tools;
+@using Pdf_Acc_Toolset.Services;
+@page "/tools"
+
+
+<h2 class="text-4xl font-bold">Toolbox</h2>
+
+<p class="text-lg mt-2">Below are the available tools. Each tool will generate a single Task. Tasks can be seen in the
+    Queue.</p>
+<!-- Put the toolbox in the center -->
+<div class="mr-8 mt-2 border border-solid border-green-400 @GetToolboxClass()">
+    <Toolbox OnToolSelected="OnToolSelected"></Toolbox>
+</div>
+
+@if (!showToolbox) {
+    <p class="text-red-500 text-lg mt-2">In order to access the tools, you must first import a PDF!</p>
+}
+
+<!-- Tool window -->
+<div class="mt-4 mx-2">
+    @switch (activeTool)
+    {
+        case Tools.ListGen:
+            <ListGenerator OnTaskAdded="OnTaskAdded" />
+            break;
+        case Tools.TableGen:
+            <TableGenerator OnTaskAdded="OnTaskAdded" />
+            break;
+        case Tools.TagGen:
+            <TagGenerator OnTaskAdded="OnTaskAdded" />
+            break;
+        case Tools.AttributeModifier:
+            <AttributeModifier OnTaskAdded="OnTaskAdded" />
+            break;
+        case Tools.None:
+            break;
+        default:
+            break;
+    }
+</div>
+
+@code {
+    private enum Tools { ListGen, TableGen, TagGen, AttributeModifier, None };
+    private Tools activeTool = Tools.None;
+    private bool showToolbox = false;
+
+    private string GetToolboxClass() {
+        // Returns a tailwind class based on if a PDF is imported
+        if (showToolbox) {
+            return "";
+        } else {
+            return "opacity-60 grayscale cursor-not-allowed";
+        }
+    }
+
+    private void OnToolSelected(int tool)
+    {
+        // If a PDF isn't imported, don't allow the switch!
+        if (!showToolbox) {
+            return;
+        }
+
+        // Set the active tool
+        this.activeTool = (Tools)tool;
+    }
+
+    /// <summary>
+    /// When a task is added, close the tool window
+    /// </summary>
+    private void OnTaskAdded()
+    {
+        activeTool = Tools.None;
+    }
+
+    protected override void OnInitialized()
+    {
+        // Only show the toolbox if a PDF is imported
+        if (PdfManager.outFile != null)
+        {
+            showToolbox = true;
+        }
+        base.OnInitialized();
+    }
+}

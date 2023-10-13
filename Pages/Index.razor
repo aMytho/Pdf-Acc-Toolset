@@ -1,6 +1,6 @@
-﻿@using Pdf_Acc_Toolset.Pages.Tools;
-@using Pdf_Acc_Toolset.Services;
-@inject IToastService toastService;
+﻿@using Pdf_Acc_Toolset.Services;
+@using Pdf_Acc_Toolset.Services.Util;
+@inject NavigationManager Navigation
 
 @page "/"
 
@@ -25,10 +25,12 @@
         </label>
     </form>
 </div>
+
+
 @if (@showReimportWarning)
 {
     <p class="text-red-500 m-2 font-bold">
-        Uploading a new PDF will remove all of your queued changes! Save the current PDF to avoid losing them.
+        Importing a new PDF will remove all of your queued changes! Save the current PDF to avoid losing them.
     </p>
 }
 
@@ -42,75 +44,25 @@
 </div>
 
 
-@if (showToolbox == true)
-{
-    <!-- Put the toolbox in the center-->
-    <h3 class="mt-2 text-2xl font-semibold">Toolbox</h3>
-    <div class="mr-8 border border-solid border-green-400">
-        <Toolbox OnToolSelected="OnToolSelected"></Toolbox>
-    </div>
-}
-
-<!-- Tool window -->
-<div class="mt-4 mx-2">
-    @switch (activeTool)
-    {
-        case Tools.ListGen:
-            <ListGenerator OnTaskAdded="OnTaskAdded" />
-            break;
-        case Tools.TableGen:
-            <TableGenerator OnTaskAdded="OnTaskAdded" />
-            break;
-        case Tools.TagGen:
-            <TagGenerator OnTaskAdded="OnTaskAdded" />
-            break;
-        case Tools.AttributeModifier:
-            <AttributeModifier OnTaskAdded="OnTaskAdded" />
-            break;
-        case Tools.None:
-            break;
-        default:
-            break;
-    }
-</div>
-
-
 @code {
-    public enum Tools { ListGen, TableGen, TagGen, AttributeModifier, None };
-    public Tools activeTool = Tools.None;
+    private bool showImport = false;
+    private bool showReimportWarning = false;
 
-    public bool showImport = false;
-    public bool showToolbox = false;
-
-    public bool showReimportWarning = false;
-
-    public PdfImportConfig import;
-    public MemoryStream ms;
-
-    public void OnToolSelected(int tool)
-    {
-        // Set the active tool
-        this.activeTool = (Tools)tool;
-    }
-
-    /// <summary>
-    /// When a task is added, close the tool window
-    /// </summary>
-    private void OnTaskAdded()
-    {
-        activeTool = Tools.None;
-    }
+    private PdfImportConfig import;
+    private MemoryStream ms;
 
     /// <summary>
     /// Requests an uploaded file and sends it to the PDF manager
     /// </summary>
-    public async void UploadFile(InputFileChangeEventArgs e)
+    private async void UploadFile(InputFileChangeEventArgs e)
     {
         Console.WriteLine("Starting Upload...");
         // Validate the PDF, accept only 1, must be a pdf
         if (e.FileCount != 1 || !e.File.Name.EndsWith("pdf"))
         {
-            toastService.ShowError("Upload Failed. Ensure that a single PDF was uploaded.");
+            NotificationUtil.Inform(NotificationType.Error,
+                "Upload Failed. Ensure that a single PDF was uploaded."
+            );
             return;
         }
 
@@ -123,11 +75,15 @@
             ms.Position = 0;
         } catch (IOException)
         {
-            toastService.ShowError("Upload Failed. Ensure that a valid PDF was uploaded");
+            NotificationUtil.Inform(NotificationType.Error,
+                "Upload Failed. Ensure that a valid PDF was uploaded"
+            );
             return;
         } catch (Exception)
         {
-            toastService.ShowError("Unknown PDF upload error.");
+            NotificationUtil.Inform(NotificationType.Error,
+                "Unknown PDF upload error."
+            );
             return;
         }
 
@@ -148,14 +104,21 @@
         // Add the filename
         this.import.Filename = e.File.Name;
 
+        // Clear any existing tasks
+        if (!TaskManager.IsEmpty()) {
+            TaskManager.RemoveTasks();
+        }
+
         // Request import settings from user
         this.showImport = true;
         StateHasChanged();
     }
 
-    public void OnImportSet(ImportSettings.ImportSelection import)
+    private void OnImportSet(ImportSettings.ImportSelection import)
     {
-        toastService.ShowSuccess("Import Complete! You may begin the edit process.");
+        NotificationUtil.Inform(NotificationType.Success,
+            "Import Complete! You may begin the edit process."
+        );
 
         // Move to the next section
         this.showImport = false;
@@ -176,8 +139,8 @@
 
         Console.WriteLine("Writable file is ready");
 
-        // Show toolox
-        this.showToolbox = true;
+        // Switch to the tools page
+        Navigation.NavigateTo("/tools");
     }
 
     /// <summary>
@@ -196,7 +159,6 @@
         if (PdfManager.outFile != null)
         {
             this.showImport = false;
-            this.showToolbox = true;
             this.showReimportWarning = true;
         }
         base.OnInitialized();
