@@ -14,71 +14,74 @@
         @if (menu == NavMenus.Main) {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Tools
+                    <span class="oi" aria-hidden="true"></span> Tools
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="tasks">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Queued Tasks
+                    <span class="oi" aria-hidden="true"></span> Queued Tasks
+                    @if (taskCounter != null) {
+                        <Badge content="@taskCounter" />
+                    }
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link cursor-not-allowed opacity-50" href="counter" title="Coming Soon">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Inspector
+                    <span class="oi" aria-hidden="true"></span> Inspector
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link cursor-not-allowed opacity-50" href="download" title="Coming Soon">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Validation
+                    <span class="oi" aria-hidden="true"></span> Validation
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="docs">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Documentation
+                    <span class="oi" aria-hidden="true"></span> Documentation
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link cursor-not-allowed opacity-50" href="fetchdata" title="Coming Soon">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> History
+                    <span class="oi" aria-hidden="true"></span> History
                 </NavLink>
             </div>
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="save">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Save
+                <NavLink class="nav-link" href="save" title="Review and Export">
+                    <span class="oi" aria-hidden="true"></span> Export
                 </NavLink>
             </div>
             @* Only show the dev menu in dev mode. *@
             if (Config.Env.Equals("Development")) {
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="testing">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> DEV TEST
+                        <span class="oi" aria-hidden="true"></span> DEV TEST
                     </NavLink>
                 </div>
             }
         } else if (menu == NavMenus.Docs) {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Return To Edit
+                    <span class="oi" aria-hidden="true"></span> Return To Edit
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="/docs/tools" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Tools
+                    <span class="oi" aria-hidden="true"></span> Tools
                 </NavLink>
             </div>
             <div class="nav-item px-3 nav-child ml-4">
                 <NavLink class="nav-link" href="/docs/tools/list" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> List Generator
+                    <span class="oi" aria-hidden="true"></span> List Generator
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link nav-child ml-4" href="/docs/tools/table" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Table Generator
+                    <span class="oi" aria-hidden="true"></span> Table Generator
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link nav-child ml-4" href="/docs/tools/tag" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Tag Generator
+                    <span class="oi" aria-hidden="true"></span> Tag Generator
                 </NavLink>
             </div>
         }
@@ -93,13 +96,36 @@
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    // Counter of the non-completed tasks
+    private string taskCounter = null;
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
+    protected override void OnInitialized()
+    {
+        // When the task amount changes, show the new value
+        TaskManager.OnTaskAmountChanged += (sender, amount) =>
+        {
+            // If the task amount is 0, hide the badge. Else, display the new amount
+            if (amount == 0) {
+                taskCounter = null;
+            } else {
+                taskCounter = amount.ToString();
+            }
+            // Re-render badge
+            StateHasChanged();
+        };
+
+        base.OnInitialized();
+    }
+    
+
     // Set the nav menu based on its environment
-    public enum NavMenus {
+    public enum NavMenus
+    {
         Main,
         Docs
     }

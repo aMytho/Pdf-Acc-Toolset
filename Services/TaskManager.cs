@@ -11,6 +11,11 @@ namespace Pdf_Acc_Toolset.Services
 
         private static int TasksRan = 0;
 
+        /// <summary>
+        /// Emits an event when a task is added/deleted or a task's status is changed
+        /// </summary>
+        public static event EventHandler<int> OnTaskAmountChanged;
+
         public static void RunQueuedTasks()
         {
             Console.WriteLine("Running all tasks");
@@ -20,6 +25,7 @@ namespace Pdf_Acc_Toolset.Services
                 if (!task.TaskComplete) {
                     task.Run();
                     TasksRan++;
+                    OnTaskAmountChanged.Invoke(null, GetTasksInQueue().Count());
                 }
             }
             Console.WriteLine("Task Queue Complete");
@@ -34,20 +40,37 @@ namespace Pdf_Acc_Toolset.Services
                 TasksRan++;
                 Console.WriteLine("Task at index: " + index + " ran successfully!");
                 NotificationUtil.Inform(NotificationType.Success, "Task ran successfully");
+                OnTaskAmountChanged.Invoke(null, GetTasksInQueue().Count());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 Console.WriteLine("Attempted to run task at index: " + index + ". FAILED");
+                NotificationUtil.Inform(
+                    NotificationType.Error, "Task failed. See browser console for more info."
+                );
             }
         }
 
+        /// <summary>
+        /// Adds a task to the queue
+        /// </summary>
+        /// <param name="task"></param>
         public static void AddTask(AccessibilityTask task)
         {
+            // Add the task
             Tasks.Add(task);
+            
+            // Show add toast, update badge counter
             Console.WriteLine("Task Created!");
             NotificationUtil.Inform(NotificationType.Info, "Task Created!");
+            OnTaskAmountChanged.Invoke(null, GetTasksInQueue().Count());
         }
 
+        /// <summary>
+        /// Returns every accessibility task regardless of its status
+        /// </summary>
+        /// <returns></returns>
         public static List<AccessibilityTask> GetAccessibilityTasks()
         {
             return Tasks;
@@ -63,6 +86,7 @@ namespace Pdf_Acc_Toolset.Services
                 Tasks.RemoveAt(index);
                 Console.WriteLine("Removing task at index: " + index);
                 NotificationUtil.Inform(NotificationType.Success, "Task Removed");
+                OnTaskAmountChanged.Invoke(null, GetTasksInQueue().Count());
             } catch (ArgumentOutOfRangeException) {
                 Console.WriteLine("Error: Tried to remove a task with an invalid index.");
                 NotificationUtil.Inform(NotificationType.Error, "Task not removed.");
@@ -106,6 +130,7 @@ namespace Pdf_Acc_Toolset.Services
             try
             {
                 Tasks[index].TaskComplete = markComplete;
+                OnTaskAmountChanged.Invoke(null, GetTasksInQueue().Count());
             }
             catch (Exception)
             {
@@ -117,17 +142,25 @@ namespace Pdf_Acc_Toolset.Services
             return TasksRan;
         }
 
+        /// <summary>
+        /// Returns every task that is not yet complete.
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<AccessibilityTask> GetTasksInQueue()
         {
             return Tasks.Where(task => task.TaskComplete == false);
         }
 
+        /// <summary>
+        /// Removes every task in the queue
+        /// </summary>
         public static void RemoveTasks()
         {
             Tasks.Clear();
             TasksRan = 0;
 
             NotificationUtil.Inform(NotificationType.Info, "Task Queue Cleared");
+            OnTaskAmountChanged.Invoke(null, GetTasksInQueue().Count());
         }
     }
 
