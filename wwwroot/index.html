@@ -20,11 +20,13 @@
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <div id="loading"
+        style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+            <div class="m-2">
+                <h1 class="text-6xl font-extrabold">Loading...</h1>
+                <img src="favicon.png" class="rounded-lg mt-4" alt="PDF Accessibility Toolset Logo">
+            </div>
+        </div>
     </div>
 
     <div id="blazor-error-ui">
@@ -64,6 +66,7 @@
             }
         }
     </script>
+
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 

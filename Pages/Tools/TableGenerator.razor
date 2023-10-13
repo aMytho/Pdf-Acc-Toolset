@@ -104,9 +104,9 @@
         public string title { get; set; }
 
         [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
-        public int amountOfRows { get; set; }
+        public int amountOfRows { get; set; } = 1;
 
         [Range(1, 999, ErrorMessage = "Amount must be greater than 0")]
-        public int amountOfColumns { get; set; }
+        public int amountOfColumns { get; set; } = 3;
     }
 }

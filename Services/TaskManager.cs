@@ -152,6 +152,14 @@ namespace Pdf_Acc_Toolset.Services
         }
 
         /// <summary>
+        /// Returns a bool indicating if any tasks exist
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsEmpty() {
+            return Tasks.Count == 0;
+        }
+
+        /// <summary>
         /// Removes every task in the queue
         /// </summary>
         public static void RemoveTasks()
