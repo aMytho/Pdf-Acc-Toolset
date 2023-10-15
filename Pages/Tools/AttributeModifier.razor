@@ -32,8 +32,11 @@
             </select>
         </div>
         <div>
-            <label for="value">Value</label>
-            <InputText id="value" class="bg-gray-800 rounded-md p-2 text-green-400" @bind-Value="model.Value" />
+            <!--Only show the value input if we are not removing an attribut -->
+            @if (model.Action != AttributeAction.Remove) {
+                <label for="value">Value</label>
+                <InputText id="value" class="bg-gray-800 rounded-md p-2 text-green-400" @bind-Value="model.Value" />
+            }
         </div>
     </div>
 

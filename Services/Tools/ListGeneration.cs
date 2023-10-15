@@ -11,10 +11,10 @@ namespace Pdf_Acc_Toolset.Services.Tools
         private int listItemAmount;
         private bool addLabels;
 
-        public ListGeneration(Document document, Selection.Selection selection, string title, int listItemAount, bool addLabels): base(document, selection)
+        public ListGeneration(Document document, Selection.Selection selection, string title, int listItemAmount, bool addLabels): base(document, selection)
         {
             this.title = title;
-            this.listItemAmount = listItemAount;
+            this.listItemAmount = listItemAmount;
             this.addLabels = addLabels;
             this.Name = "List Generator";
         }
@@ -62,11 +62,9 @@ namespace Pdf_Acc_Toolset.Services.Tools
                     // Return to the list parent element for the next iteration
                     pointer.MoveToParent().MoveToParent();
                 }
-
-                // Mark as complete
-                this.TaskComplete = true;
             }
-
+            // Mark as complete
+            this.TaskComplete = true;
         }
 
         /// <summary>
