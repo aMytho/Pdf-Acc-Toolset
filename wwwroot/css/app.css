@@ -89,13 +89,12 @@ a, .btn-link {
 }
 
 /* 
-Base toast class. All toasts have this
+    Base toast class. All toasts have this
+    We prevent word wrap
 */
-.pdf-toast {
-    word-wrap: normal !important;
-    word-break: keep-all !important;
+.pdf-toast > div > div > * {
     -moz-hyphens: none !important;
-    hyphens: none;
+    hyphens: none !important;
 }
 
 a:hover {
