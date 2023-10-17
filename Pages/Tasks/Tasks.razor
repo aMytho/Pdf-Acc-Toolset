@@ -7,7 +7,7 @@
     Below lists all of the tasks you have generated. Tasks will run in the order shown.
     You can also run a task individually. Tasks may be re-ordered if desired.
     If a task is no longer required, you can remove it from the queue.
-    A completed task will not take effect until the file is saved!
+    An incomplete task will not take effect until the file is saved!
 </p>
 
 <hr class="w-11/12 text-center m-4" />
@@ -19,36 +19,14 @@
     @{index = 0;}
     @foreach (AccessibilityTask task in tasks)
     {
+        // Keep track of input
         int loopIndex = index;
-        <div class="relative text-lg p-4 m-2 bg-slate-700 rounded-lg w-full flex justify-between border-r-2 border-r-green-400">
-            <div>
-                <h4 class="">
-                    @task.Name
-                </h4>
 
-                <p>Completed: @task.TaskComplete</p>
-            </div>
-
-            <div class="hidden md:block">
-                <TaskInfo targetTask="task" />
-            </div>
-
-            <div class="bg-slate-600 rounded-md">
-                <div class="flex h-full justify-items-center">
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-green-950 text-green-600"
-                    @onclick="() => RunTask(loopIndex)">Run</span>
-                    
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500"
-                    @onclick="() => MoveTask(loopIndex, Services.MoveTask.Up)">Up</span>
-                    
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500"
-                    @onclick="() => MoveTask(loopIndex, Services.MoveTask.Down)">Down</span>
-                    
-                    <span class="cursor-pointer self-center p-4 rounded-md hover:bg-red-950 text-red-500"
-                    @onclick="() => RemoveTask(loopIndex)">DELETE</span>
-                </div>
-            </div>
-        </div>
+        // Render task
+        <IndividualTask task="task" addControls="true"
+            OnRun="ev => RunTask(loopIndex)" OnDelete="ev => RemoveTask(loopIndex)"
+            OnMove="direction => MoveTask(loopIndex, direction)"
+        />
         
         // Increase index for the next item
         index++;

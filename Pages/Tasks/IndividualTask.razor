@@ -1,0 +1,52 @@
+@using Pdf_Acc_Toolset.Services;
+
+
+<div class="relative text-lg p-4 m-2 bg-slate-700 rounded-lg w-full flex justify-between border-r-2 border-r-green-400">
+    <div>
+        <h4 class="">
+            @task.Name
+        </h4>
+
+        <p>Completed: @task.TaskComplete</p>
+    </div>
+
+    <div class="hidden md:block">
+        <TaskInfo targetTask="task" />
+    </div>
+
+    @if (addControls) {
+        <div class="bg-slate-600 rounded-md">
+            <div class="flex h-full justify-items-center">
+                <span class="cursor-pointer self-center p-4 rounded-md hover:bg-green-950 text-green-600"
+                @onclick="() => OnRun.InvokeAsync()">Run</span>
+
+                <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500"
+                @onclick="() => OnMove.InvokeAsync(MoveTask.Up)">Up</span>
+
+                <span class="cursor-pointer self-center p-4 rounded-md hover:bg-slate-500"
+                @onclick="() => OnMove.InvokeAsync(MoveTask.Down)">Down</span>
+
+                <span class="cursor-pointer self-center p-4 rounded-md hover:bg-red-950 text-red-500"
+                @onclick="() => OnDelete.InvokeAsync()">DELETE</span>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    // If true, will show the controls
+    [Parameter]
+    public bool addControls { get; set; }
+
+    [Parameter]
+    public AccessibilityTask task { get; set; }
+
+    [Parameter]
+    public EventCallback OnRun { get; set; }
+    
+    [Parameter]
+    public EventCallback<MoveTask> OnMove { get; set; }
+    
+    [Parameter]
+    public EventCallback OnDelete { get; set; }
+}
