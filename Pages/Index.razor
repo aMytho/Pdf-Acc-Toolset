@@ -18,7 +18,7 @@
         <p>Select the Get Started button to begin! The PDF never leaves your device.</p>
     </div>
     <form onsubmit="event.preventDefault()" class="grow">
-        <InputFile id="inputFile" OnChange="@UploadFile" accept=".pdf" class="hidden">Upload</InputFile>
+        <InputFile id="inputFile" OnChange="@UploadFile" accept=".pdf" class="hidden">Import</InputFile>
         <label for="inputFile" class="block border-solid bg-emerald-500 hover:bg-emerald-400 hover:bg-opacity-60 bg-opacity-60 border-2 border-emerald-500 p-4 w-full
                 h-full rounded-lg text-lg cursor-pointer text-center">
             Get Started
@@ -56,12 +56,12 @@
     /// </summary>
     private async void UploadFile(InputFileChangeEventArgs e)
     {
-        Console.WriteLine("Starting Upload...");
+        Console.WriteLine("Starting Import...");
         // Validate the PDF, accept only 1, must be a pdf
         if (e.FileCount != 1 || !e.File.Name.EndsWith("pdf"))
         {
             NotificationUtil.Inform(NotificationType.Error,
-                "Upload Failed. Ensure that a single PDF was uploaded."
+                "Import Failed. Ensure that a single PDF was selected."
             );
             return;
         }
@@ -76,13 +76,13 @@
         } catch (IOException)
         {
             NotificationUtil.Inform(NotificationType.Error,
-                "Upload Failed. Ensure that a valid PDF was uploaded"
+                "Import Failed. Ensure that a valid PDF was selected"
             );
             return;
         } catch (Exception)
         {
             NotificationUtil.Inform(NotificationType.Error,
-                "Unknown PDF upload error."
+                "Unknown PDF import error."
             );
             return;
         }
