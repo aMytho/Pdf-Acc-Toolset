@@ -99,6 +99,7 @@ namespace Pdf_Acc_Toolset.Services
 
             // Allow it to be downloaded
             pdfDownloadable = true;
+            hasDownloaded = false;
         }
 
         /// <summary>

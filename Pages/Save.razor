@@ -1,5 +1,6 @@
 ﻿@using Pdf_Acc_Toolset.Services;
 @using Pdf_Acc_Toolset.Services.Util;
+@using Pdf_Acc_Toolset.Pages.Tasks;
 @page "/save"
 @inject IJSRuntime JSRuntime
 
@@ -7,18 +8,45 @@
 
 <p class="text-lg">
     Saving your PDF will start a download for the output file.
-    This will run all of the queued tasks.
     The "download" is how the Toolset exports the PDF.
     The PDF never leaves your device.
+    You can choose to run the remaining tasks or just save the file.
 </p>
 
-<button @onclick="SavePdf" class="p-2 bg-emerald-600 font-bold rounded-lg">Save the PDF</button>
-
 <hr class="w-11/12 text-center m-4">
-
 <h3 class="text-xl">PDF Summary</h3>
 
-<div id="summary" class="flex gap-4 flex-wrap">
+@if (PdfManager.pdfDownloadable) {
+<h4 class="text-lg">Tasks</h4>
+
+<div class="flex flex-col h-full w-1/2">
+    @{taskIndex = 0;}
+    @foreach (AccessibilityTask task in tasks)
+    {
+        // Keep track of input
+        int loopIndex = taskIndex;
+        if (task.TaskComplete) {
+            // Render task
+            <IndividualTask task="task" addControls="false"/>
+        } else {
+            // Render task with color shade
+            <div class="opacity-60 flex flex-row space-x-6" title="In Queue">
+                <div class="basis-5/6">
+                    <IndividualTask task="task" addControls="false"/>
+                </div>
+                <p class="self-center">In-Queue</p>
+            </div>
+        }
+        // Increase index for the next item
+        taskIndex++;
+    }
+</div>
+
+@if (tasks.Count == 0) {
+    <p class="my-8 ml-2 text-red-500 text-lg">No tasks have been ran on this PDF.</p>
+}
+
+<div class="flex gap-4 flex-wrap">
     <div>
         <h4 class="text-lg">PDF Info</h4>
         <table class="border-collapse border border-slate-500 table-auto">
@@ -82,13 +110,29 @@
         </table>
     </div>
 </div>
+    <hr class="w-11/12 text-center m-4">
+
+    <div class="flex space-x-4 mt-2 flex-row">
+        <button @onclick="RunQueueAndSavePdf" class="p-2 bg-emerald-700 hover:bg-emerald-600 font-bold rounded-lg">Run Queue and Export</button>
+        <button @onclick="SavePdf" class="p-2 bg-emerald-700 hover:bg-emerald-600 font-bold rounded-lg">Export PDF</button>
+    </div>
+} else {
+    <p class="text-lg text-red-500">You must import a PDF to view this page. When a PDF is imported the metadata and changes will be displayed.</p>
+}
+
 
 
 @code {
     private PdfInfo info = new();
 
+    private int taskIndex;
+
+    public List<AccessibilityTask> tasks = new();
     protected override void OnInitialized()
     {
+        // Get the tasks in the queue
+        tasks = TaskManager.GetAccessibilityTasks();
+
         // Get the PDF info
         info.lang = PdfInfoUtil.GetLang();
         info.title = PdfInfoUtil.GetTitle();
@@ -111,39 +155,45 @@
         public int pageCount;
     }
 
-
-    public async void SavePdf()
+    private async void SavePdf()
     {
-        if (PdfManager.pdfDownloadable)
-        {
-            // Run the queed tasks and save the PDF
-            TaskManager.RunQueuedTasks();
-            PdfManager.Save();
-            Console.WriteLine("Saving the PDF");
+        // If the user already downloaded the PDF, stop them from trying again
+        if (PdfManager.hasDownloaded) {
+            NotificationUtil.Inform(
+                NotificationType.Error, "You cannot download a PDF once it has been saved."
+            );
+            return;
+        }
+        
+        // Save the PDF
+        PdfManager.Save();
+        Console.WriteLine("Saving the PDF");
+        // Download the PDF
+        await DownloadPdf();
+    }
 
-            // Download the PDF
-            await DownloadPdf();
+    private void RunQueueAndSavePdf()
+    {
+        if (!PdfManager.hasDownloaded) {
+            // Run the queued tasks
+            TaskManager.RunQueuedTasks();
+            // Save the PDF
+            SavePdf();
         } else {
-            if (PdfManager.hasDownloaded) {
-                NotificationUtil.Inform(
-                    NotificationType.Error, "You cannot download a PDF once it has been saved."
-                );
-            } else {
-                NotificationUtil.Inform(
-                    NotificationType.Error, "You must upload a PDF to have a download available."
-                );
-            }
+            NotificationUtil.Inform(
+                NotificationType.Error, "You cannot download a PDF once it has been saved."
+            );
         }
     }
 
-    async Task DownloadPdf()
+    private async Task DownloadPdf()
     {
         // Generate a file
         byte[] data = PdfManager.outFile.ToArray();
-        Console.WriteLine("Downloading PDF");
+        Console.WriteLine("Exporting PDF...");
         // Send the data to JS to actually download the file
         await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", CorrectFilename(PdfManager.filename), "application/octet-stream", data);
-        NotificationUtil.Inform(NotificationType.Success, "Starting Download...");
+        NotificationUtil.Inform(NotificationType.Success, "Starting Export...");
 
         // Reset all PDF data
         PdfManager.Close();
@@ -157,6 +207,7 @@
         if (filename == null) {
             return "Default_Name.pdf";
         }
+
         // No file extension
         if (!filename.EndsWith(".pdf")) {
             return filename + ".pdf";
