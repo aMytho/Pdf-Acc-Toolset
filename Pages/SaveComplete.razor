@@ -1,0 +1,21 @@
+@inject NavigationManager Navigation;
+@page "/complete"
+
+<h2 class="text-4xl font-bold">Export Complete</h2>
+
+<p class="text-lg">The PDF has been exported. Check your downloads folder. Some browsers open the file in a new tab which requires a manual save using the browser-native PDF viewer.</p>
+
+<p class="text-lg">
+    If you don't see the file, try allowing popups and file downloads. If you still can't find the file, <a target="_blank" href="https://github.com/aMytho/pdf-acc-toolset/issues">make an issue</a>.
+</p>
+
+<button
+class="mt-2 p-2 bg-emerald-700 hover:bg-emerald-600 font-bold rounded-lg"
+@onclick="NavigateToImportPage">Return to Import</button>
+
+@code {
+    private void NavigateToImportPage()
+    {
+        Navigation.NavigateTo("/");
+    }
+}
