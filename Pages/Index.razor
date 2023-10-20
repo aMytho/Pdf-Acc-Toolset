@@ -75,6 +75,11 @@
         if (!uploadValid) {
             return;
         }
+
+        // Hide the import/password box if user left previous import process
+        this.showPassword = false;
+        this.showImport = false;
+        StateHasChanged();
         
         // Store the filename
         this.filename = e.File.Name;
@@ -171,8 +176,8 @@
                 );
             break;
             case PdfCheck.Modification:
-                NotificationUtil.Inform(NotificationType.Error,
-                    "This PDF has modification disabled. This PDF cannot be edited!"
+                NotificationUtil.Inform(NotificationType.Warning,
+                    "This PDF has modification disabled. A password is required to edit the document."
                 );
             break;
         }
