@@ -2,6 +2,7 @@
 using iText.Kernel.Pdf.Tagging;
 using iText.Kernel.Pdf.Tagutils;
 using iText.Layout;
+using Pdf_Acc_Toolset.Services.Pdf;
 using Pdf_Acc_Toolset.Services.Util;
 
 namespace Pdf_Acc_Toolset.Services
@@ -22,21 +23,34 @@ namespace Pdf_Acc_Toolset.Services
 
         public static bool pdfDownloadable = false;
         public static bool hasDownloaded = false;
+        private static PdfVersion pdfVersion;
 
-        public static ImportOperation<PdfReader> SetInputFile(Stream file)
+        public static ImportOperation<PdfReader> GetReaderFromFile(Stream file)
         {
-            try
-            {
-                // load the file, close the stream when complete
-                PdfReader reader = new(file);
+            // load the file, close the stream when complete
+            PdfReader reader = new(file);
 
-                // Return the file
-                return new ImportOperation<PdfReader>(reader, true);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            // Return the file
+            return new ImportOperation<PdfReader>(reader, true);
+        }
+
+        /// <summary>
+        /// Gets a PDF reader from a file with a set password
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static ImportOperation<PdfReader> GetReaderFromFile(Stream file, string password)
+        {
+            // Convert the password to byte array
+            PdfVersion version = PdfFormat.GetPdfVersion(file, password);
+            byte[] passwordBytes = PdfFormat.GetEncoding(version).GetBytes(password);
+
+            // load the file, close the stream when complete
+            PdfReader reader = new(file, new ReaderProperties().SetPassword(passwordBytes));
+
+            // Return the file
+            return new ImportOperation<PdfReader>(reader, true);
         }
 
         public static PdfImportConfig GetMetadata(PdfReader reader)
@@ -52,6 +66,10 @@ namespace Pdf_Acc_Toolset.Services
             if (tempPDF.GetCatalog().GetLang() != null) {
                 metadata.Lang = tempPDF.GetCatalog().GetLang().ToString();
             }
+
+            // Store the PDF version for future use
+            // At this point the user is likely going to complete the import
+            pdfVersion = tempPDF.GetPdfVersion();
 
             // Removes the temp PDF from memory
             tempPDF.Close();
@@ -74,9 +92,18 @@ namespace Pdf_Acc_Toolset.Services
                 conf.WriterConfig.AddUAXmpMetadata();
             }
 
+            // Create reader properties
+            ReaderProperties readerProperties = new();
+
+            // Add a password if it exists
+            if (conf.Password != null) {
+                byte[] passwordBytes = PdfFormat.GetEncoding(pdfVersion).GetBytes(conf.Password);
+                readerProperties = new ReaderProperties().SetPassword(passwordBytes);
+            }
+
             // Load the file from disk, apply config
             PdfWriter writer = new(outFile, conf.WriterConfig);
-            PdfDocument pdf = new(new PdfReader(input), writer);
+            PdfDocument pdf = new(new PdfReader(input, readerProperties), writer);
 
             // Store the document in the manager
             document = new Document(pdf);
@@ -97,6 +124,9 @@ namespace Pdf_Acc_Toolset.Services
             // Set role map for custom tags
             TagUtil.SetRoleMap(document.GetPdfDocument().GetStructTreeRoot().GetRoleMap());
 
+            // Store the PDF version (may have changed since GetMetadata was called)
+            pdfVersion = pdf.GetPdfVersion();
+
             // Allow it to be downloaded
             pdfDownloadable = true;
             hasDownloaded = false;
@@ -112,7 +142,7 @@ namespace Pdf_Acc_Toolset.Services
                 Console.WriteLine("Attempted to access a closed document");
                 NotificationUtil.Inform(
                     NotificationType.Error,
-                    "The PDF is closed. Upload a new PDF to make changes"
+                    "The PDF is closed. Import a new PDF to make changes"
                 );
                 return null;
             }
@@ -156,19 +186,13 @@ namespace Pdf_Acc_Toolset.Services
         // The data from the operation
         public T Data;
         // Did the operation succeed?
-        public bool success;
+        public bool success = false;
 
-        // Success, or failure but the data must be returned
+        // Operation may have succeeded, either way the data is able to be returned
         public ImportOperation(T Data, bool success)
         {
             this.Data = Data;
             this.success = success;
-        }
-
-        // Handle failed cases
-        public ImportOperation()
-        {
-            success = false;
         }
     }
 
@@ -190,14 +214,11 @@ namespace Pdf_Acc_Toolset.Services
         /// The filename of the PDF
         /// </summary>
         public string Filename;
-        public WriterProperties WriterConfig;
 
-        public PdfImportConfig(string title, string lang, string standard, string filename)
-        {
-            this.Title = title;
-            this.Lang = lang;
-            this.Standard = standard;
-            this.Filename = filename;
-        }
+        /// <summary>
+        /// The user password (for reading)
+        /// </summary>
+        public string Password;
+        public WriterProperties WriterConfig;
     }
 }
