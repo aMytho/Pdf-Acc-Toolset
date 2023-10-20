@@ -1,6 +1,6 @@
-namespace Pdf_Acc_Toolset.Services.Util
+namespace Pdf_Acc_Toolset.Services.Pdf
 {
-    public static class PdfInfoUtil
+    public static class PdfMetadata
     {
         /// <summary>
         /// Returns the title of the PDF.
