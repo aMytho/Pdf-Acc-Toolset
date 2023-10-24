@@ -103,7 +103,7 @@ public partial class Index
         {
             Console.WriteLine($"The file is {e.File.Size} bytes.");
             // Create a new stream the size of the file
-            MemoryStream fileStream = new MemoryStream(((int)e.File.Size));
+            MemoryStream fileStream = new((int)e.File.Size);
             // Load the file into the stream
             await e.File.OpenReadStream(e.File.Size).CopyToAsync(fileStream);
             // Return to 0 so the PDF reader can use it later
