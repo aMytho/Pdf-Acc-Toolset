@@ -1,4 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations;
+@using Pdf_Acc_Toolset.Services.Pdf.Lang;
 
 <h3 class="text-2xl font-bold">Import Settings</h3>
 
@@ -15,7 +16,10 @@
             class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full" />
         <label for="importLang">Language</label>
         <select @bind="Model.Lang" id="importLang" class="bg-gray-800 rounded-md p-2 text-green-400 ml-2 w-full">
-            <option value="en-US" selected>En-US</option>
+            @foreach (var language in PdfLang.GetLanguageOptions())
+            {
+                <option value="@language">@language</option>
+            }
         </select>
         <label for="importStandard">Standard</label>
         <select @bind="Model.Standard" id="importStandard"
