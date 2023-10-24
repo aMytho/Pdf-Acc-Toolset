@@ -1,0 +1,60 @@
+@layout DocumentationLayout
+@using Pdf_Acc_Toolset.Services.UI;
+@page "/docs/tools/attribute"
+@page "/docs/tools/attributemodifier"
+@page "/docs/tools/attribute-modifier"
+@page "/docs/tools/attribute_modifier"
+
+<h1 id="attributeMod">Attribute Modifier</h1>
+
+<p>This tool allows for mass attribute modification. You can add, edit, or remove an attribute. This tool supports the ID, Title, and Actual/Alt text attributes.</p>
+
+<p>
+    Adding will add the attribute if it doesn't exist. Editing will modify the attribute regardless of if it exists. Deletion will remove the attribute. For most attributes, this will result in a blank string.
+</p>
+
+<h2 id="parameters">Parameters</h2>
+
+<div>
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>Attribute</td>
+            <td>The attribute to modify.</td>
+        </tr>
+        <tr>
+            <td>Action</td>
+            <td>Add, edit, or remove a tag</td>
+        </tr>
+        <tr>
+            <td>Value (optional)</td>
+            <td>If in add or edit mode, this will be the value of the attribute. If an attribute is being removed, this property is not used.</td>
+        </tr>
+    </table>
+</div>
+
+<h2 id="output">Output</h2>
+
+<p>
+    Output of setting every image to have an alt text of "Our Logo".
+</p>
+
+<img src="/img/docs/attributeExample.png" alt="Modified image tags. Each tag has a new alt text value." title="Output of the attribute tool">
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Make a new list of toc items
+        List<TocItem> list = new List<TocItem>();
+        // Set the items
+        list.Add(new TocItem("attributeMod", 1, "Attribute Modifier"));
+        list.Add(new TocItem("parameters", 2, "Parameters"));
+        list.Add(new TocItem("output", 2, "Output"));
+        // Send to TOC service
+        TocService.SetToc(list);
+        base.OnInitialized();
+    }
+}
