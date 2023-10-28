@@ -1,3 +1,4 @@
+// Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset
 using System.Text;
 using iText.Kernel.Exceptions;
 using iText.Kernel.Pdf;
