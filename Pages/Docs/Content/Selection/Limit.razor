@@ -1,0 +1,26 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@layout DocumentationLayout
+@using Pdf_Acc_Toolset.Services.UI;
+@page "/docs/selection/limit"
+
+<h1 id="selectionLimit">Selection Limit</h1>
+
+<p>Many selections will target more than one element. If this is the case, consider adding a limit. The selection will target each element. If the next element is more than the limit placed, the selection will stop.</p>
+
+<p>
+    You can use the Check Matches button in the interface to see the amount of tags that were targeted. This <b>includes the limit</b>! If you want to see all of the tags that match a selection regardless of the limit, set the limit to its max value of 999.
+</p>
+
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Make a new list of toc items
+        List<TocItem> list = new List<TocItem>();
+        // Set the items
+        list.Add(new TocItem("selectionLimit", 1, "Selection Limit"));
+        // Send to TOC service
+        TocService.SetToc(list);
+        base.OnInitialized();
+    }
+}

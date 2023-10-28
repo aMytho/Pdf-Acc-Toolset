@@ -1,0 +1,54 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@layout DocumentationLayout
+@using Pdf_Acc_Toolset.Services.UI;
+@page "/docs/selection"
+
+<h1 id="header">Selection</h1>
+
+<p>The selection input allows you to modify many parts of your PDF at the same time. However, it may seem complicated to those who are not familar with it. It is well worth learning as it can save a ton of time in the remediation process.</p>
+
+
+<h2 id="intro">Intro to Selection</h2>
+<p>Choosing a selection can be done by asking the below questions.</p>
+<p>
+    Do I need to run the current tool once? If so, am I comfortable moving the tag to its intended position?
+    <br>
+
+    If you answered yes, choose the Document Root as the selection type. This will add the selection to the root of the document. This is the default selection because it works for most users. The tool output is easy to find and it doesn't require much thought to set up. You <i>do</i> have to move the tag to its final destination though.
+    <br>
+
+    If you need to run the tool once, but you want it in a specific position, you must use a different selection type.
+</p>
+
+<p>
+    If you answered no either of the above questions, you need one of the special types listed below.
+</p>
+
+<h2 id="selectionList">Selection Types</h2>
+
+<ul>
+    <li><a class="hover:text-sky-400" href="/docs/selection/tag">Tag Selection</a></li>
+    <li><a class="hover:text-sky-400" href="/docs/selection/attribute">Attribute Selection</a></li>
+</ul>
+
+<h2 id="filterSelection">Filter Selection</h2>
+<p>Once you have your selection, use the below features to finetune it. These are optional.</p>
+<ul>
+    <li><a class="hover:text-sky-400" href="/docs/selection/insertion">Insertion</a></li>
+    <li><a class="hover:text-sky-400" href="/docs/selection/limit">Limit</a></li>
+</ul>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Make a new list of toc items
+        List<TocItem> list = new List<TocItem>();
+        // Set the items
+        list.Add(new TocItem("header", 1, "Selection"));
+        list.Add(new TocItem("selectionList", 2, "Selection Types"));
+        list.Add(new TocItem("filterSelection", 2, "Filter Selection"));
+        // Send to TOC service
+        TocService.SetToc(list);
+        base.OnInitialized();
+    }
+}
