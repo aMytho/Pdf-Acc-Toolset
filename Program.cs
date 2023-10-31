@@ -1,3 +1,4 @@
+// Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset
 using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

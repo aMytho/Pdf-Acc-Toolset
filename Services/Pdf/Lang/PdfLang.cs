@@ -1,3 +1,4 @@
+// Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset
 namespace Pdf_Acc_Toolset.Services.Pdf.Lang;
 
 /// <summary>

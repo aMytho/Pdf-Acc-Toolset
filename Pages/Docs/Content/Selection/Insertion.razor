@@ -1,0 +1,36 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@layout DocumentationLayout
+@using Pdf_Acc_Toolset.Services.UI;
+@page "/docs/selection/insertion"
+@page "/docs/selection/insert"
+
+<h1 id="selectionInsertion">Selection Insertion</h1>
+
+<p>Many tools insert tags into the document. If your tools does that, you will need to choose an insertion point. The below points are available:</p>
+<ul>
+    <li>Before Selection: Finds the selection, and then inserts above (before) the tag. This is an adjacent position.</li>
+    <li>After Selection: Finds the selection, and then inserts below (after) the tag. This is an adjacent position.</li>
+    <li>First Child: Insertion will be the first element in the target selection.</li>
+    <li>Last Child: Insertion will be the last element in the target selection.</li>
+</ul>
+
+<p>
+    You can only insert a tag in a valid position. For example, using the before/after insertion on the document root will not work.
+</p>
+
+<p>
+    If your tool does not insert a tag, you can ignore this part of the selection interface. In a future version this part will be hidden in such cases.
+</p>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Make a new list of toc items
+        List<TocItem> list = new List<TocItem>();
+        // Set the items
+        list.Add(new TocItem("selectionInsertion", 1, "Selection Insertion"));
+        // Send to TOC service
+        TocService.SetToc(list);
+        base.OnInitialized();
+    }
+}

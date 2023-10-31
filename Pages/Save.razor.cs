@@ -1,3 +1,4 @@
+// Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Pdf_Acc_Toolset.Services;
