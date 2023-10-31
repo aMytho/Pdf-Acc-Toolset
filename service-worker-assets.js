@@ -37,7 +37,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-GlHBws5lpldNnuHDAJ\/WHafnsO1+b1VqiQMCKOzGKmc=",
+      "hash": "sha256-XfTZhCTrKEGyuDid6qyekq3zRAEt5wYbU4ae7utUahU=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -177,7 +177,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-r4AVA5pZLeuXnU986W+1hu97ASzxkBPQxxu9+C\/eHZI=",
+      "hash": "sha256-52ZYkdoX5ipmAgkGBWJRYPdOl59uFV6U+pdvv+1fsqY=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -433,7 +433,7 @@
       "url": "img\/docs\/titleExample.png"
     },
     {
-      "hash": "sha256-RnYgzjmPwVMIuk8LucbricSzjLMd7y5CLhmgTDKUw6s=",
+      "hash": "sha256-b1vqgXsREI7GTdtxYAu+ZCDpvZPzJM7vzhInEo478X8=",
       "url": "index.html"
     },
     {
@@ -445,5 +445,5 @@
       "url": "_content\/Blazored.Toast\/Blazored.Toast.bundle.scp.css"
     }
   ],
-  "version": "zfPIFzCY"
+  "version": "922kjg3l"
 };
