@@ -1,0 +1,192 @@
+@import '_content/Blazored.Toast/Blazored.Toast.bundle.scp.css';
+
+/* /Shared/DocumentationLayout.razor.rz.scp.css */
+/* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset */
+.nav-child[b-eeybnqyf5x] {
+    margin-left: 1.5rem;
+}
+
+.page[b-eeybnqyf5x] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-eeybnqyf5x] {
+    flex: 1;
+}
+
+.sidebar[b-eeybnqyf5x] {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+
+@media (min-width: 641px) {
+    .page[b-eeybnqyf5x] {
+        flex-direction: row;
+    }
+
+    .sidebar[b-eeybnqyf5x] {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    article[b-eeybnqyf5x] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+/* /Shared/MainLayout.razor.rz.scp.css */
+/* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset */
+.page[b-thg5zgn0pu] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-thg5zgn0pu] {
+    flex: 1;
+}
+
+.sidebar[b-thg5zgn0pu] {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+@media (min-width: 641px) {
+    .page[b-thg5zgn0pu] {
+        flex-direction: row;
+    }
+
+    .sidebar[b-thg5zgn0pu] {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    article[b-thg5zgn0pu] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+/* /Shared/NavMenu.razor.rz.scp.css */
+/* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset */
+.navbar-toggler[b-at5usac7d9] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-at5usac7d9] {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-at5usac7d9] {
+    font-size: 1.1rem;
+}
+
+.oi[b-at5usac7d9] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-at5usac7d9] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-at5usac7d9] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-at5usac7d9] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-at5usac7d9]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-at5usac7d9]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-at5usac7d9]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-at5usac7d9] {
+        display: none;
+    }
+
+    .collapse[b-at5usac7d9] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+/* /Shared/Topbar.razor.rz.scp.css */
+/* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset */
+.top-row[b-vqr0ojppvd] {
+    background-color: #3B2C35;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.top-row[b-vqr0ojppvd]  a,
+.top-row[b-vqr0ojppvd]  .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
+
+.top-row[b-vqr0ojppvd]  a:hover,
+.top-row[b-vqr0ojppvd]  .btn-link:hover {
+    text-decoration: underline;
+}
+
+.top-row[b-vqr0ojppvd]  a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 640.98px) {
+    .top-row:not(.auth)[b-vqr0ojppvd] {
+        display: none;
+    }
+
+    .top-row.auth[b-vqr0ojppvd] {
+        justify-content: space-between;
+    }
+
+    .top-row[b-vqr0ojppvd]  a,
+    .top-row[b-vqr0ojppvd]  .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .top-row[b-vqr0ojppvd] {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row[b-vqr0ojppvd] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="Tool to assist with making PDFs accessible. Free and open source. Runs in the browser.">
+    <meta name="keywords" content="pdf, pdfs, accessibility, remediation, tag generation">
+    <meta name="author" content="Jonathan Shull (aMytho)">
+    <title>Pdf Accessibility Toolset</title>
+    <base href="/" />
+    <!-- Built styles (all app, includes tailwind)-->
+    <link href="css/output.css?version=0.1" rel="stylesheet" />
+    <link href="Pdf-Acc-Toolset.styles.css?version=0.1" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+</head>
+
+<body>
+    <div id="app">
+        <div id="loading"
+        style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+            <div class="m-2">
+                <h1 class="text-6xl font-extrabold">Loading...</h1>
+                <img src="favicon.png" class="rounded-lg mt-4" alt="PDF Accessibility Toolset Logo">
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        // Allows us to write a memory stream to disk
+        function BlazorDownloadFile(filename, contentType, content) {
+            // Create the URL
+            const file = new File([content], filename, { type: contentType });
+            const exportUrl = URL.createObjectURL(file);
+
+            // Create the <a> element and click on it
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.href = exportUrl;
+            a.download = filename;
+            a.target = "_self";
+            a.click();
+
+            // We don't need to keep the object URL, let's release the memory
+            // On older versions of Safari, it seems you need to comment this line...
+            URL.revokeObjectURL(exportUrl);
+        }
+
+        function BlazorScrollToId(id) {
+            const element = document.getElementById(id);
+            if (element instanceof HTMLElement) {
+                element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                    inline: "nearest"
+                });
+            }
+        }
+    </script>
+
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+</body>
+
+</html>
