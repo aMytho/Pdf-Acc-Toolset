@@ -1,4 +1,4 @@
-# PDF-Acc-Toolset
+# PDF Accessibility Toolset
 A web application to help make PDFs accessible. Built with [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) and [iText](https://itextpdf.com/).
 The project can be accessed on [our website](https://pdf-accessibility.tools).
 

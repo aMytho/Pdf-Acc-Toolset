@@ -1,0 +1,114 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@using Pdf_Acc_Toolset.Services;
+@using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Services.Util;
+@using Pdf_Acc_Toolset.Pages.Selection;
+@using System.ComponentModel.DataAnnotations;
+@using iText.Kernel.Pdf.Tagutils;
+@using iText.Kernel.Colors;
+
+<h3 class="text-xl font-semibold">Color Replacer</h3>
+
+<p class="text-lg">
+    Find a given color of text or path and replace it. This is primarily used for color contrast issues.
+    See Documentation for more information.
+
+    <b>Note: The selection does not take effect for this tool.</b>
+</p>
+
+
+<EditForm Model="@model" OnSubmit="@Submit" class="text-lg mt-4">
+    <DataAnnotationsValidator />
+    <div class="flex flex-wrap flex-col md:flex-row justify-between px-8 md:space-x-4 space-y-4 md:space-y-0">
+        <div>
+            <label for="targetColor">Target Color (will be replaced): </label>
+            <input type="color" id="targetColor" class="bg-gray-800 rounded-md p-2 text-green-400" @bind="model.findColor" />
+        </div>
+        <div>
+            <label for="replaceColor">Replacement Color: </label>
+            <input type="color" id="replaceColor" class="bg-gray-800 rounded-md p-2 text-green-400" @bind="model.replaceColor" />
+        </div>
+    </div>
+
+    @* Request the selection to insert into *@
+    <div class="hidden">
+        <Selection OnSelectionChanged="OnSelectionUpdated" />
+    </div>
+
+    <div class="flex flex-wrap w-full mt-4 space-x-2">
+        <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public EventCallback OnTaskAdded { get; set; }
+    private ColorModel model { get; set; }
+
+    private Selection.SelectionModel SelectionModel { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        this.model = new();
+        base.OnInitialized();
+    }
+
+
+    private void Reset()
+    {
+        model.findColor = "#000000";
+        model.replaceColor = "#ffffff";
+    }
+
+
+    private void CheckForMatch()
+    {
+        SelectionValidator.CheckSelectionMatches(SelectionModel);
+    }
+
+
+    private void OnSelectionUpdated(Selection.SelectionModel selectionModel)
+    {
+        SelectionModel = selectionModel;
+    }
+
+
+    private void Submit()
+    {
+        Console.WriteLine(model.findColor + " " + model.replaceColor);
+        
+        Color find = GetColorFromInput(model.findColor);
+        Color replace = GetColorFromInput(model.replaceColor);
+
+        // Create selection class from model
+        TagTreePointer pointer = PdfManager.GetTagRoot();
+        Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
+        if (selection == null) {
+            return;
+        }
+
+        // Create the task
+        Services.Tools.ColorReplacer replacer = new(
+            PdfManager.GetDocument(), selection, find, replace
+        );
+        // Add the task to the queue
+        TaskManager.AddTask(replacer);
+
+        // Close the tool window
+        OnTaskAdded.InvokeAsync();
+    }
+
+    private Color GetColorFromInput(string input)
+    {
+        var color = System.Drawing.ColorTranslator.FromHtml(input);
+        return new DeviceRgb(color.R, color.G, color.B);
+    }
+
+
+    public class ColorModel
+    {
+        public string findColor { get; set; } = "#000000";
+        public string replaceColor { get; set; } = "#ffffff";
+    }
+}
