@@ -10,16 +10,16 @@
 <h3 class="text-xl font-semibold">Color Replacer</h3>
 
 <p class="text-lg">
-    Find a given color of text or path and replace it. This is primarily used for color contrast issues.
+    Find a given color of text or path and replace it. This is primarily used to fix color contrast issues.
     See Documentation for more information.
-
-    <b>Note: The selection does not take effect for this tool.</b>
 </p>
+
+<p class="text-lg mt-4">This tool requires an <em>exact</em> match. Make sure to use a color picker that retrieves the "true" color, not the color on your screen. It may be helpful to use a tool like <a title="Inspect the exact color of a PDF" href="https://github.com/itext/i7j-rups" target="_blank">iText Rups</a> to inspect the colors. This tool only modifies the fill color, not the stroke color.</p>
 
 
 <EditForm Model="@model" OnSubmit="@Submit" class="text-lg mt-4">
     <DataAnnotationsValidator />
-    <div class="flex flex-wrap flex-col md:flex-row justify-between px-8 md:space-x-4 space-y-4 md:space-y-0">
+    <div class="flex flex-wrap flex-col md:flex-row justify-around px-8 md:space-x-4 space-y-4 md:space-y-0">
         <div>
             <label for="targetColor">Target Color (will be replaced): </label>
             <input type="color" id="targetColor" class="bg-gray-800 rounded-md p-2 text-green-400" @bind="model.findColor" />
