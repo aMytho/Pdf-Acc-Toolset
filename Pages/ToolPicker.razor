@@ -33,6 +33,9 @@
         case Tools.AttributeModifier:
             <AttributeModifier OnTaskAdded="OnTaskAdded" />
             break;
+        case Tools.ColorReplacer:
+            <ColorReplacer OnTaskAdded="OnTaskAdded" />
+            break;
         case Tools.None:
             break;
         default:
@@ -41,7 +44,7 @@
 </div>
 
 @code {
-    private enum Tools { ListGen, TableGen, TagGen, AttributeModifier, None };
+    private enum Tools { ListGen, TableGen, TagGen, AttributeModifier, ColorReplacer, None };
     private Tools activeTool = Tools.None;
     private bool showToolbox = false;
 

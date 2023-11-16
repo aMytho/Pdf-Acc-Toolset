@@ -19,6 +19,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    # Build TailwindCSS
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm run deploy
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
