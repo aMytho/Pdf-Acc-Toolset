@@ -37,7 +37,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-\/uC2CTwBlZwpZn5F95xu0ghRz6K7MY8M6gVYjOytAh8=",
+      "hash": "sha256-vaPSHdTztMYseMbu5SJllpKTbuKELVX5pJ2bDt5eaVw=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -177,7 +177,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-MyAwwIrQXI7nnu3Ejp6jENzH4T7dsR1+rG6vQLMXD40=",
+      "hash": "sha256-hSnx2heyCnUcwnqmA7vBTL+uTPgXPbExzp8X8\/lpsGM=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -521,5 +521,5 @@
       "url": "about\/index.html"
     }
   ],
-  "version": "0oRoNvHP"
+  "version": "4sSZ9iAb"
 };
