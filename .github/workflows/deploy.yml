@@ -24,7 +24,7 @@ jobs:
       with:
         node-version: 18
     - run: npm ci
-    - run: npm deploy
+    - run: npm run deploy
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
