@@ -1,33 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="Tool to assist with making PDFs accessible. Free and open source. Automate tag-tree operations."/>
+    <meta name="keywords" content="pdf, pdfs, accessibility, remediation, tag generation"/>
+    <meta name="author" content="Jonathan Shull (aMytho)"/>
+    <meta property="og:title" content="PDF Accessibility Toolset"/>
+    <meta name="twitter:title" content="PDF Accessibility Toolset"/>
+    <meta property="og:description" content="Tool to assist with making PDFs accessible."/>
+    <meta name="twitter:description" content="Tool to assist with making PDFs accessible."/>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="description" content="Tool to assist with making PDFs accessible. Free and open source. Runs in the browser.">
-    <meta name="keywords" content="pdf, pdfs, accessibility, remediation, tag generation">
-    <meta name="author" content="Jonathan Shull (aMytho)">
     <title>Pdf Accessibility Toolset</title>
-    <base href="/" />
+    <base href="/"/>
     <!-- Built styles (all app, includes tailwind)-->
-    <link href="css/output.css" rel="stylesheet" />
-    <link href="Pdf-Acc-Toolset.styles.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="manifest.json" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link href="css/output.css" rel="stylesheet"/>
+    <link href="Pdf-Acc-Toolset.styles.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <link href="manifest.json" rel="manifest"/>
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png"/>
+
+<!-- %%-PRERENDERING-HEADOUTLET-BEGIN-%% -->
+<title>Import PDF</title>
+<!-- %%-PRERENDERING-HEADOUTLET-END-%% -->
 </head>
 
 <body>
     <div id="app">
-        <div id="loading"
-        style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+        <div id="loading" style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
             <div class="m-2">
                 <h1 class="text-6xl font-extrabold">Loading...</h1>
-                <img src="favicon.png" class="rounded-lg mt-4" alt="PDF Accessibility Toolset Logo">
+                <img src="favicon.png" class="rounded-lg mt-4" alt="PDF Accessibility Toolset Logo"/>
             </div>
         </div>
-    </div>
+    
+<!-- %%-PRERENDERING-BEGIN-%% -->
+<div style="opacity: 0; position: fixed; z-index: -1; top: 0; left: 0; bottom: 0; right: 0;">
+    <div class="page" b-thg5zgn0pu><div class="sidebar" b-thg5zgn0pu><div class="top-row navbar navbar-dark" b-at5usac7d9><div class="flex justify-between sm:justify-center h-full" b-at5usac7d9><a class="navbar-brand self-center" href b-at5usac7d9>Pdf-Acc-Toolset</a>
+        <button title="Navigation menu" class="navbar-toggler" b-at5usac7d9>
+            Toggle
+        </button></div></div>
+
+<div b-at5usac7d9><nav class="flex flex-col" b-at5usac7d9><div class="nav-item px-3" b-at5usac7d9><a href="" class="nav-link active" aria-current="page"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Import
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="tools" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Tools
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="tasks" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Queued Tasks
+</a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="export" title="Review and Export" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Export
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="docs" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Documentation
+                </a></div><div class="nav-item px-3" b-at5usac7d9><a href="testing" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> DEV TEST
+                    </a></div></nav></div></div>
+
+    <main class="pb-8" b-thg5zgn0pu><div class="top-row px-4" b-vqr0ojppvd><a style="color: coral;" href="/beta" b-vqr0ojppvd>Beta Notice</a>
+    <a href="/about" b-vqr0ojppvd>About</a></div>
+
+        <article class="content px-4 text-white" b-thg5zgn0pu>
+
+<h1 class="text-6xl font-extrabold">PDF Accessibility Toolset</h1>
+
+<p class="mt-4 text-lg">Welcome to the Toolset! This app will help you with the remediation process of PDFs. Feel free to read
+    our <a href="/docs">Documentation</a> or experiment yourself.</p>
+<p class="mt-2 text-lg">We suggest you keep your original document in case you decide to revert changes.</p>
+
+<hr class="w-11/12 text-center m-4"><div class="flex flex-wrap px-2 gap-2 space-x-0 lg:space-x-4"><div><h2 class="text-4xl font-bold">File Selection</h2>
+            <p>Select the Get Started button to begin! The PDF never leaves your device.</p></div>
+        <form onsubmit="event.preventDefault()" class="grow" action="/"><input id="inputFile" accept=".pdf" class="hidden" type="file" />
+            <label for="inputFile" class="block border-solid bg-emerald-500 hover:bg-emerald-400 hover:bg-opacity-60 bg-opacity-60 border-2 border-emerald-500 p-4 w-full
+                    h-full rounded-lg text-lg cursor-pointer text-center">
+                Get Started
+            </label></form></div><div></div>
+
+
+<div class="max-w-md"></div></article></main></div>
+        
+
+
+<div class="pdf-toast"></div>
+
+
+
+
+</div>
+<!-- %%-PRERENDERING-END-%% -->
+</div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
@@ -68,6 +124,7 @@
     </script>
 
     <script>navigator.serviceWorker.register('service-worker.js');</script>
-</body>
 
-</html>
+
+
+</body></html>

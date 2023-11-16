@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="Tool to assist with making PDFs accessible. Free and open source. Automate tag-tree operations."/>
+    <meta name="keywords" content="pdf, pdfs, accessibility, remediation, tag generation"/>
+    <meta name="author" content="Jonathan Shull (aMytho)"/>
+    <meta property="og:title" content="PDF Accessibility Toolset"/>
+    <meta name="twitter:title" content="PDF Accessibility Toolset"/>
+    <meta property="og:description" content="Tool to assist with making PDFs accessible."/>
+    <meta name="twitter:description" content="Tool to assist with making PDFs accessible."/>
+
+    <title>Pdf Accessibility Toolset</title>
+    <base href="/"/>
+    <!-- Built styles (all app, includes tailwind)-->
+    <link href="css/output.css" rel="stylesheet"/>
+    <link href="Pdf-Acc-Toolset.styles.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <link href="manifest.json" rel="manifest"/>
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png"/>
+
+<!-- %%-PRERENDERING-HEADOUTLET-BEGIN-%% -->
+
+<!-- %%-PRERENDERING-HEADOUTLET-END-%% -->
+</head>
+
+<body>
+    <div id="app">
+        <div id="loading" style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+            <div class="m-2">
+                <h1 class="text-6xl font-extrabold">Loading...</h1>
+                <img src="favicon.png" class="rounded-lg mt-4" alt="PDF Accessibility Toolset Logo"/>
+            </div>
+        </div>
+    
+<!-- %%-PRERENDERING-BEGIN-%% -->
+<div style="opacity: 0; position: fixed; z-index: -1; top: 0; left: 0; bottom: 0; right: 0;">
+    <div class="page" b-eeybnqyf5x><div class="sidebar" b-eeybnqyf5x><div class="top-row navbar navbar-dark" b-at5usac7d9><div class="flex justify-between sm:justify-center h-full" b-at5usac7d9><a class="navbar-brand self-center" href b-at5usac7d9>Pdf-Acc-Toolset</a>
+        <button title="Navigation menu" class="navbar-toggler" b-at5usac7d9>
+            Toggle
+        </button></div></div>
+
+<div b-at5usac7d9><nav class="flex flex-col" b-at5usac7d9><div class="nav-item px-3" b-at5usac7d9><a href="" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Return To Edit
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Tools
+                </a></div>
+            <div class="nav-item px-3 nav-child ml-4" b-at5usac7d9><a href="/docs/tools/list" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> List Generator
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/table" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Table Generator
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/tag" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Tag Generator
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/attribute" class="nav-link nav-child ml-4 active" aria-current="page"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Attribute Modifier
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/selection" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Selection
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/selection/tag" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Tag Selection
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/selection/attribute" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Attribute Selection
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/selection/insertion" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Insertion
+                </a></div>
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/selection/limit" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Limit
+                </a></div></nav></div></div>
+
+    <main b-eeybnqyf5x><div class="top-row px-4" b-vqr0ojppvd><a style="color: coral;" href="/beta" b-vqr0ojppvd>Beta Notice</a>
+    <a href="/about" b-vqr0ojppvd>About</a></div>
+
+        <div class="p-4 flex flex-row flex-wrap justify-between md:w-full" b-eeybnqyf5x><article class="prose-invert prose-sky prose lg:prose-xl" style="max-width: 80%;" b-eeybnqyf5x><h1 id="attributeMod">Attribute Modifier</h1>
+
+<p>This tool allows for mass attribute modification. You can add, edit, or remove an attribute. This tool supports the ID, Title, and Actual/Alt text attributes.</p>
+
+<p>
+    Adding will add the attribute if it doesn't exist. Editing will modify the attribute regardless of if it exists. Deletion will remove the attribute. For most attributes, this will result in a blank string.
+</p>
+
+<h2 id="parameters">Parameters</h2>
+
+<div><table><tr><th>Parameter</th>
+            <th>Purpose</th></tr>
+        <tr><td>Attribute</td>
+            <td>The attribute to modify.</td></tr>
+        <tr><td>Action</td>
+            <td>Add, edit, or remove a tag</td></tr>
+        <tr><td>Value (optional)</td>
+            <td>If in add or edit mode, this will be the value of the attribute. If an attribute is being removed, this property is not used.</td></tr></table></div>
+
+<h2 id="output">Output</h2>
+
+<p>
+    Output of setting every image to have an alt text of "Our Logo".
+</p>
+
+<img src="/img/docs/attributeExample.png" alt="Modified image tags. Each tag has a new alt text value." title="Output of the attribute tool"></article>
+
+            <div class="flex flex-col items-baseline gap-y-4 text-lg font-semibold" b-eeybnqyf5x></div></div>
+
+    <button class="text-slate-300 hover:text-slate-100"></button></main></div>
+        
+
+
+<div class="pdf-toast"></div>
+
+
+
+
+</div>
+<!-- %%-PRERENDERING-END-%% -->
+</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        // Allows us to write a memory stream to disk
+        function BlazorDownloadFile(filename, contentType, content) {
+            // Create the URL
+            const file = new File([content], filename, { type: contentType });
+            const exportUrl = URL.createObjectURL(file);
+
+            // Create the <a> element and click on it
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.href = exportUrl;
+            a.download = filename;
+            a.target = "_self";
+            a.click();
+
+            // We don't need to keep the object URL, let's release the memory
+            // On older versions of Safari, it seems you need to comment this line...
+            URL.revokeObjectURL(exportUrl);
+        }
+
+        function BlazorScrollToId(id) {
+            const element = document.getElementById(id);
+            if (element instanceof HTMLElement) {
+                element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                    inline: "nearest"
+                });
+            }
+        }
+    </script>
+
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+
+
+</body></html>
