@@ -37,7 +37,6 @@ public class AttributeSelection : Selection
             }
 
             Console.WriteLine($"Checking into tag: {children.GetRole()}");
-            Console.WriteLine($"The tag has actual text of: {children.GetProperties().GetActualText()}");
 
             // Check the current child
             if (CheckTag(children))

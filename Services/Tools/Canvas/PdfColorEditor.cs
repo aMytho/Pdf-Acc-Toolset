@@ -28,8 +28,8 @@ public class PdfColorEditor : PdfCanvasEditor
     {
         this.colorToFind = find;
         this.replacementColor = replace;
-        Console.WriteLine(find.GetColorValue());
-        Console.WriteLine(replace.GetColorValue());
+        Console.WriteLine($"Target color is {find.GetColorValue()}");
+        Console.WriteLine($"Replacement color is {replace.GetColorValue()}");
     }
 
     public void Edit(PdfDocument document) {
@@ -56,7 +56,7 @@ public class PdfColorEditor : PdfCanvasEditor
                 // If the color matches, start the replacement process
                 if (colorToFind.Equals(currentFillColor))
                 {
-                    Console.WriteLine("Found a match");
+                    Console.WriteLine("Found a color match");
                     // Set the current color
                     currentColor = currentFillColor;
 
