@@ -168,11 +168,29 @@ public class PdfManager
     /// </summary>
     public static void Save()
     {
-        document.Close();
-        // Prevent duplicate downloads
-        pdfDownloadable = false;
-        // Update error message if they try to download after close
-        hasDownloaded = true;
+        try
+        {
+            // Close the document to allow for export
+            document.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(
+                "Error exporting PDF. You should report this error to github.com/amytho/pdf-acc-toolset"
+            );
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e);
+            NotificationUtil.Inform(
+                NotificationType.Error,
+                "Error exporting PDF. View the browser console for more information."
+            );
+            throw;
+        } finally {
+            // Prevent duplicate downloads
+            pdfDownloadable = false;
+            // Update error message if they try to download after close
+            hasDownloaded = true;
+        }
     }
 
     /// <summary>
