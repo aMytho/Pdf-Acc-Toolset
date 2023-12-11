@@ -25,19 +25,7 @@
       "url": "_framework\/dotnet.runtime.8.0.0.4nmj5hsanr.js"
     },
     {
-      "hash": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
-      "url": "_framework\/icudt_CJK.dat"
-    },
-    {
-      "hash": "sha256-8fItetYY8kQ0ww6oxwTLiT3oXlBwHKumbeP2pRF4yTc=",
-      "url": "_framework\/icudt_EFIGS.dat"
-    },
-    {
-      "hash": "sha256-L7sV7NEYP37\/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs=",
-      "url": "_framework\/icudt_no_CJK.dat"
-    },
-    {
-      "hash": "sha256-vaPSHdTztMYseMbu5SJllpKTbuKELVX5pJ2bDt5eaVw=",
+      "hash": "sha256-xcwf4fYshq9m\/OtobomoimXvM\/hgiePOqYE7FMcf0n4=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -177,7 +165,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-hSnx2heyCnUcwnqmA7vBTL+uTPgXPbExzp8X8\/lpsGM=",
+      "hash": "sha256-\/ThwIeYhAVezH2ukOt500Impx3KRBLa\/qi5r4cIaOjY=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -305,7 +293,7 @@
       "url": "_framework\/System.ObjectModel.wasm"
     },
     {
-      "hash": "sha256-EFa6JcsL26+wBRKrYCb56yZZbvsYwAFvNAzHYGd4yb0=",
+      "hash": "sha256-wP48vUMuuKdDjXmLXkYBohGWPhkftoW1u7WbdnWRpM4=",
       "url": "_framework\/System.Private.CoreLib.wasm"
     },
     {
@@ -365,7 +353,7 @@
       "url": "_framework\/System.Runtime.wasm"
     },
     {
-      "hash": "sha256-O1tKQRxYu2HV6mS\/1mhAmEbNuwn\/NYtUQhRuILXz44s=",
+      "hash": "sha256-eqB6mlsp7DOeoUyzl7r4f5mXox5k0NOdyU0k39iccs0=",
       "url": "_framework\/System.Security.Cryptography.wasm"
     },
     {
@@ -437,7 +425,7 @@
       "url": "img\/docs\/titleExample.png"
     },
     {
-      "hash": "sha256-h32Vsm0J8141KtE0b4PiXraTl0CuWHz+iGfYtbkFzS8=",
+      "hash": "sha256-7dvtoh6xnY13\/pBOUAWGge7\/O9ZrhvzaAPxJZidVFHo=",
       "url": "index.html"
     },
     {
@@ -521,5 +509,5 @@
       "url": "about\/index.html"
     }
   ],
-  "version": "4sSZ9iAb"
+  "version": "qAdOiuWd"
 };
