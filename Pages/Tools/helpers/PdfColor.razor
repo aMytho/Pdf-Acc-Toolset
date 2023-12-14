@@ -1,0 +1,37 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@using iText.Kernel.Colors;
+@using Pdf_Acc_Toolset.Services.Util;
+
+@* List each color, emit it when clicked *@
+<div class="flex flex-row flex-wrap gap-x-2 gap-y-4">
+    @foreach (Color color in Colors)
+    {
+        <button class="w-10 h-8 rounded-sm" style="background-color: rgb(@GetDisplayableColor(color));"
+        @onclick="() => EmitColor(color)">
+        </button>
+    }
+</div>
+
+
+@code {
+    // List of input colors
+    [Parameter]
+    public List<Color> Colors { get; set; }
+
+    [Parameter]
+    public EventCallback<float[]> OnColorSelected { get; set; }
+
+    private string GetDisplayableColor(Color color)
+    {
+        float[] rgb = ColorUtil.convertColorToRgb(color);
+        
+        // Return the RGB value of each. We multiple by 255 because the current val is a decimal < 1
+        // CSS expects an int from 0-255
+        return $"{rgb[0] * 255},{rgb[1] * 255},{rgb[2] * 255}";
+    }
+
+    private void EmitColor(Color color)
+    {
+        OnColorSelected.InvokeAsync(color.GetColorValue());
+    }
+}
