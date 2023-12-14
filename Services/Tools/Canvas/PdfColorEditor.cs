@@ -24,6 +24,9 @@ public class PdfColorEditor : PdfCanvasEditor
 
     private readonly Color replacementColor;
 
+    // Keeps track of how many colors were replaced, logged to console on completion.
+    private int colorMatches = 0;
+
     public PdfColorEditor(Color find, Color replace) : base()
     {
         this.colorToFind = find;
@@ -37,6 +40,8 @@ public class PdfColorEditor : PdfCanvasEditor
         {
             EditPage(document, i);
         }
+
+        Console.WriteLine($"Color Matches: {colorMatches}");
     }
 
     /// <summary>
@@ -56,7 +61,8 @@ public class PdfColorEditor : PdfCanvasEditor
                 // If the color matches, start the replacement process
                 if (colorToFind.Equals(currentFillColor))
                 {
-                    Console.WriteLine("Found a color match");
+                    // Add one to the counter
+                    colorMatches++;
                     // Set the current color
                     currentColor = currentFillColor;
 
@@ -119,9 +125,6 @@ public class PdfColorEditor : PdfCanvasEditor
             list.Add(new PdfLiteral("rg"));
         }
 
-        
-
         return list;
     }
-
 }
