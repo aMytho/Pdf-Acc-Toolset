@@ -1,7 +1,6 @@
 // Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset
 
 using System.Collections.ObjectModel;
-using iText.Kernel.Exceptions;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Pdf.Canvas.Parser;

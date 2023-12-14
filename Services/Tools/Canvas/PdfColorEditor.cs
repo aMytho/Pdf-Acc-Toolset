@@ -119,6 +119,8 @@ public class PdfColorEditor : PdfCanvasEditor
             list.Add(new PdfLiteral("rg"));
         }
 
+        
+
         return list;
     }
 
