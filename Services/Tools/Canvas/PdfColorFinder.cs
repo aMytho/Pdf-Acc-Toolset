@@ -11,8 +11,8 @@ public class PdfColorFinder : PdfCanvasEditor
     /// </summary>
     private readonly List<string> TEXT_SHOWING_OPERATORS = ["Tj", "'", "\"", "TJ"];
 
-    private List<Color> fillColors = new List<Color>();
-    private List<Color> strokeColors = new List<Color>();
+    private List<Color> fillColors = [];
+    private List<Color> strokeColors = [];
 
     public PdfColorFinder() : base() {}
 
@@ -42,6 +42,17 @@ public class PdfColorFinder : PdfCanvasEditor
         {
             EditPage(document, i);
         }
+
+        // Remove duplicates (if any)
+        RemoveDuplicateColors();
+    }
+
+    private void RemoveDuplicateColors()
+    {
+        // Remove duplicates by converting to a Hash Set and then to a list.
+        // Hash Sets can't have duplicates at all.
+        fillColors = new HashSet<Color>(fillColors).ToList();
+        strokeColors = new HashSet<Color>(strokeColors).ToList();
     }
 
     public List<Color> GetFillColors() {

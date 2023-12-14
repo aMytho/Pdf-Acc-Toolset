@@ -90,7 +90,7 @@
 
     private void Reset()
     {
-        model.findColor = new();
+        model.findColor = DeviceRgb.WHITE;
         model.replaceColor = "#ffffff";
     }
 
@@ -111,12 +111,9 @@
     {
         Color replace = GetColorFromInput(model.replaceColor);
 
-        // Create selection class from model
+        // We don't use the selection in this tool, but it is required for every task.
         TagTreePointer pointer = PdfManager.GetTagRoot();
         Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
-        if (selection == null) {
-            return;
-        }
 
         // Create the task
         Services.Tools.ColorReplacer replacer = new(
@@ -135,11 +132,6 @@
         return new DeviceRgb(color.R, color.G, color.B);
     }
 
-    private DeviceRgb GetColorFromInput(float[] input)
-    {
-        return new DeviceRgb(input[0], input[1], input[2]);
-    }
-
     private async Task DisplayExistingColors()
     {
         await Task.Run(() => {
@@ -153,16 +145,15 @@
         });
     }
 
-    private void OnColorSelected(float[] rgb)
+    private void OnColorSelected(Color color)
     {
-        NotificationUtil.Inform(NotificationType.Info, $"Selected RGB({rgb[0]}, {rgb[1]}, {rgb[2]})");
-        model.findColor = GetColorFromInput(rgb);
+        model.findColor = color;
     }
 
 
     public class ColorModel
     {
-        public DeviceRgb findColor { get; set; }
+        public Color findColor { get; set; }
         public string replaceColor { get; set; } = "#ffffff";
     }
 }

@@ -16,15 +16,15 @@ public static class ColorUtil
         // check for CMYK
         if (color is DeviceCmyk)
         {
-            return convertCmykToRgb(color);
+            return ConvertCmykToRgb(color);
         } else
         {
             // Check for gray
-            return convertGrayToRgb(color);
+            return ConvertGrayToRgb(color);
         }
     }
 
-    private static float[] convertCmykToRgb(Color color)
+    private static float[] ConvertCmykToRgb(Color color)
     {
         // Get existing values
         float[] cmykValues = color.GetColorValue();
@@ -42,7 +42,7 @@ public static class ColorUtil
         return [red, green, blue];
     }
 
-    private static float[] convertGrayToRgb(Color color)
+    private static float[] ConvertGrayToRgb(Color color)
     {
         // Get the gray value
         float grayValue = color.GetColorValue()[0];

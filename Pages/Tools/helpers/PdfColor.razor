@@ -19,12 +19,15 @@
     public List<Color> Colors { get; set; }
 
     [Parameter]
-    public EventCallback<float[]> OnColorSelected { get; set; }
+    public EventCallback<Color> OnColorSelected { get; set; }
 
     private string GetDisplayableColor(Color color)
     {
+        // Convert to RGB from any color space
         float[] rgb = ColorUtil.convertColorToRgb(color);
-        
+        Console.WriteLine(rgb[0]);
+        Console.WriteLine(rgb[1]);
+        Console.WriteLine(rgb[2]);
         // Return the RGB value of each. We multiple by 255 because the current val is a decimal < 1
         // CSS expects an int from 0-255
         return $"{rgb[0] * 255},{rgb[1] * 255},{rgb[2] * 255}";
@@ -32,6 +35,11 @@
 
     private void EmitColor(Color color)
     {
-        OnColorSelected.InvokeAsync(color.GetColorValue());
+        // Tell user which color they clicked in RGB format
+        float[] rgb = ColorUtil.convertColorToRgb(color);
+        NotificationUtil.Inform(NotificationType.Info, $"Selected RGB({rgb[0]}, {rgb[1]}, {rgb[2]})");
+
+        // Emit event
+        OnColorSelected.InvokeAsync(color);
     }
 }
