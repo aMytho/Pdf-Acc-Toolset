@@ -10,9 +10,9 @@ public class ColorReplacer : AccessibilityTask
 {
     private readonly PdfColorEditor editor;
 
-    public ColorReplacer(Document document, Selection.Selection selection, Color find, Color replace) : base(document, selection)
+    public ColorReplacer(Document document, Selection.Selection selection, Color find, Color replace, ColorPart part) : base(document, selection)
     {
-        this.editor = new(find, replace);
+        this.editor = new(find, replace, part);
         this.Name = "Color Replacer";
     }
 

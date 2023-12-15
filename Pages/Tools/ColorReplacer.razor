@@ -12,10 +12,10 @@
 
 <p class="text-lg">
     Find a given color of text or path and replace it. This is primarily used to fix color contrast issues.
-    See Documentation for more information.
+    See <a title="Color Replacer" href="/docs/tools/color-replacer">Documentation</a> for more information.
 </p>
 
-<p class="text-lg mt-4">This tool requires an <em>exact</em> match. Make sure to use a color picker that retrieves the "true" color, not the color on your screen. It may be helpful to use a tool like <a title="Inspect the exact color of a PDF" href="https://github.com/itext/i7j-rups" target="_blank">iText Rups</a> to inspect the colors. This tool only modifies the fill color, not the stroke color.</p>
+<p class="text-lg mt-4">This tool requires a target and replacement color to be specified. This only applies to paths (shapes) and text. Images, X-Objects, and other elements are not included. Fill is the inner color and stroke is the outer color.</p>
 
 <EditForm Model="@model" OnSubmit="@Submit" class="text-lg mt-4">
     <DataAnnotationsValidator />
@@ -23,8 +23,10 @@
         <div>
             <label for="colorCategory">Color Category:</label>
             <select class="bg-gray-800 rounded-md p-2 text-green-400" name="colorCategory" id="colorCategory">
-                <option value="fill">Fill</option>
-                <option value="stroke">Stroke</option>
+                @foreach (var attr in Enum.GetValues(typeof(ColorPart)))
+                {
+                    <option value="@attr">@attr</option>
+                }
             </select>
         </div>
         <div class="cursor-not-allowed">
@@ -117,7 +119,7 @@
 
         // Create the task
         Services.Tools.ColorReplacer replacer = new(
-            PdfManager.GetDocument(), selection, model.findColor, replace
+            PdfManager.GetDocument(), selection, model.findColor, replace, model.colorPart
         );
         // Add the task to the queue
         TaskManager.AddTask(replacer);
@@ -155,5 +157,6 @@
     {
         public Color findColor { get; set; }
         public string replaceColor { get; set; } = "#ffffff";
+        public ColorPart colorPart { get; set; } = ColorPart.Fill;
     }
 }
