@@ -1,6 +1,7 @@
 @* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
 @using Pdf_Acc_Toolset.Services;
 @using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Services.Tools.Canvas;
 @using Pdf_Acc_Toolset.Services.Util;
 @using Pdf_Acc_Toolset.Pages.Selection;
 @using System.ComponentModel.DataAnnotations;
@@ -11,18 +12,26 @@
 
 <p class="text-lg">
     Find a given color of text or path and replace it. This is primarily used to fix color contrast issues.
-    See Documentation for more information.
+    See <a title="Color Replacer" href="/docs/tools/color-replacer">Documentation</a> for more information.
 </p>
 
-<p class="text-lg mt-4">This tool requires an <em>exact</em> match. Make sure to use a color picker that retrieves the "true" color, not the color on your screen. It may be helpful to use a tool like <a title="Inspect the exact color of a PDF" href="https://github.com/itext/i7j-rups" target="_blank">iText Rups</a> to inspect the colors. This tool only modifies the fill color, not the stroke color.</p>
-
+<p class="text-lg mt-4">This tool requires a target and replacement color to be specified. This only applies to paths (shapes) and text. Images, X-Objects, and other elements are not included. Fill is the inner color and stroke is the outer color.</p>
 
 <EditForm Model="@model" OnSubmit="@Submit" class="text-lg mt-4">
     <DataAnnotationsValidator />
     <div class="flex flex-wrap flex-col md:flex-row justify-around px-8 md:space-x-4 space-y-4 md:space-y-0">
         <div>
-            <label for="targetColor">Target Color (will be replaced): </label>
-            <input type="color" id="targetColor" class="bg-gray-800 rounded-md p-2 text-green-400" @bind="model.findColor" />
+            <label for="colorCategory">Color Category:</label>
+            <select class="bg-gray-800 rounded-md p-2 text-green-400" name="colorCategory" id="colorCategory">
+                @foreach (var attr in Enum.GetValues(typeof(ColorPart)))
+                {
+                    <option value="@attr">@attr</option>
+                }
+            </select>
+        </div>
+        <div class="cursor-not-allowed">
+            <label for="targetColor">Target Color (will be replaced):</label>
+            <input type="color" id="targetColor" class="bg-gray-800 rounded-md p-2 text-green-400" disabled @bind="colorTargetInHex" />
         </div>
         <div>
             <label for="replaceColor">Replacement Color: </label>
@@ -41,23 +50,50 @@
     </div>
 </EditForm>
 
+@if (!colorsLoaded) {
+<div>
+    Loading document colors...
+</div>
+} else {
+<p class="mt-4">
+    Select a color to replace. These colors may differ very slightly compared to the source document.
+</p>
+
+<div class="flex w-full mx-2 gap-x-4 justify-around mt-4" id="existingColors">
+    <div>
+        <h4 class="text-lg text-center font-semibold">Fill Colors</h4>
+        <Pdf_Acc_Toolset.Pages.Tools.helpers.PdfColor Colors="documentFillColors" OnColorSelected="OnColorSelected"/>
+    </div>
+    <div>
+        <h4 class="text-lg text-center font-semibold">Stroke Colors</h4>
+        <Pdf_Acc_Toolset.Pages.Tools.helpers.PdfColor Colors="documentStrokeColors" OnColorSelected="OnColorSelected"/>
+    </div>
+</div>
+}
+
 @code {
     [Parameter]
     public EventCallback OnTaskAdded { get; set; }
     private ColorModel model { get; set; }
 
+    private List<Color> documentFillColors = new ();
+    private List<Color> documentStrokeColors = new ();
+    private bool colorsLoaded = false;
+    private string colorTargetInHex;
+
     private Selection.SelectionModel SelectionModel { get; set; } = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         this.model = new();
-        base.OnInitialized();
+        await this.DisplayExistingColors();
+        this.colorsLoaded = true;
     }
 
 
     private void Reset()
     {
-        model.findColor = "#000000";
+        model.findColor = DeviceRgb.WHITE;
         model.replaceColor = "#ffffff";
     }
 
@@ -76,21 +112,15 @@
 
     private void Submit()
     {
-        Console.WriteLine(model.findColor + " " + model.replaceColor);
-        
-        Color find = GetColorFromInput(model.findColor);
         Color replace = GetColorFromInput(model.replaceColor);
 
-        // Create selection class from model
+        // We don't use the selection in this tool, but it is required for every task.
         TagTreePointer pointer = PdfManager.GetTagRoot();
         Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
-        if (selection == null) {
-            return;
-        }
 
         // Create the task
         Services.Tools.ColorReplacer replacer = new(
-            PdfManager.GetDocument(), selection, find, replace
+            PdfManager.GetDocument(), selection, model.findColor, replace, model.colorPart
         );
         // Add the task to the queue
         TaskManager.AddTask(replacer);
@@ -105,10 +135,32 @@
         return new DeviceRgb(color.R, color.G, color.B);
     }
 
+    private async Task DisplayExistingColors()
+    {
+        await Task.Run(() => {
+            // Search for all colors
+            PdfColorFinder finder = new();
+            finder.Find(PdfManager.GetDocument().GetPdfDocument());
+
+            // Retrieve them
+            documentFillColors = finder.GetFillColors();
+            documentStrokeColors = finder.GetStrokeColors();
+        });
+    }
+
+    private void OnColorSelected(Color color)
+    {
+        model.findColor = color;
+
+        // Update the target color so the user knows it was changed
+        colorTargetInHex = ColorUtil.ConvertToHex(color);
+    }
+
 
     public class ColorModel
     {
-        public string findColor { get; set; } = "#000000";
+        public Color findColor { get; set; }
         public string replaceColor { get; set; } = "#ffffff";
+        public ColorPart colorPart { get; set; } = ColorPart.Fill;
     }
 }

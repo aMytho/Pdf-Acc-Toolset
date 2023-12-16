@@ -23,11 +23,18 @@ public class PdfColorEditor : PdfCanvasEditor
     private readonly Color colorToFind;
 
     private readonly Color replacementColor;
+    
+    // Replacing either fill or stroke
+    private readonly ColorPart colorPart;
 
-    public PdfColorEditor(Color find, Color replace) : base()
+    // Keeps track of how many colors were replaced, logged to console on completion.
+    private int colorMatches = 0;
+
+    public PdfColorEditor(Color find, Color replace, ColorPart part) : base()
     {
         this.colorToFind = find;
         this.replacementColor = replace;
+        this.colorPart = part;
         Console.WriteLine($"Target color is {find.GetColorValue()}");
         Console.WriteLine($"Replacement color is {replace.GetColorValue()}");
     }
@@ -37,6 +44,8 @@ public class PdfColorEditor : PdfCanvasEditor
         {
             EditPage(document, i);
         }
+
+        Console.WriteLine($"Color Matches: {colorMatches}");
     }
 
     /// <summary>
@@ -51,18 +60,24 @@ public class PdfColorEditor : PdfCanvasEditor
             if (currentColor == null)
             {
                 // Gets the color of the content
-                Color currentFillColor = GetGraphicsState().GetFillColor();
+                Color nextColor;
+                if (colorPart == ColorPart.Fill) {
+                    nextColor = GetGraphicsState().GetFillColor();
+                } else {
+                    nextColor = GetGraphicsState().GetStrokeColor();
+                }
 
                 // If the color matches, start the replacement process
-                if (colorToFind.Equals(currentFillColor))
+                if (colorToFind.Equals(nextColor))
                 {
-                    Console.WriteLine("Found a color match");
+                    // Add one to the counter
+                    colorMatches++;
                     // Set the current color
-                    currentColor = currentFillColor;
+                    currentColor = nextColor;
 
                     // Replace it
                     List<PdfObject> list = GetColorList(replacementColor);
-                    Write(processor, new PdfLiteral("rg"), list);
+                    Write(processor, GetPdfLiteral("rg"), list);
                 }
             }
         }
@@ -71,17 +86,17 @@ public class PdfColorEditor : PdfCanvasEditor
             if (currentColor is DeviceCmyk)
             {
                 List<PdfObject> list = GetColorList(replacementColor);
-                Write(processor, new PdfLiteral("k"), list);
+                Write(processor, GetPdfLiteral("k"), list);
             }
             else if (currentColor is DeviceGray)
             {
                 List<PdfObject> list = GetColorList(replacementColor);
-                Write(processor, new PdfLiteral("g"), list);
+                Write(processor, GetPdfLiteral("g"), list);
             }
             else
             {
                 List<PdfObject> list = GetColorList(replacementColor);
-                Write(processor, new PdfLiteral("rg"), list);
+                Write(processor, GetPdfLiteral("rg"), list);
             }
 
             // Reset. Allows for more colors to be replaced
@@ -94,7 +109,7 @@ public class PdfColorEditor : PdfCanvasEditor
     /// <summary> 
     /// Gets a color list based on the color space
     /// </summary>
-    private static List<PdfObject> GetColorList(Color color)
+    private List<PdfObject> GetColorList(Color color)
     {
         List<PdfObject> list = new();
         float[] values = color.GetColorValue();
@@ -104,22 +119,39 @@ public class PdfColorEditor : PdfCanvasEditor
             list.Add(new PdfNumber(values[1]));
             list.Add(new PdfNumber(values[2]));
             list.Add(new PdfNumber(values[3]));
-            list.Add(new PdfLiteral("k"));
+            list.Add(GetPdfLiteral("k"));
         }
         else if (color is DeviceGray)
         {
             list.Add(new PdfNumber(values[0]));
-            list.Add(new PdfLiteral("g"));
+            list.Add(GetPdfLiteral("g"));
         }
         else
         {
             list.Add(new PdfNumber(values[0]));
             list.Add(new PdfNumber(values[1]));
             list.Add(new PdfNumber(values[2]));
-            list.Add(new PdfLiteral("rg"));
+            list.Add(GetPdfLiteral("rg"));
         }
 
         return list;
     }
 
+    // Based on the color part, return the right literal
+    private PdfLiteral GetPdfLiteral(string literal)
+    {
+        if (colorPart == ColorPart.Stroke) {
+            // Stroke PDF literals are always uppercase
+            return new PdfLiteral(literal.ToUpper());
+        }
+
+        // If fill, return literal as is
+        return new PdfLiteral(literal);
+    }
+}
+
+public enum ColorPart
+{
+    Fill,
+    Stroke
 }
