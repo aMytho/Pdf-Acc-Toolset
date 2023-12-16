@@ -131,6 +131,21 @@ public class AttributeModifier : AccessibilityTask
                 break;
         }
     }
+
+    public Selection.Attribute GetAttribute()
+    {
+        return attribute;
+    }
+
+    public AttributeAction GetAttributeAction()
+    {
+        return action;
+    }
+
+    public string GetValue()
+    {
+        return value;
+    }
 }
 
 /// <summary>
