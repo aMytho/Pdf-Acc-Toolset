@@ -50,7 +50,7 @@
                 </a></div>
             <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/tag" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Tag Generator
                 </a></div>
-            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/attribute" class="nav-link nav-child ml-4 active" aria-current="page"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Attribute Modifier
+            <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/attribute" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Attribute Modifier
                 </a></div>
             <div class="nav-item px-3" b-at5usac7d9><a href="/docs/tools/colorReplacer" class="nav-link nav-child ml-4"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Color Replacer
                 </a></div>
@@ -68,32 +68,32 @@
     <main b-eeybnqyf5x><div class="top-row px-4" b-vqr0ojppvd><a style="color: coral;" href="/beta" b-vqr0ojppvd>Beta Notice</a>
     <a href="/about" b-vqr0ojppvd>About</a></div>
 
-        <div class="p-4 flex flex-row flex-wrap justify-between md:w-full" b-eeybnqyf5x><article class="prose-invert prose-sky prose lg:prose-xl" style="max-width: 80%;" b-eeybnqyf5x><h1 id="attributeMod">Attribute Modifier</h1>
+        <div class="p-4 flex flex-row flex-wrap justify-between md:w-full" b-eeybnqyf5x><article class="prose-invert prose-sky prose lg:prose-xl" style="max-width: 80%;" b-eeybnqyf5x><h1 id="colorReplacer">Color Replacer</h1>
 
-<p>This tool allows for mass attribute modification. You can add, edit, or remove an attribute. This tool supports the ID, Title, and Actual/Alt text attributes.</p>
+<p>This tool allows for colors of text and shapes to be changed without breaking the tag structure. Adobe Acrobat can change the colors, but it breaks the document structure. This tool will not do that.</p>
 
 <p>
-    Adding will add the attribute if it doesn't exist. Editing will modify the attribute regardless of if it exists. Deletion will remove the attribute. For most attributes, this will result in a blank string.
+    You can modify the fill and stroke color. The document will show all of the available colors below the UI. These are what you are able to replace. This may take some time to appear depending on the size of the document.
 </p>
 
 <h2 id="parameters">Parameters</h2>
 
 <div><table><tr><th>Parameter</th>
             <th>Purpose</th></tr>
-        <tr><td>Attribute</td>
-            <td>The attribute to modify.</td></tr>
-        <tr><td>Action</td>
-            <td>Add, edit, or remove a tag</td></tr>
-        <tr><td>Value (optional)</td>
-            <td>If in add or edit mode, this will be the value of the attribute. If an attribute is being removed, this property is not used.</td></tr></table></div>
+        <tr><td>Color Category</td>
+            <td>Replace the fill (inner) or the stroke (outer)</td></tr>
+        <tr><td>Target Color</td>
+            <td>This color will be replaced. Select one of the available colors from below the main UI.</td></tr>
+        <tr><td>Replacement Color</td>
+            <td>This color will replace the target color. It uses the RGB format.</td></tr></table></div>
 
 <h2 id="output">Output</h2>
 
 <p>
-    Output of setting every image to have an alt text of "Our Logo".
+    Changing the text color to meet color contrast requirements.
 </p>
 
-<img src="/img/docs/attributeExample.png" alt="Modified image tags. Each tag has a new alt text value." title="Output of the attribute tool"></article>
+<img src="/img/docs/colorExample.png" alt="Using the color replacer to switch yellow text on a white background to black." title="Output of the color replacer tool"></article>
 
             <div class="flex flex-col items-baseline gap-y-4 text-lg font-semibold" b-eeybnqyf5x></div></div>
 
