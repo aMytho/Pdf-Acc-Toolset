@@ -24,7 +24,7 @@
     private string GetDisplayableColor(Color color)
     {
         // Convert to RGB from any color space
-        float[] rgb = ColorUtil.convertColorToRgb(color);
+        float[] rgb = ColorUtil.ConvertColorToRgb(color);
         Console.WriteLine(rgb[0]);
         Console.WriteLine(rgb[1]);
         Console.WriteLine(rgb[2]);
@@ -36,7 +36,7 @@
     private void EmitColor(Color color)
     {
         // Tell user which color they clicked in RGB format
-        float[] rgb = ColorUtil.convertColorToRgb(color);
+        float[] rgb = ColorUtil.ConvertColorToRgb(color);
         NotificationUtil.Inform(NotificationType.Info, $"Selected RGB({rgb[0]}, {rgb[1]}, {rgb[2]})");
 
         // Emit event

@@ -31,7 +31,7 @@
         </div>
         <div class="cursor-not-allowed">
             <label for="targetColor">Target Color (will be replaced):</label>
-            <input type="color" id="targetColor" class="bg-gray-800 rounded-md p-2 text-green-400" disabled />
+            <input type="color" id="targetColor" class="bg-gray-800 rounded-md p-2 text-green-400" disabled @bind="colorTargetInHex" />
         </div>
         <div>
             <label for="replaceColor">Replacement Color: </label>
@@ -79,6 +79,7 @@
     private List<Color> documentFillColors = new ();
     private List<Color> documentStrokeColors = new ();
     private bool colorsLoaded = false;
+    private string colorTargetInHex;
 
     private Selection.SelectionModel SelectionModel { get; set; } = new();
 
@@ -150,6 +151,9 @@
     private void OnColorSelected(Color color)
     {
         model.findColor = color;
+
+        // Update the target color so the user knows it was changed
+        colorTargetInHex = ColorUtil.ConvertToHex(color);
     }
 
 
