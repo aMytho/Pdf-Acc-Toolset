@@ -11,7 +11,7 @@
 <h3 class="text-xl font-semibold">Color Replacer</h3>
 
 <p class="text-lg">
-    Find a given color of text or path and replace it. This is primarily used to fix color contrast issues.
+    Find a given color of text or a path and replace it. This is primarily used to fix color contrast issues.
     See <a title="Color Replacer" href="/docs/tools/color-replacer">Documentation</a> for more information.
 </p>
 
@@ -44,32 +44,35 @@
         <Selection OnSelectionChanged="OnSelectionUpdated" />
     </div>
 
+    <hr class="w-11/12 text-center m-4" />
+
+    @if (!colorsLoaded) {
+    <div>
+        Loading document colors...
+    </div>
+    } else {
+    <p class="mt-4">
+        Select a color to replace. These colors may differ very slightly compared to the source document.
+    </p>
+
+    <div class="flex w-full mx-2 gap-x-4 justify-around mt-4" id="existingColors">
+        <div>
+            <h4 class="text-lg text-center font-semibold">Fill Colors</h4>
+            <Pdf_Acc_Toolset.Pages.Tools.helpers.PdfColor Colors="documentFillColors" OnColorSelected="OnColorSelected"/>
+        </div>
+        <div>
+            <h4 class="text-lg text-center font-semibold">Stroke Colors</h4>
+            <Pdf_Acc_Toolset.Pages.Tools.helpers.PdfColor Colors="documentStrokeColors" OnColorSelected="OnColorSelected"/>
+        </div>
+    </div>
+    }
+
     <div class="flex flex-wrap w-full mt-4 space-x-2">
         <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
         <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
     </div>
 </EditForm>
 
-@if (!colorsLoaded) {
-<div>
-    Loading document colors...
-</div>
-} else {
-<p class="mt-4">
-    Select a color to replace. These colors may differ very slightly compared to the source document.
-</p>
-
-<div class="flex w-full mx-2 gap-x-4 justify-around mt-4" id="existingColors">
-    <div>
-        <h4 class="text-lg text-center font-semibold">Fill Colors</h4>
-        <Pdf_Acc_Toolset.Pages.Tools.helpers.PdfColor Colors="documentFillColors" OnColorSelected="OnColorSelected"/>
-    </div>
-    <div>
-        <h4 class="text-lg text-center font-semibold">Stroke Colors</h4>
-        <Pdf_Acc_Toolset.Pages.Tools.helpers.PdfColor Colors="documentStrokeColors" OnColorSelected="OnColorSelected"/>
-    </div>
-</div>
-}
 
 @code {
     [Parameter]
