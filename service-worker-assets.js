@@ -25,7 +25,7 @@
       "url": "_framework\/dotnet.runtime.8.0.0.4nmj5hsanr.js"
     },
     {
-      "hash": "sha256-DI89PAKmkUU2Qg9CMj\/k3YhmE3qQhp7wBHWteY3xLNY=",
+      "hash": "sha256-NG51dygjUV6mEyFHWcXAFM4ldzVCnVQeW1JKamTdlIA=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -165,7 +165,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-6t5pRm0VWqhnHa+rdaJUrKPlYS8xJgyIUWzUhNC1kk8=",
+      "hash": "sha256-Z8DwU6GO2uvMaZV2R35awDY5xsqzAoOF+DZvyZKimNo=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -481,7 +481,7 @@
       "url": "docs\/tools\/attribute\/index.html"
     },
     {
-      "hash": "sha256-7WX3h4eht4k7weQ08bWs6YCMu\/wKUbRyTn8o7okZTjc=",
+      "hash": "sha256-rKrwRCBcZwxvUIEwfzsj2c72ioBytfX80cxsXD3JPfg=",
       "url": "docs\/tools\/colorReplacer\/index.html"
     },
     {
@@ -517,9 +517,9 @@
       "url": "about\/index.html"
     },
     {
-      "hash": "sha256-2fLsyfxkdUiwjHmrrHi4KQZZosJD6NGnbyxi9k4EC4c=",
+      "hash": "sha256-j8M22gW\/apNtWSzcSu2qOLz+A3LU5OJHbCNUozhwutQ=",
       "url": "docs\/tools\/color-replacer\/index.html"
     }
   ],
-  "version": "UtEHMJrB"
+  "version": "RHUiJULY"
 };
