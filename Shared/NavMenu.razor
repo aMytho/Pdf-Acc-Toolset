@@ -12,112 +12,47 @@
 
 <div class="@NavMenuCssClass">
     <nav class="flex flex-col">
-        @if (menu == NavMenus.Main) {
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Import
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="tools" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Tools
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="tasks">
-                    <span class="oi" aria-hidden="true"></span> Queued Tasks
-                    @if (taskCounter != null) {
-                        <Badge content="@taskCounter" />
-                    }
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="export" title="Review and Export">
-                    <span class="oi" aria-hidden="true"></span> Export
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="docs">
-                    <span class="oi" aria-hidden="true"></span> Documentation
-                </NavLink>
-            </div>
-            @* Only show the dev menu in dev mode. *@
-            if (Config.Env.Equals("Development")) {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="testing">
-                        <span class="oi" aria-hidden="true"></span> DEV TEST
-                    </NavLink>
-                </div>
-            }
-        } else if (menu == NavMenus.Docs) {
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Return To Edit
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/docs/tools" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Tools
-                </NavLink>
-            </div>
-            <div class="nav-item px-3 nav-child ml-4">
-                <NavLink class="nav-link" href="/docs/tools/list" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> List Generator
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/tools/table" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Table Generator
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/tools/tag" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Tag Generator
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/tools/attribute" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Attribute Modifier
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/tools/colorReplacer" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Color Replacer
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/docs/selection" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Selection
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/selection/tag" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Tag Selection
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/selection/attribute" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Attribute Selection
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/selection/insertion" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Insertion
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link nav-child ml-4" href="/docs/selection/limit" Match="NavLinkMatch.All">
-                    <span class="oi" aria-hidden="true"></span> Limit
-                </NavLink>
-            </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi" aria-hidden="true"></span> Import
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="tools" Match="NavLinkMatch.All">
+                <span class="oi" aria-hidden="true"></span> Tools
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="tasks">
+                <span class="oi" aria-hidden="true"></span> Queued Tasks
+                @if (taskCounter != null)
+                {
+                    <Badge content="@taskCounter" />
+                }
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="export" title="Review and Export">
+                <span class="oi" aria-hidden="true"></span> Export
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="https://docs.pdf-accessibility.tools">
+                <span class="oi" aria-hidden="true"></span> Documentation
+            </NavLink>
+        </div>
+        @* Only show the dev menu in dev mode. *@
+        @if (Config.Env.Equals("Development")) {
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="testing">
+                <span class="oi" aria-hidden="true"></span> DEV TEST
+            </NavLink>
+        </div>
         }
     </nav>
 </div>
 
 @code {
-    [Parameter]
-    public NavMenus menu { get; set;}
-
     private bool collapseNavMenu = false;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -146,13 +81,5 @@
         };
 
         base.OnInitialized();
-    }
-    
-
-    // Set the nav menu based on its environment
-    public enum NavMenus
-    {
-        Main,
-        Docs
     }
 }
