@@ -24,7 +24,7 @@ While the end goal is to remove Acrobat (and any paid tool) from the accessibili
 ![Task Queue](https://github.com/aMytho/Pdf-Acc-Toolset/assets/58316242/907eb38b-eb18-421a-acd2-8cd2fae5e56b)
 
 ## Documentation
-The project docs are built into the application. They can be accessed [here](https://pdf-accessibility.tools/docs)
+The project docs are hosted on a separate website. They can be accessed [here](https://docs.pdf-accessibility.tools/docs/workflow/)
 
 ## Installation for Development
 
