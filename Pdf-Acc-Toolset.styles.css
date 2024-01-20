@@ -1,43 +1,5 @@
 @import '_content/Blazored.Toast/Blazored.Toast.bundle.scp.css';
 
-/* /Shared/DocumentationLayout.razor.rz.scp.css */
-/* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset */
-.nav-child[b-eeybnqyf5x] {
-    margin-left: 1.5rem;
-}
-
-.page[b-eeybnqyf5x] {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-main[b-eeybnqyf5x] {
-    flex: 1;
-}
-
-.sidebar[b-eeybnqyf5x] {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
-}
-
-
-@media (min-width: 641px) {
-    .page[b-eeybnqyf5x] {
-        flex-direction: row;
-    }
-
-    .sidebar[b-eeybnqyf5x] {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    article[b-eeybnqyf5x] {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-}
 /* /Shared/MainLayout.razor.rz.scp.css */
 /* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset */
 .page[b-thg5zgn0pu] {
