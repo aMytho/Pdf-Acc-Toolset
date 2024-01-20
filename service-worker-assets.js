@@ -25,7 +25,7 @@
       "url": "_framework\/dotnet.runtime.8.0.1.9o34sz4099.js"
     },
     {
-      "hash": "sha256-dXyIN7MgfdQl9pCxjymJMy\/isQBzzTIiZZckPD1jHAA=",
+      "hash": "sha256-3eMuOzvhhwjnW8MnuX+UzQ8tCzGoigFVmggJuBV8cTw=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -165,7 +165,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-itb9Xf6WiaIPQkgqNIs7bdEgjmjX3rIqkCmMlwWmuww=",
+      "hash": "sha256-LFShF7N\/7aU1RWj3mpUrpIo89bDNEhmnKBneTiSZDcc=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -429,7 +429,7 @@
       "url": "img\/docs\/titleExample.png"
     },
     {
-      "hash": "sha256-9CdMW04c+C40pA3j9AWfMCRwjg40\/un8iePK5Rn1lOo=",
+      "hash": "sha256-uz+oDmy69mIo8DsuHZGWUXMi8YfOX4XRl5YnELIOOjM=",
       "url": "index.html"
     },
     {
@@ -445,29 +445,29 @@
       "url": "_content\/BlazorWasmPreRendering.Build\/BlazorWasmPreRendering.Build.lib.module.js"
     },
     {
-      "hash": "sha256-NMcOoVXwp\/7GNJzaXhhi0Majr3gU443+5kE4Zx4TR7A=",
+      "hash": "sha256-dFnw98j61jWCzoP6dZF8\/LVGsvHkAZImpK6nqqBdt20=",
       "url": "tools\/index.html"
     },
     {
-      "hash": "sha256-thSlSeh5Rp3BXJ1iQ2RyiTpfR4M0dPFM62wL7HOCydE=",
+      "hash": "sha256-iE8XlQTvbvG5mzqgCE4R0IMX1ERfUgP4vWGlnHW60Ms=",
       "url": "tasks\/index.html"
     },
     {
-      "hash": "sha256-PsmRH55vellKUgVFcBGLofy+lNmlte1gQ+QZxqy+Xro=",
+      "hash": "sha256-SorMbf1O41rVvbEga2T8URn6U6Q1SsaGKnmhWclHp7w=",
       "url": "export\/index.html"
     },
     {
-      "hash": "sha256-Y9R6UMEjMez3XgjlH7aCUZxumX1qpMYdvr2vuRif\/Vs=",
+      "hash": "sha256-T0NZ3HBU2f7hzR4wA7eFFIVtaF92tljViWVEwCnJbH8=",
       "url": "testing\/index.html"
     },
     {
-      "hash": "sha256-aREjsFbeZyXXbYTR943nr\/OV3pv0u2dVUBSQ6sAatW4=",
+      "hash": "sha256-u9vbiXAFUX0Od0uBZVJK11C9ecRHrHmtDwtnIAN3t7U=",
       "url": "beta\/index.html"
     },
     {
-      "hash": "sha256-XLGRt9+nsN742Vhbh2\/vFSf89N\/G2iZmkJcxCPAyEOk=",
+      "hash": "sha256-6F\/ky7Xrn6pyAw8JovLU7ZoKdbDqFRsoZcAsbcXMmaQ=",
       "url": "about\/index.html"
     }
   ],
-  "version": "3K5AXpkW"
+  "version": "01LZp22i"
 };
