@@ -136,7 +136,6 @@ public class PdfManager
         pdfDownloadable = true;
         hasDownloaded = false;
         TagInspectorService.NotifyPdfReady();
-        Console.WriteLine("123");
     }
 
     /// <summary>

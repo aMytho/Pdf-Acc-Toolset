@@ -1,8 +1,11 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+
 @using iText.Kernel.Pdf.Tagutils;
 @using Pdf_Acc_Toolset.Services.Util;
 @using iText.Kernel.Pdf.Tagging;
 @using iText.Kernel.Pdf;
 @using iText.Layout;
+@using Pdf_Acc_Toolset.Services.UI;
 
 <div class="p-2 border border-l-2 border-y-0 border-r-0 border-solid border-gray-500"
     @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true" @oncontextmenu="ShowTagInfo">
@@ -84,7 +87,6 @@
 
     private void toggleKids()
     {
-        Console.WriteLine("Swapping to " + !this.showKids);
         this.showKids = !this.showKids;
     }
 
@@ -103,23 +105,13 @@
         AccessibilityProperties properties = node.GetProperties();
         string actualText = properties.GetActualText();
         string altText = properties.GetAlternateDescription();
-        string message = "";
         string title = GetTitle();
+        byte[] idArray = properties.GetStructureElementId();
         
-        if (title.Length > 0) {
-            message += $"Title: {GetTitle()} <br>";
-        }
-        if (actualText is not null) {
-            message += $"Actual Text: {actualText} <br>";
-        }
-        if (altText is not null) {
-            message += $"Alt Text: {altText} <br>";
-        }
-        
-        if (message.Length != 0) {
-            NotificationUtil.Inform(NotificationType.Info, message);
+        if (idArray is null || idArray.Length == 0) {
+            TagInspectorService.NotifyTagSelection(null, altText, actualText, null, title);
         } else {
-            NotificationUtil.Inform(NotificationType.Warning, "No properties were found.");
+            TagInspectorService.NotifyTagSelection(null, altText, actualText, idArray.ToString(), title);
         }
     }
 

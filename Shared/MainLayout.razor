@@ -13,8 +13,12 @@
             @Body
         </article>
         <!-- Tag Inspector-->
-        <div id="tagInspector" class="@((showInspector? "" : "hidden")) fixed z-10 bottom-0 left-0 h-full bg-slate-800 overflow-auto resize-x max-w-full w-1/2" style="min-width: 15%;">
+        <div id="tagInspector" class="@((showInspector? "" : "hidden")) fixed z-20 bottom-0 left-0 h-full bg-slate-800 overflow-auto resize-x max-w-full w-1/2" style="min-width: 15%;">
             <Pdf_Acc_Toolset.Pages.Inspector.TagInspector OnCloseInspector="OnTagInspectorClicked" />
+        </div>
+        <!-- Tag Viewer (relies on inspector) -->
+        <div class="@((showInspector? "" : "hidden")) fixed z-10 bottom-0 right-0 h-1/4 bg-slate-800 overflow-auto w-1/12 p-4 rounded-md" style="min-width: 15%;">
+            <Pdf_Acc_Toolset.Pages.Inspector.TagViewer />
         </div>
     </main>
 
