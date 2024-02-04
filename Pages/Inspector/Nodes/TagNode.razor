@@ -1,0 +1,134 @@
+@using iText.Kernel.Pdf.Tagutils;
+@using Pdf_Acc_Toolset.Services.Util;
+@using iText.Kernel.Pdf.Tagging;
+@using iText.Kernel.Pdf;
+@using iText.Layout;
+
+<div class="p-2 border border-l-2 border-y-0 border-r-0 border-solid border-gray-500"
+    @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true" @oncontextmenu="ShowTagInfo">
+    <div class="flex flex-row p-1">
+        <button @onclick:stopPropagation="true" @onclick:preventDefault="true" @onclick="toggleKids"
+        class="cursor-pointer border border-solid border-gray-900 p-1">@ShowHideBtn()</button>
+        <p class="ml-2">@GetTagType() @GetTitle()</p>
+    </div>
+    
+    <div class="ml-1 w-min">
+        @foreach (TagTreePointer tag in GetChildren())
+        {
+            <div class=" m-2">
+                @if (showKids) {
+                    <TagNode node="tag" />
+                }
+            </div>
+        }
+    </div>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public TagTreePointer node { get; set; }
+
+    private bool showKids = true;
+
+    private string GetTagType()
+    {
+        return TagUtil.CombineTagName(node.GetRole());
+    }
+
+    private bool HasChildTag()
+    {
+        return node.GetKidsRoles().Count != 0;
+    }
+
+    private IList<TagTreePointer> GetChildren()
+    {
+        // List which will be returned with the tags
+        List<TagTreePointer> matchingTags = new();
+
+        // Start looking
+        CheckChildElement(node);
+
+        // Recursive function to check all tags in the tag tree
+        void CheckChildElement(TagTreePointer children)
+        {
+            // Create a copy of the current tag
+            PdfStructElem currentTag = children.GetContext().GetPointerStructElem(children);
+
+            // Get each child
+            IList<IStructureNode> kids = currentTag.GetKids();
+
+            // Check each child
+            if (kids != null && kids.Count > 0)
+            {
+                for (int i = 0; i < kids.Count; i++)
+                {
+                    // If the kid is null or content, skip it
+                    if (kids[i] == null || kids[i].GetType() != typeof(PdfStructElem))
+                    {
+                        continue;
+                    }
+
+                    // Store a copy to check children
+                    PdfStructElem elem = children.GetContext().GetPointerStructElem(children);
+                    TagTreePointer childPointer = children.GetContext().CreatePointerForStructElem(elem);
+                    matchingTags.Add(childPointer.MoveToKid(0));
+                }
+            }
+        }
+
+        // Return result
+        return matchingTags;
+    }
+
+    private void toggleKids()
+    {
+        Console.WriteLine("Swapping to " + !this.showKids);
+        this.showKids = !this.showKids;
+    }
+
+    private string GetTitle()
+    {
+        AccessibilityProperties properties = node.GetProperties();
+        PdfObject titleObject = node.GetContext().GetPointerStructElem(node).GetPdfObject().Get(PdfName.T);
+        if (titleObject is not null) {
+            return titleObject.ToString();
+        }
+        return "";
+    }
+
+    private void ShowTagInfo()
+    {
+        AccessibilityProperties properties = node.GetProperties();
+        string actualText = properties.GetActualText();
+        string altText = properties.GetAlternateDescription();
+        string message = "";
+        string title = GetTitle();
+        
+        if (title.Length > 0) {
+            message += $"Title: {GetTitle()} <br>";
+        }
+        if (actualText is not null) {
+            message += $"Actual Text: {actualText} <br>";
+        }
+        if (altText is not null) {
+            message += $"Alt Text: {altText} <br>";
+        }
+        
+        if (message.Length != 0) {
+            NotificationUtil.Inform(NotificationType.Info, message);
+        } else {
+            NotificationUtil.Inform(NotificationType.Warning, "No properties were found.");
+        }
+    }
+
+    private string ShowHideBtn()
+    {
+        if (showKids) {
+            return "v";
+        } else {
+            return "^";
+        }
+    }
+}
