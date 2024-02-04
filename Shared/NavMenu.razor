@@ -12,18 +12,18 @@
 
 <div class="@NavMenuCssClass">
     <nav class="flex flex-col">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        <div class="py-2 px-3 w-full">
+            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="" Match="NavLinkMatch.All">
                 <span class="oi" aria-hidden="true"></span> Import
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="tools" Match="NavLinkMatch.All">
+        <div class="py-2 px-3 w-full">
+            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="tools" Match="NavLinkMatch.All">
                 <span class="oi" aria-hidden="true"></span> Tools
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="tasks">
+        <div class="py-2 px-3 w-full">
+            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="tasks">
                 <span class="oi" aria-hidden="true"></span> Queued Tasks
                 @if (taskCounter != null)
                 {
@@ -31,21 +31,24 @@
                 }
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="export" title="Review and Export">
+        <div class="py-2 px-3 w-full">
+            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="export" title="Review and Export">
                 <span class="oi" aria-hidden="true"></span> Export
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="https://docs.pdf-accessibility.tools" target="_blank">
+        <div class="py-2 px-3 w-full">
+            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="https://docs.pdf-accessibility.tools" target="_blank">
                 <span class="oi" aria-hidden="true"></span> Documentation
             </NavLink>
         </div>
+        <div class="py-2 px-3 w-full">
+            <button @onclick="ToggleInspector" class="text-white hover:text-slate-100 hover:!bg-slate-600 px-4 py-2 w-full rounded-lg text-left">Toggle Inspector</button>
+        </div>
         @* Only show the dev menu in dev mode. *@
         @if (Config.Env.Equals("Development")) {
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="testing">
-                <span class="oi" aria-hidden="true"></span> DEV TEST
+        <div class="py-2 px-3 w-full">
+            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="testing">
+                <span class="oi" aria-hidden="true"></span> Developer
             </NavLink>
         </div>
         }
@@ -59,6 +62,9 @@
 
     // Counter of the non-completed tasks
     private string taskCounter = null;
+
+    [Parameter]
+    public EventCallback<int> OnTagInspectorClicked { get; set; }
 
     private void ToggleNavMenu()
     {
@@ -81,5 +87,10 @@
         };
 
         base.OnInitialized();
+    }
+
+    private void ToggleInspector()
+    {
+        this.OnTagInspectorClicked.InvokeAsync();
     }
 }

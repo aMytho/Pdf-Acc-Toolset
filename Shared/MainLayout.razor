@@ -2,8 +2,8 @@
 @inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+    <div class="sidebar bg-slate-700">
+        <NavMenu OnTagInspectorClicked="OnTagInspectorClicked" />
     </div>
 
     <main class="pb-8">
@@ -12,5 +12,20 @@
         <article class="content px-4 text-white">
             @Body
         </article>
+        <!-- Tag Inspector-->
+        <div id="tagInspector" class="@((showInspector? "" : "hidden")) fixed z-10 bottom-0 left-0 h-full bg-slate-800 overflow-auto resize-x max-w-full w-1/2" style="min-width: 15%;">
+            <Pdf_Acc_Toolset.Pages.Inspector.TagInspector OnCloseInspector="OnTagInspectorClicked" />
+        </div>
     </main>
+
 </div>
+
+@code {
+    private bool showInspector = false;
+
+    private void OnTagInspectorClicked()
+    {
+        showInspector = !showInspector;
+    }
+    
+}
