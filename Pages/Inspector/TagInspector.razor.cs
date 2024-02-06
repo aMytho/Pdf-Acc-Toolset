@@ -1,4 +1,4 @@
-
+// Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset
 using Microsoft.AspNetCore.Components;
 using Pdf_Acc_Toolset.Services;
 using Pdf_Acc_Toolset.Services.UI;
@@ -16,6 +16,7 @@ public partial class TagInspector
     protected override void OnInitialized()
     {
         TagInspectorService.PdfReady += OnPdfReady;
+        TagInspectorService.PdfClosed += OnPdfClosed;
 
         if (PdfManager.outFile != null) {
             pdfVisible = true;
@@ -25,8 +26,13 @@ public partial class TagInspector
 
     private void OnPdfReady()
     {
-        Console.WriteLine("idk");
+        Console.WriteLine("Tag View Created");
         this.pdfVisible = true;
+    }
+
+    private void OnPdfClosed(object sender, EventArgs e)
+    {
+        this.pdfVisible = false;
     }
 
     private void CloseInspector()

@@ -10,22 +10,21 @@
 <div class="p-2 border border-l-2 border-y-0 border-r-0 border-solid border-gray-500"
     @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true" @oncontextmenu="ShowTagInfo">
     <div class="flex flex-row p-1">
-        <button @onclick:stopPropagation="true" @onclick:preventDefault="true" @onclick="toggleKids"
-        class="cursor-pointer border border-solid border-gray-900 p-1">@ShowHideBtn()</button>
-        <p class="ml-2">@GetTagType() @GetTitle()</p>
+        <div>
+            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" @onclick="toggleKids"
+            class="cursor-pointer border border-solid border-gray-900 p-1 text-lg font-semibold" title="Toggle Children">@ShowHideBtn()</button>
+        </div>
+        <p class="ml-2"> @GetTagType() @GetTitle()</p>
     </div>
     
-    <div class="ml-1 w-min">
+    <div class="ml-1 @ShowChildrenClass()">
         @foreach (TagTreePointer tag in GetChildren())
         {
-            <div class=" m-2">
-                @if (showKids) {
-                    <TagNode node="tag" />
-                }
+            <div class="m-2">
+                <TagNode node="tag" />
             </div>
         }
     </div>
-
 </div>
 
 
@@ -37,7 +36,8 @@
 
     private string GetTagType()
     {
-        return TagUtil.CombineTagName(node.GetRole());
+        // Returns the tag name in the role mapped form
+        return TagUtil.ConvertRole(new PdfName(node.GetRole()));
     }
 
     private bool HasChildTag()
@@ -76,7 +76,7 @@
                     // Store a copy to check children
                     PdfStructElem elem = children.GetContext().GetPointerStructElem(children);
                     TagTreePointer childPointer = children.GetContext().CreatePointerForStructElem(elem);
-                    matchingTags.Add(childPointer.MoveToKid(0));
+                    matchingTags.Add(childPointer.MoveToKid(i));
                 }
             }
         }
@@ -120,7 +120,18 @@
         if (showKids) {
             return "v";
         } else {
-            return "^";
+            return "...";
+        }
+    }
+
+    private string ShowChildrenClass() {
+        // Return a hidden css class if kids are supposed to be hidden
+        // TO-DO: This seems to run for every child when a parent changes visibility.
+        // This is very bad for performance.
+        if (showKids) {
+            return "";
+        } else {
+            return "hidden";
         }
     }
 }
