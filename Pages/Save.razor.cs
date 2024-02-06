@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Pdf_Acc_Toolset.Services;
 using Pdf_Acc_Toolset.Services.Pdf;
+using Pdf_Acc_Toolset.Services.UI;
 using Pdf_Acc_Toolset.Services.Util;
 
 namespace Pdf_Acc_Toolset.Pages;
@@ -68,6 +69,9 @@ public partial class Save
             );
             return;
         }
+
+        // Close Tag Inspector
+        TagInspectorService.NotifyPdfClose();
 
         // Save the PDF
         PdfManager.Save();

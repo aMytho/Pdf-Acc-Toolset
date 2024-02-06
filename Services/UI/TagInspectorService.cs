@@ -4,11 +4,17 @@ namespace Pdf_Acc_Toolset.Services.UI;
 public class TagInspectorService
 {
     public static event Action PdfReady;
+    public static EventHandler PdfClosed; // This must be an event handler since it is synchronous
     public static EventHandler<UserTagSelection> TagSelected { get; set; }
 
     public static void NotifyPdfReady()
     {
         PdfReady?.Invoke();
+    }
+
+    public static void NotifyPdfClose()
+    {
+        PdfClosed?.Invoke(null, null);
     }
 
     public static void NotifyTagSelection(string tagType, string altText, string actualText, string id, string title)
