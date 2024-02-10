@@ -14,17 +14,18 @@
     <nav class="flex flex-col">
         <div class="py-2 px-3 w-full">
             <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="" Match="NavLinkMatch.All">
-                <span class="oi" aria-hidden="true"></span> Import
+                Import
             </NavLink>
         </div>
         <div class="py-2 px-3 w-full">
             <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="tools" Match="NavLinkMatch.All">
-                <span class="oi" aria-hidden="true"></span> Tools
+                Tools
             </NavLink>
         </div>
         <div class="py-2 px-3 w-full">
-            <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="tasks">
-                <span class="oi" aria-hidden="true"></span> Queued Tasks
+            <NavLink class="flex text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg items-center" href="tasks">
+                <span>Queued Tasks
+                </span>
                 @if (taskCounter != null)
                 {
                     <Badge content="@taskCounter" />
@@ -33,12 +34,12 @@
         </div>
         <div class="py-2 px-3 w-full">
             <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="export" title="Review and Export">
-                <span class="oi" aria-hidden="true"></span> Export
+                Export
             </NavLink>
         </div>
         <div class="py-2 px-3 w-full">
             <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="https://docs.pdf-accessibility.tools" target="_blank">
-                <span class="oi" aria-hidden="true"></span> Documentation
+                Documentation
             </NavLink>
         </div>
         <div class="py-2 px-3 w-full">
@@ -48,7 +49,7 @@
         @if (Config.Env.Equals("Development")) {
         <div class="py-2 px-3 w-full">
             <NavLink class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg" href="testing">
-                <span class="oi" aria-hidden="true"></span> Developer
+                Developer
             </NavLink>
         </div>
         }
