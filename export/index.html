@@ -35,21 +35,27 @@
     
 <!-- %%-PRERENDERING-BEGIN-%% -->
 <div style="opacity: 0; position: fixed; z-index: -1; top: 0; left: 0; bottom: 0; right: 0;">
-    <div class="page" b-thg5zgn0pu><div class="sidebar" b-thg5zgn0pu><div class="top-row navbar navbar-dark" b-at5usac7d9><div class="flex justify-between sm:justify-center h-full" b-at5usac7d9><a class="navbar-brand self-center" href b-at5usac7d9>Pdf-Acc-Toolset</a>
+    <div class="page" b-thg5zgn0pu><div class="sidebar bg-slate-700" b-thg5zgn0pu><div class="top-row navbar navbar-dark" b-at5usac7d9><div class="flex justify-between sm:justify-center h-full" b-at5usac7d9><a class="navbar-brand self-center" href b-at5usac7d9>Pdf-Acc-Toolset</a>
         <button title="Navigation menu" class="navbar-toggler" b-at5usac7d9>
             Toggle
         </button></div></div>
 
-<div b-at5usac7d9><nav class="flex flex-col" b-at5usac7d9><div class="nav-item px-3" b-at5usac7d9><a href="" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Import
+<div b-at5usac7d9><nav class="flex flex-col" b-at5usac7d9><div class="py-2 px-3 w-full" b-at5usac7d9><a href="" class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg">
+                Import
             </a></div>
-        <div class="nav-item px-3" b-at5usac7d9><a href="tools" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Tools
+        <div class="py-2 px-3 w-full" b-at5usac7d9><a href="tools" class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg">
+                Tools
             </a></div>
-        <div class="nav-item px-3" b-at5usac7d9><a href="tasks" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Queued Tasks
-</a></div>
-        <div class="nav-item px-3" b-at5usac7d9><a href="export" title="Review and Export" class="nav-link active" aria-current="page"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Export
+        <div class="py-2 px-3 w-full" b-at5usac7d9><a href="tasks" class="flex text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg items-center"><span b-at5usac7d9>Queued Tasks
+                </span></a></div>
+        <div class="py-2 px-3 w-full" b-at5usac7d9><a href="export" title="Review and Export" class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg active" aria-current="page">
+                Export
             </a></div>
-        <div class="nav-item px-3" b-at5usac7d9><a href="https://docs.pdf-accessibility.tools" target="_blank" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> Documentation
-            </a></div><div class="nav-item px-3" b-at5usac7d9><a href="testing" class="nav-link"><span class="oi" aria-hidden="true" b-at5usac7d9></span> DEV TEST
+        <div class="py-2 px-3 w-full" b-at5usac7d9><a href="https://docs.pdf-accessibility.tools" target="_blank" class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg">
+                Documentation
+            </a></div>
+        <div class="py-2 px-3 w-full" b-at5usac7d9><button class="text-white hover:text-slate-100 hover:!bg-slate-600 px-4 py-2 w-full rounded-lg text-left" b-at5usac7d9>Toggle Inspector</button></div><div class="py-2 px-3 w-full" b-at5usac7d9><a href="testing" class="block text-white hover:text-slate-100 hover:!bg-slate-700 px-4 py-2 w-full rounded-lg">
+                Developer
             </a></div></nav></div></div>
 
     <main class="pb-8" b-thg5zgn0pu><div class="top-row px-4" b-vqr0ojppvd><a style="color: coral;" href="/beta" b-vqr0ojppvd>Beta Notice</a>
@@ -67,7 +73,16 @@
 </p>
 
 <hr class="w-11/12 text-center m-4">
-<h3 class="text-xl">PDF Summary</h3><p class="text-lg text-red-500">You must import a PDF to view this page. When a PDF is imported the metadata and changes will be displayed.</p></article></main></div>
+<h3 class="text-xl">PDF Summary</h3><p class="text-lg text-red-500">You must import a PDF to view this page. When a PDF is imported the metadata and changes will be displayed.</p></article>
+        
+        <div id="tagInspector" class="hidden fixed z-20 bottom-0 left-0 h-full bg-slate-800 overflow-auto resize-x max-w-full w-1/2" style="min-width: 15%;" b-thg5zgn0pu><div class="top relative flex bg-slate-700 rounded-b-md p-2"><button class="ml-auto">Close</button></div><p class="ml-2 mt-2 text-lg text-red-500">
+        You must upload a PDF before you can view the current tag tree.
+    </p></div>
+        
+        <div class="hidden fixed z-10 bottom-0 right-0 h-1/4 bg-slate-800 overflow-auto w-1/12 p-4 rounded-md" style="min-width: 15%;" b-thg5zgn0pu><p class="text-lg font-semibold text-red-500">
+        No Tag Selected
+    </p>
+    <p class="font-semibold">Right-click a tag to view its properties.</p></div></main></div>
         
 
 
@@ -119,7 +134,6 @@
     </script>
 
     <script>navigator.serviceWorker.register('service-worker.js');</script>
-
 
 
 </body></html>
