@@ -4,6 +4,7 @@ using iText.Kernel.Pdf.Tagging;
 using iText.Kernel.Pdf.Tagutils;
 using iText.Layout;
 using Pdf_Acc_Toolset.Services.Pdf;
+using Pdf_Acc_Toolset.Services.UI;
 using Pdf_Acc_Toolset.Services.Util;
 
 namespace Pdf_Acc_Toolset.Services;
@@ -134,6 +135,7 @@ public class PdfManager
         // Allow it to be downloaded
         pdfDownloadable = true;
         hasDownloaded = false;
+        TagInspectorService.NotifyPdfReady();
     }
 
     /// <summary>

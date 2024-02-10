@@ -1,0 +1,16 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+<div class="top relative flex bg-slate-700 rounded-b-md p-2">
+    <button class="ml-auto" @onclick="CloseInspector">Close</button>
+</div>
+
+@if (!pdfVisible) {
+    <p class="ml-2 mt-2 text-lg text-red-500">
+        You must upload a PDF before you can view the current tag tree.
+    </p>
+}
+
+@if (pdfVisible) {
+    <div class="p-4">
+        <Pdf_Acc_Toolset.Pages.Inspector.Nodes.TagNode node="GetTagTree()" />
+    </div>
+}

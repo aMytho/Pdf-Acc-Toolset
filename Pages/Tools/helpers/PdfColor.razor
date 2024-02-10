@@ -7,7 +7,7 @@
     @foreach (Color color in Colors)
     {
         <button class="w-10 h-8 rounded-sm" style="background-color: rgb(@GetDisplayableColor(color));"
-        @onclick="() => EmitColor(color)">
+        @onclick="() => EmitColor(color)" type="button">
         </button>
     }
 </div>
@@ -25,9 +25,6 @@
     {
         // Convert to RGB from any color space
         float[] rgb = ColorUtil.ConvertColorToRgb(color);
-        Console.WriteLine(rgb[0]);
-        Console.WriteLine(rgb[1]);
-        Console.WriteLine(rgb[2]);
         // Return the RGB value of each. We multiple by 255 because the current val is a decimal < 1
         // CSS expects an int from 0-255
         return $"{rgb[0] * 255},{rgb[1] * 255},{rgb[2] * 255}";

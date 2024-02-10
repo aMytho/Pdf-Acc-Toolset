@@ -1,0 +1,137 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+
+@using iText.Kernel.Pdf.Tagutils;
+@using Pdf_Acc_Toolset.Services.Util;
+@using iText.Kernel.Pdf.Tagging;
+@using iText.Kernel.Pdf;
+@using iText.Layout;
+@using Pdf_Acc_Toolset.Services.UI;
+
+<div class="p-2 border border-l-2 border-y-0 border-r-0 border-solid border-gray-500"
+    @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true" @oncontextmenu="ShowTagInfo">
+    <div class="flex flex-row p-1">
+        <div>
+            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" @onclick="toggleKids"
+            class="cursor-pointer border border-solid border-gray-900 p-1 text-lg font-semibold" title="Toggle Children">@ShowHideBtn()</button>
+        </div>
+        <p class="ml-2"> @GetTagType() @GetTitle()</p>
+    </div>
+    
+    <div class="ml-1 @ShowChildrenClass()">
+        @foreach (TagTreePointer tag in GetChildren())
+        {
+            <div class="m-2">
+                <TagNode node="tag" />
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public TagTreePointer node { get; set; }
+
+    private bool showKids = true;
+
+    private string GetTagType()
+    {
+        // Returns the tag name in the role mapped form
+        return TagUtil.ConvertRole(new PdfName(node.GetRole()));
+    }
+
+    private bool HasChildTag()
+    {
+        return node.GetKidsRoles().Count != 0;
+    }
+
+    private IList<TagTreePointer> GetChildren()
+    {
+        // List which will be returned with the tags
+        List<TagTreePointer> matchingTags = new();
+
+        // Start looking
+        CheckChildElement(node);
+
+        // Recursive function to check all tags in the tag tree
+        void CheckChildElement(TagTreePointer children)
+        {
+            // Create a copy of the current tag
+            PdfStructElem currentTag = children.GetContext().GetPointerStructElem(children);
+
+            // Get each child
+            IList<IStructureNode> kids = currentTag.GetKids();
+
+            // Check each child
+            if (kids != null && kids.Count > 0)
+            {
+                for (int i = 0; i < kids.Count; i++)
+                {
+                    // If the kid is null or content, skip it
+                    if (kids[i] == null || kids[i].GetType() != typeof(PdfStructElem))
+                    {
+                        continue;
+                    }
+
+                    // Store a copy to check children
+                    PdfStructElem elem = children.GetContext().GetPointerStructElem(children);
+                    TagTreePointer childPointer = children.GetContext().CreatePointerForStructElem(elem);
+                    matchingTags.Add(childPointer.MoveToKid(i));
+                }
+            }
+        }
+
+        // Return result
+        return matchingTags;
+    }
+
+    private void toggleKids()
+    {
+        this.showKids = !this.showKids;
+    }
+
+    private string GetTitle()
+    {
+        AccessibilityProperties properties = node.GetProperties();
+        PdfObject titleObject = node.GetContext().GetPointerStructElem(node).GetPdfObject().Get(PdfName.T);
+        if (titleObject is not null) {
+            return titleObject.ToString();
+        }
+        return "";
+    }
+
+    private void ShowTagInfo()
+    {
+        AccessibilityProperties properties = node.GetProperties();
+        string actualText = properties.GetActualText();
+        string altText = properties.GetAlternateDescription();
+        string title = GetTitle();
+        byte[] idArray = properties.GetStructureElementId();
+        
+        if (idArray is null || idArray.Length == 0) {
+            TagInspectorService.NotifyTagSelection(null, altText, actualText, null, title);
+        } else {
+            TagInspectorService.NotifyTagSelection(null, altText, actualText, idArray.ToString(), title);
+        }
+    }
+
+    private string ShowHideBtn()
+    {
+        if (showKids) {
+            return "v";
+        } else {
+            return "...";
+        }
+    }
+
+    private string ShowChildrenClass() {
+        // Return a hidden css class if kids are supposed to be hidden
+        // TO-DO: This seems to run for every child when a parent changes visibility.
+        // This is very bad for performance.
+        if (showKids) {
+            return "";
+        } else {
+            return "hidden";
+        }
+    }
+}
