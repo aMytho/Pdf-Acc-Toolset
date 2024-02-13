@@ -26,7 +26,7 @@
         int loopIndex = index;
 
         // Render task
-        <IndividualTask task="task" addControls="true"
+        <IndividualTask task="task" addControls="!task.TaskComplete"
             OnRun="ev => RunTask(loopIndex)" OnDelete="ev => RemoveTask(loopIndex)"
             OnMove="direction => MoveTask(loopIndex, direction)"
         />
@@ -49,9 +49,6 @@
 
 <button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer"
 @onclick="MarkAllComplete">Mark All Complete</button>
-
-<button class="bg-cyan-800 hover:bg-cyan-700 p-4 m-2 rounded-lg cursor-pointer"
-@onclick="MarkAllUncomplete">Mark All Uncomplete</button>
 
 @code {
     // Stores a local reference to the tasks. Used to display them.
@@ -87,13 +84,6 @@
         // Marks every task as completed
         for (int i = 0; i < this.tasks.Count; i++) {
             TaskManager.ModifyTaskStatus(i, true);
-        }
-    }
-
-    private void MarkAllUncomplete() {
-        // Marks every task as uncompleted. Tasks will probably be ran again by the user!
-        for (int i = 0; i < this.tasks.Count; i++) {
-            TaskManager.ModifyTaskStatus(i, false);
         }
     }
 }
