@@ -29,7 +29,7 @@ public class AttributeModifier : AccessibilityTask
         // Check the selection
         if (!Selection.FoundSelection())
         {
-            NotificationUtil.Inform(NotificationType.Warning, "The task " + this.Name + " did not find a selection. Cancelling Task");
+            NotificationUtil.Inform(NotificationType.Warning, $"The task {this.Name} did not find a selection. Cancelling Task");
             return;
         }
         // Get the selection

@@ -36,8 +36,6 @@ public class AttributeSelection : Selection
                 return;
             }
 
-            Console.WriteLine($"Checking into tag: {children.GetRole()}");
-
             // Check the current child
             if (CheckTag(children))
             {
@@ -54,7 +52,6 @@ public class AttributeSelection : Selection
             // More kids to check
             if (childKids != null && childKids.Count > 0)
             {
-                Console.WriteLine($"The tag has kids: {childKids.Count}");
                 // Make a new pointer for the current tag
                 for (int i = 0; i < childKids.Count; i++)
                 {
