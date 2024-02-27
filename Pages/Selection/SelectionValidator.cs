@@ -80,6 +80,7 @@ public static class SelectionValidator
             SelectionType.SSelectionType.Default => new DefaultSelection(tag, model.InsertionPoint, model.Limit),
             SelectionType.SSelectionType.Attribute => new AttributeSelection(tag, model.InsertionPoint, model.selection.attrWithVal.attr, model.selection.attrWithVal.val, model.Limit),
             SelectionType.SSelectionType.Tag => new TagSelection(tag, model.InsertionPoint, model.selection.tag, model.Limit),
+            SelectionType.SSelectionType.All => new AllTag(tag, model.InsertionPoint),
             _ => null
         };
     }

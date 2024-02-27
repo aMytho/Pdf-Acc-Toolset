@@ -63,6 +63,51 @@ internal class TagUtil
         return matchingTags;
     }
 
+    public static List<TagTreePointer> GetAllTags(TagTreePointer pointer)
+    {
+        // List which will be returned with the tags
+        List<TagTreePointer> matchingTags = new();
+
+        // Start looking
+        CheckChildElement(pointer);
+
+        // Recursive function to check all tags in the tag tree
+        void CheckChildElement(TagTreePointer children)
+        {
+            // Create a copy of the current tag
+            PdfStructElem currentTag = children.GetContext().GetPointerStructElem(children);
+            
+            // Add the pointer to the list
+            matchingTags.Add(children.GetContext().CreatePointerForStructElem(currentTag));
+
+            // Get each child
+            IList<IStructureNode> kids = currentTag.GetKids();
+
+            // Check each child
+            if (kids != null && kids.Count > 0)
+            {
+                // Make a new pointer for the current tag
+                for (int i = 0; i < kids.Count; i++)
+                {
+                    // If the kid is null or content, skip it
+                    if (kids[i] == null || kids[i].GetType() != typeof(PdfStructElem))
+                    {
+                        continue;
+                    }
+
+                    // Get the element for the pointer
+                    PdfStructElem elem = children.GetContext().GetPointerStructElem(children);
+                    // Make a new pointer for the elem.
+                    TagTreePointer childPointer = children.GetContext().CreatePointerForStructElem(elem);
+                    CheckChildElement(childPointer.MoveToKid(i));
+                }
+            }
+        }
+
+        // Return result
+        return matchingTags;
+    }
+    
     public static string CombineTagName(string tagName)
     {
         // In the tag tree, roles (tagnames) have a starting "/". *Sigh*

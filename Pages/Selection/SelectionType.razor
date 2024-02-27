@@ -6,6 +6,7 @@
     <option selected value="@SSelectionType.Default">Document Root (Default)</option>
     <option value="@SSelectionType.Attribute">By Attribute</option>
     <option value="@SSelectionType.Tag">By Tag Type</option>
+    <option value="@SSelectionType.All">All Tags</option>
 </select>
 
 <div class="mt-4">
@@ -18,6 +19,9 @@
         break;
     case SSelectionType.Tag:
         <Tag OnTagChanged="OnTagUpdated" />
+        break;
+    case SSelectionType.All:
+        <All />
         break;
 }
 
@@ -51,7 +55,8 @@
     public enum SSelectionType {
         Attribute,
         Tag,
-        Default
+        Default,
+        All
     }
 
     public struct SelectionTypeModel
