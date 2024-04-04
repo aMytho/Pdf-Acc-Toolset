@@ -20,6 +20,8 @@ While the end goal is to remove Acrobat (and any paid tool) from the accessibili
 - Table Generation: Generates a proper table with a specified amount of rows and columns. The first row are automatically TH elements.
 - Tag Generation: Generate any amount of a specified tag. Unlike the above options, this **only** generates the specified tag, not any children of the tag. For example, generating 50 lists with the Tag Generation tool will not generate the required LI, Lbl, and LBody tags. Use the above tools for those cases!
 - Attribute Modifier: Allows for batch tag modification. You can modify the ID, Title, Alt Text, and Actual text.
+- Color Replacer: Replace any instance of a color in a document with another color. Used for fixing color contrast issues.
+- Tag Shift: Move any instance of a nested tag up one level in the tag tree.
 
 ![Task Queue](https://github.com/aMytho/Pdf-Acc-Toolset/assets/58316242/907eb38b-eb18-421a-acd2-8cd2fae5e56b)
 
