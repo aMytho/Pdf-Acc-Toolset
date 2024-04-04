@@ -25,7 +25,7 @@
       "url": "_framework\/dotnet.runtime.8.0.3.r8ybjfe7e4.js"
     },
     {
-      "hash": "sha256-\/8qfrYIh\/\/TMkYrFKSQssOnSKk18BumHaiQYYBkR2JM=",
+      "hash": "sha256-12wccbZB6MPaz\/qZWt\/Pf20pnmcP5Wua2Ipazz9JUVo=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -165,7 +165,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-pAoBvLpstMGjpXNeB0xDxFcd9cQRA02lKA3g1pS5dzQ=",
+      "hash": "sha256-hc\/hQiCspK21sqKmTx5zWPG0+HwGPziMxBv3DXEQG5c=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -461,9 +461,9 @@
       "url": "testing\/index.html"
     },
     {
-      "hash": "sha256-iuAaKDIp767fnLgf9VHcBMtKvSfi8yZhsUKN5E1owsY=",
+      "hash": "sha256-pefaagQVso9OLasGtqJhw8ic32e82kZdHEsF5j3K3bo=",
       "url": "about\/index.html"
     }
   ],
-  "version": "N6reGead"
+  "version": "blzkthNB"
 };
