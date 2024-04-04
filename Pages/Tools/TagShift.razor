@@ -1,0 +1,100 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@using Pdf_Acc_Toolset.Services;
+@using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Pages.Selection;
+@using System.ComponentModel.DataAnnotations;
+
+<h3 class="text-xl font-semibold">Tag Shift</h3>
+
+<p class="text-lg">
+    Many PDFs have tags that are deeply nested. For example, many Powerpoint exports have a parent P tag with a child P tag.
+    This tool can find every instance of a parent tag that is the same type as a child tag and automatically move it up for you.
+    You can specify the type of tag to check. You can also modify your selection to only include specific tags.
+</p>
+
+<EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
+    <DataAnnotationsValidator />
+    <div class="flex flex-wrap flex-col md:flex-row justify-between px-8 md:space-x-4 space-y-4 md:space-y-0">
+        <div>
+            <label for="tagType">Tag Type:</label>
+            <select @bind="Model.tagType" id="tagType"
+                class="bg-gray-800 rounded-md p-2 text-green-400 h-full">
+                <option value="-1" selected>None (Default)</option>
+                @foreach (var tag in Enum.GetValues(typeof(Services.Util.TagType)))
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @* Request the selection to insert into *@
+    <div>
+        <Selection OnSelectionChanged="OnSelectionUpdated" />
+    </div>
+
+    <div class="flex flex-wrap w-full mt-4 space-x-2">
+        <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-sky-800 hover:bg-sky-700 rounded-lg py-4 cursor-pointer" @onclick="CheckForMatch">Check Matches</button>
+        <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public EventCallback OnTaskAdded { get; set; }
+    private TagShiftModel Model { get; set; }
+    private Selection.SelectionModel SelectionModel { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        this.Model = new();
+        base.OnInitialized();
+    }
+
+    public void Reset()
+    {
+        // Set null tag
+        Model.tagType = (Services.Util.TagType)(-1);
+    }
+
+    private void CheckForMatch()
+    {
+        SelectionValidator.CheckSelectionMatches(SelectionModel);
+    }
+
+
+    private void OnSelectionUpdated(Selection.SelectionModel selectionModel)
+    {
+        SelectionModel = selectionModel;
+    }
+
+    public void Submit()
+    {
+        // Validate selection
+        if (!SelectionValidator.Validate(SelectionModel)) {
+            return;
+        }
+
+        // Create selection class from model
+        iText.Kernel.Pdf.Tagutils.TagTreePointer pointer = PdfManager.GetTagRoot();
+        Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
+        if (selection == null) {
+            return;
+        }
+
+        // Create the task
+        TagShifter generation = new(
+            PdfManager.GetDocument(), selection, Model.tagType
+        );
+        // Add the task to the queue
+        TaskManager.AddTask(generation);
+
+        // Close tool window
+        OnTaskAdded.InvokeAsync();
+    }
+
+    public class TagShiftModel
+    {
+        public Services.Util.TagType tagType { get; set; }
+    }
+}

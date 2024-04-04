@@ -34,6 +34,10 @@
                 @GetColorChanges()
             </p>
         break;
+        case "Tag Shifter":
+            TagShifter shifter = (TagShifter)targetTask;
+            <p>Shifting @shifter.getTagToShift().ToString() tags</p>
+        break;
         default:
         break;
     }
