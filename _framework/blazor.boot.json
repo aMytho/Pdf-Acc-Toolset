@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Pdf-Acc-Toolset",
   "resources": {
-    "hash": "sha256-s0s8FVowWRgPD/NNCaDmyzlgTge37Z3Rvhy9V8cVu0A=",
+    "hash": "sha256-WbnFJuTtC0ymmJf1nEbhdnFZaRShhrWJqGW155Oek70=",
     "jsModuleNative": {
       "dotnet.native.8.0.3.wzxwl5s97r.js": "sha256-D4sYBYmDfH/YekgYRgX959/2RG6k28sJSHmcsn+iikk="
     },
@@ -46,7 +46,7 @@
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-CQVLCKiSxLN5ghyJZG3mhnMGRROdqrbNUjtAXB0nWb8=",
       "netstandard.wasm": "sha256-0M+v4sXD1SgdpriUGL/i7tnCBtQp6YrX9xHxvyh5rg8=",
       "Newtonsoft.Json.wasm": "sha256-PaicHOw1U7HF05kEvZI0Rgg1nwdA8hrzbzdkw1qgUuU=",
-      "Pdf-Acc-Toolset.wasm": "sha256-hc/hQiCspK21sqKmTx5zWPG0+HwGPziMxBv3DXEQG5c=",
+      "Pdf-Acc-Toolset.wasm": "sha256-Bmga9H8mMlVHSCQoMlmcpuWOWBiqvo9AzFgvtmDj264=",
       "System.AppContext.wasm": "sha256-8dNbANhIwUmrrJKYutGiPpWO+y1PBs7sQJ+ImvymQ5E=",
       "System.Collections.Concurrent.wasm": "sha256-uMaGLRZ5Y9mvhLG90w2VAauZ4suZO6NTiGjsJ0Jzolg=",
       "System.Collections.Immutable.wasm": "sha256-QoC+v6XRyCQ5wd3hEp0dr5gbIsFZYH+5boOmc78Vdr8=",

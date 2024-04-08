@@ -25,7 +25,7 @@
       "url": "_framework\/dotnet.runtime.8.0.3.r8ybjfe7e4.js"
     },
     {
-      "hash": "sha256-12wccbZB6MPaz\/qZWt\/Pf20pnmcP5Wua2Ipazz9JUVo=",
+      "hash": "sha256-UlU5L5EiwgzSodvB3Au8Vc3ry2F2RnH9zb2Kx+TuhwY=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -165,7 +165,7 @@
       "url": "_framework\/Newtonsoft.Json.wasm"
     },
     {
-      "hash": "sha256-hc\/hQiCspK21sqKmTx5zWPG0+HwGPziMxBv3DXEQG5c=",
+      "hash": "sha256-Bmga9H8mMlVHSCQoMlmcpuWOWBiqvo9AzFgvtmDj264=",
       "url": "_framework\/Pdf-Acc-Toolset.wasm"
     },
     {
@@ -389,7 +389,7 @@
       "url": "css\/app.css"
     },
     {
-      "hash": "sha256-yzYjmmzEOPjLeTn3yBNqtqcH62cC8c\/DHQEXQL+buCo=",
+      "hash": "sha256-8okc2XXFYwfvMwfZ\/i\/8TUwG4CEsIBK58j1Gy0zFdMY=",
       "url": "css\/output.css"
     },
     {
@@ -445,7 +445,7 @@
       "url": "_content\/BlazorWasmPreRendering.Build\/BlazorWasmPreRendering.Build.lib.module.js"
     },
     {
-      "hash": "sha256-3x0FeOxVTC5CwUBKadrzvJtpl2xMMFsncLIjGq+Fnf8=",
+      "hash": "sha256-5bf1WfhL0XPpLuyheUQM4N91RWXWfM1hPUuXnDkYbH8=",
       "url": "tools\/index.html"
     },
     {
@@ -461,9 +461,9 @@
       "url": "testing\/index.html"
     },
     {
-      "hash": "sha256-pefaagQVso9OLasGtqJhw8ic32e82kZdHEsF5j3K3bo=",
+      "hash": "sha256-+bwDxnNQuQ4k5aMJxKWemFA2m9JyvrcsaZvBhxJYmlc=",
       "url": "about\/index.html"
     }
   ],
-  "version": "blzkthNB"
+  "version": "6JBjugqY"
 };
