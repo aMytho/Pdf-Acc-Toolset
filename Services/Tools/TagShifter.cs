@@ -71,9 +71,9 @@ public class TagShifter : AccessibilityTask
                 // Return back to the parent
                 pointer.MoveToPointer(pointerCopy);
             }
-            // Mark as complete
-            TaskComplete = true;
         }
+        // Mark as complete
+        TaskComplete = true;
     }
 
     public TagType getTagToShift()
