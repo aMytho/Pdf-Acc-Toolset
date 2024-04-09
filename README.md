@@ -21,7 +21,9 @@ While the end goal is to remove Acrobat (and any paid tool) from the accessibili
 - Tag Generation: Generate any amount of a specified tag. Unlike the above options, this **only** generates the specified tag, not any children of the tag. For example, generating 50 lists with the Tag Generation tool will not generate the required LI, Lbl, and LBody tags. Use the above tools for those cases!
 - Attribute Modifier: Allows for batch tag modification. You can modify the ID, Title, Alt Text, and Actual text.
 - Color Replacer: Replace any instance of a color in a document with another color. Used for fixing color contrast issues.
-- Tag Shift: Move any instance of a nested tag up one level in the tag tree.
+- Tag Shift: Move any instance of a nested tag up one level in the tag tree if the parent tag is the target tag type.
+- Tag Reparent: Same as the Tag Shift, but this can move up the tree recursively.
+- Remove Empty Tags - Removes any empty tags within a selection (or within the document).
 
 ![Task Queue](https://github.com/aMytho/Pdf-Acc-Toolset/assets/58316242/907eb38b-eb18-421a-acd2-8cd2fae5e56b)
 
@@ -30,7 +32,7 @@ The project docs are hosted on a separate website. They can be accessed [here](h
 
 ## Installation for Development
 
-> This is only neccessary if you want to develop the project. If you just want to use the application, head to [our website](https://pdf-accessibility.tools).
+> This is only necessary if you want to develop the project. If you just want to use the application, head to [our website](https://pdf-accessibility.tools).
 
 You will need the [.NET 8 SDK and Runtime Environment](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) as well as the corresponding ASP release. To generate the CSS you will an need an LTS build of [NodeJS/NPM](https://nodejs.org/en).
 
