@@ -42,6 +42,9 @@
         case Tools.TagReparent:
             <TagReparent OnTaskAdded="OnTaskAdded" />
             break;
+        case Tools.EmptyTagRemover:
+            <RemoveEmptyTags OnTaskAdded="OnTaskAdded" />
+            break;
         case Tools.None:
             break;
         default:
@@ -51,7 +54,8 @@
 
 @code {
     private enum Tools {
-        ListGen, TableGen, TagGen, AttributeModifier, ColorReplacer, TagShift, TagReparent, None
+        ListGen, TableGen, TagGen, AttributeModifier, ColorReplacer,
+        TagShift, TagReparent, EmptyTagRemover, None
     };
     private Tools activeTool = Tools.None;
     private bool showToolbox = false;

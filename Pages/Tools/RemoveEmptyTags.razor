@@ -1,0 +1,75 @@
+@* Copyright (C) Jonathan Shull - See license file at github.com/amytho/pdf-acc-toolset *@
+@using Pdf_Acc_Toolset.Services;
+@using Pdf_Acc_Toolset.Services.Tools;
+@using Pdf_Acc_Toolset.Pages.Selection;
+@using System.ComponentModel.DataAnnotations;
+
+<h3 class="text-xl font-semibold">Empty Tag Remover</h3>
+
+<p class="text-lg mb-2">
+    This tool will remove any empty tags in a selection. To remove all empty tags, use the "All Tags" selection type.
+    Alternatively, you can delete a subset of tags with the selection system.
+    This tool will not delete tags that point to or contain content. This includes "Link - OBJR" and "Artifact" tags.
+</p>
+
+<EditForm Model="@Model" OnSubmit="@Submit" class="text-lg">
+    <DataAnnotationsValidator />
+    @* Request the selection to insert into *@
+    <div>
+        <Selection OnSelectionChanged="OnSelectionUpdated" />
+    </div>
+
+    <div class="flex flex-wrap w-full mt-4 space-x-2">
+        <button type="button" class="grow bg-rose-800 hover:bg-rose-700 rounded-lg py-4 cursor-pointer" @onclick="Reset">Reset</button>
+        <button type="button" class="grow bg-sky-800 hover:bg-sky-700 rounded-lg py-4 cursor-pointer" @onclick="CheckForMatch">Check Matches</button>
+        <input class="grow bg-cyan-700 hover:bg-cyan-600 rounded-lg py-4 cursor-pointer" type="submit" value="Add Task" />
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public EventCallback OnTaskAdded { get; set; }
+    private Object Model { get; set; }
+    private Selection.SelectionModel SelectionModel { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        this.Model = new();
+        base.OnInitialized();
+    }
+
+    public void Reset() {}
+
+    private void CheckForMatch()
+    {
+        SelectionValidator.CheckSelectionMatches(SelectionModel);
+    }
+
+
+    private void OnSelectionUpdated(Selection.SelectionModel selectionModel)
+    {
+        SelectionModel = selectionModel;
+    }
+
+    public void Submit()
+    {
+        // Validate selection
+        if (!SelectionValidator.Validate(SelectionModel)) {
+            return;
+        }
+
+        // Create selection class from model
+        iText.Kernel.Pdf.Tagutils.TagTreePointer pointer = PdfManager.GetTagRoot();
+        Pdf_Acc_Toolset.Services.Tools.Selection.Selection selection = SelectionValidator.CreateSelection(SelectionModel, pointer);
+        if (selection == null) {
+            return;
+        }
+
+        // Create the task
+        EmptyTagRemover generation = new(PdfManager.GetDocument(), selection);
+        // Add the task to the queue
+        TaskManager.AddTask(generation);
+
+        // Close tool window
+        OnTaskAdded.InvokeAsync();
+    }
+}
